@@ -93,7 +93,6 @@ export const calculateHit = (
   eleMultipliers: number[] = [],
 ) => {
   const r = calculateRawHit(uiAttack, mv, rawHzv, sh, rawMultipliers);
-  console.log(r);
   const e = calculateElementHit(uiElement, eleHzv, sh, eleMultipliers);
   return round(r + e);
 };

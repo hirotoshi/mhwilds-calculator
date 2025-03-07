@@ -58,6 +58,16 @@ export const WeaponSkills: Record<string, BuffGroup> = {
 };
 
 export const ArmorSkills: Record<string, BuffGroup> = {
+  AdrenalineRush: {
+    name: "Adrenaline Rush",
+    levels: [
+      { name: "Adrenaline Rush 1", attack: 10 },
+      { name: "Adrenaline Rush 2", attack: 15 },
+      { name: "Adrenaline Rush 3", attack: 20 },
+      { name: "Adrenaline Rush 4", attack: 25 },
+      { name: "Adrenaline Rush 5", attack: 30 },
+    ],
+  },
   Agitator: {
     name: "Agitator",
     description:

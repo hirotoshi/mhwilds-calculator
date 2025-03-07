@@ -53,6 +53,56 @@ const Skills: Record<string, Skill> = {
       { name: "Attack Boost 5", attack: 9, attackMul: 1.04 },
     ],
   },
+  BurstDB: {
+    name: "Burst (Dual Blades)",
+    levels: [
+      { name: "Burst 1", attack: 8, element: 40 },
+      { name: "Burst 2", attack: 10, element: 60 },
+      { name: "Burst 3", attack: 12, element: 80 },
+      { name: "Burst 4", attack: 15, element: 100 },
+      { name: "Burst 5", attack: 18, element: 120 },
+    ],
+  },
+  BurstBow: {
+    name: "Burst (Bow)",
+    levels: [
+      { name: "Burst 1", attack: 6, element: 40 },
+      { name: "Burst 2", attack: 7, element: 60 },
+      { name: "Burst 3", attack: 8, element: 80 },
+      { name: "Burst 4", attack: 9, element: 100 },
+      { name: "Burst 5", attack: 10, element: 120 },
+    ],
+  },
+  BurstBowgun: {
+    name: "Burst (LBG/HBG)",
+    levels: [
+      { name: "Burst 1", attack: 6 },
+      { name: "Burst 2", attack: 7 },
+      { name: "Burst 3", attack: 8 },
+      { name: "Burst 4", attack: 9 },
+      { name: "Burst 5", attack: 10 },
+    ],
+  },
+  BurstHeavy: {
+    name: "Burst (GS/HH)",
+    levels: [
+      { name: "Burst 1", attack: 10, element: 80 },
+      { name: "Burst 2", attack: 12, element: 100 },
+      { name: "Burst 3", attack: 14, element: 120 },
+      { name: "Burst 4", attack: 16, element: 160 },
+      { name: "Burst 5", attack: 18, element: 200 },
+    ],
+  },
+  BurstOthers: {
+    name: "Burst (Others)",
+    levels: [
+      { name: "Burst 1", attack: 8, element: 60 },
+      { name: "Burst 2", attack: 10, element: 80 },
+      { name: "Burst 3", attack: 12, element: 100 },
+      { name: "Burst 4", attack: 15, element: 120 },
+      { name: "Burst 5", attack: 18, element: 140 },
+    ],
+  },
   Counterstrike: {
     name: "Counterstrike",
     description: "Temporarily increases attack power after being knocked back.",
@@ -88,15 +138,6 @@ const Skills: Record<string, Skill> = {
       { name: "Critical Eye 3", affinity: 12 },
       { name: "Critical Eye 4", affinity: 16 },
       { name: "Critical Eye 5", affinity: 20 },
-    ],
-  },
-  DoshagumasMight: {
-    name: "Doshaguma's Might",
-    description:
-      "Temporarily grants attack after a successful Power Clash or Offset attack.",
-    levels: [
-      { name: "Doshaguma's Might 1", attack: 10 },
-      { name: "Doshaguma's Might 2", attack: 25 },
     ],
   },
   ElementAttack: {
@@ -213,6 +254,25 @@ const Skills: Record<string, Skill> = {
         weaknessAffinity: 30,
         woundAffinity: 20,
       },
+    ],
+  },
+  DoshagumasMight: {
+    name: "Doshaguma's Might",
+    description:
+      "Temporarily grants attack after a successful Power Clash or Offset attack.",
+    levels: [
+      { name: "Doshaguma's Might 1", attack: 10 },
+      { name: "Doshaguma's Might 2", attack: 25 },
+    ],
+  },
+  GoreMagalasTyranny: {
+    name: "Gore Magala's Tyranny",
+    description:
+      "Temporarily grants attack after a successful Power Clash or Offset attack.",
+    levels: [
+      { name: "Gore Magala's Tyranny 1" },
+      { name: "Gore Magala's Tyranny 2", attack: 10 },
+      { name: "Gore Magala's Tyranny 2 (Overcame Frenzy)", attack: 15 },
     ],
   },
   XuWusVigor: {

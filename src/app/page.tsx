@@ -86,6 +86,7 @@ export default function Home() {
   ]);
 
   const uiAttack = useMemo(() => {
+    console.log(calculateAttackUI(attack, effectiveBuffs));
     return calculateAttackUI(attack, effectiveBuffs);
   }, [attack, effectiveBuffs]);
 
@@ -332,7 +333,7 @@ export default function Home() {
           <div>
             <h1>Status</h1>
             <p className="text-xs text-zinc-700">
-              {"These should match what you see in the game's status menu."}
+              {"These should match what you see in-game (without rounding)."}
             </p>
           </div>
           <div>
@@ -346,8 +347,7 @@ export default function Home() {
           <div>
             <h1>Damage</h1>
             <p className="text-xs text-zinc-700">
-              The rounding formula in Wilds is weird. Decimals are slightly off
-              at higher numbers.
+              These should match what you see in-game with decimals enabled.
             </p>
           </div>
           <div>

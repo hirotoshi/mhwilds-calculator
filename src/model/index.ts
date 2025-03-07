@@ -18,7 +18,7 @@ export const calculateUI = (
   multipliers: number[] = [],
   bonuses: number[] = [],
 ): number => {
-  return Math.floor(base * mul(...multipliers) + sum(...bonuses) + 0.1);
+  return round(base * mul(...multipliers) + sum(...bonuses));
 };
 
 export const calculateAttackUI = (
@@ -58,12 +58,14 @@ export const calculateRawHit = (
   sh: Sharpness,
   multipliers: number[] = [],
 ) => {
-  return mul(
-    uiAttack,
-    mv / 100,
-    hzv / 100,
-    SharpnessRawMultipliers[sh],
-    ...multipliers,
+  return round(
+    mul(
+      uiAttack,
+      mv / 100,
+      hzv / 100,
+      SharpnessRawMultipliers[sh],
+      ...multipliers,
+    ),
   );
 };
 
@@ -73,12 +75,8 @@ export const calculateElementHit = (
   sh: Sharpness,
   multipliers: number[] = [],
 ) => {
-  return mul(
-    uiElement,
-    0.1,
-    hzv / 100,
-    SharpnessEleMultipliers[sh],
-    ...multipliers,
+  return round(
+    mul(uiElement, 0.1, hzv / 100, SharpnessEleMultipliers[sh], ...multipliers),
   );
 };
 
@@ -94,7 +92,8 @@ export const calculateHit = (
 ) => {
   const r = calculateRawHit(uiAttack, mv, rawHzv, sh, rawMultipliers);
   const e = calculateElementHit(uiElement, eleHzv, sh, eleMultipliers);
-  return round(r + e);
+
+  return r + e;
 };
 
 export const ceil = (value: number) => {

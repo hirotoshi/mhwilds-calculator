@@ -51,8 +51,8 @@ export default function Home() {
   const [mv, setMv] = useState(45);
   const [rawHzv, setRawHzv] = useState(80);
   const [eleHzv, setEleHzv] = useState(30);
-  const [rawDamageMul, setRawDamageMul] = useState(0);
-  const [eleDamageMul, setEleDamageMul] = useState(0);
+  const [rawDamageMul, setRawDamageMul] = useState(100);
+  const [eleDamageMul, setEleDamageMul] = useState(100);
   const [isWound, setIsWound] = useState(false);
 
   const miscBuffs: Buff = useMemo(() => {
@@ -68,7 +68,6 @@ export default function Home() {
 
   const effectiveBuffs: (Buff | undefined)[] = useMemo(() => {
     return [
-      miscBuffs,
       demondrug ?? undefined,
       powercharm ? Buffs.Powercharm : undefined,
       mightSeed ? Buffs.MightSeed : undefined,
@@ -77,6 +76,7 @@ export default function Home() {
       ...weaponBuffs,
       ...armorBuffs,
       ...setBuffs,
+      miscBuffs,
     ];
   }, [
     miscBuffs,
@@ -133,8 +133,8 @@ export default function Home() {
       rawHzv,
       eleHzv,
       sharpness,
-      [1 + rawDamageMul, isWound ? 1.25 : 1],
-      [1 + eleDamageMul, isWound ? 1.25 : 1],
+      [rawDamageMul / 100, isWound ? 1.25 : 1],
+      [eleDamageMul / 100, isWound ? 1.25 : 1],
     );
   }, [
     uiAttack,
@@ -158,8 +158,8 @@ export default function Home() {
       sharpness,
       rawCritMulti,
       eleCritMulti,
-      [1 + rawDamageMul, isWound ? 1.25 : 1],
-      [1 + eleDamageMul, isWound ? 1.25 : 1],
+      [rawDamageMul, isWound ? 1.25 : 1],
+      [eleDamageMul, isWound ? 1.25 : 1],
     );
   }, [
     uiAttack,
@@ -338,13 +338,6 @@ export default function Home() {
         </Card>
         <Card>
           <h1>Target</h1>
-          <div className="flex place-items-center">
-            <Checkbox
-              label="Wound"
-              value={isWound}
-              onChangeValue={setIsWound}
-            />
-          </div>
           <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             <NumberInput
               label="Motion Value"
@@ -362,16 +355,21 @@ export default function Home() {
               onChangeValue={setEleHzv}
             />
             <NumberInput
-              label="Raw Damage Multiplier (%)"
+              label="Raw Modifier (%)"
               value={rawDamageMul}
               onChangeValue={setRawDamageMul}
-              description="e.g. SA Phial, GS Charge Attack"
             />
             <NumberInput
-              label="Element Damage Multiplier (%)"
+              label="Element Modifier (%)"
               value={eleDamageMul}
               onChangeValue={setEleDamageMul}
-              description="e.g. SA Phial, GS Charge Attack"
+            />
+          </div>
+          <div className="flex place-items-center">
+            <Checkbox
+              label="Wound"
+              value={isWound}
+              onChangeValue={setIsWound}
             />
           </div>
         </Card>

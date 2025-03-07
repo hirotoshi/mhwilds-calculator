@@ -74,6 +74,7 @@ export const Buffs: Record<string, Buff> = {
   Demondrug: { name: "Demondrug", attack: 5 },
   MegaDemondrug: { name: "Mega Demondrug", attack: 7 },
   Frenzy: { name: "Frenzy", frenzy: { affinity: 15 } },
+  SelfImprovement: { name: "Self-Improvement", attackMul: 1.2 },
 };
 
 export const Demondrug: BuffGroup = {
@@ -97,6 +98,20 @@ export const FieldBuffs: Record<string, BuffGroup> = {
     levels: [
       { name: "Demondrug", attack: 5 },
       { name: "Mega Demondrug", attack: 7 },
+    ],
+  },
+  CorruptedMantle: {
+    name: "Corrupted Mantle",
+    levels: [
+      { name: "Stage 1", affinity: 10 },
+      { name: "Stage 2", attackMul: 1.1, affinity: 30 },
+    ],
+  },
+  HuntingHorn: {
+    name: "Hunting Horn",
+    levels: [
+      { name: "Attack Up (S)", attackMul: 1.05 },
+      { name: "Attack Up (L)", attackMul: 1.1 },
     ],
   },
 };

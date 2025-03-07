@@ -16,7 +16,7 @@ export function NumberDisplay({
   return (
     <div
       className={cn(
-        "flex justify-between gap-2 border-b border-zinc-300 py-1 text-sm text-zinc-800 last:border-0",
+        "border-divider text-primary flex justify-between gap-2 border-b py-1 text-sm last:border-0",
         className,
       )}
       {...props}

@@ -15,7 +15,7 @@ export default function Checkbox({
 }: Props) {
   return (
     <div
-      className="my-2 flex cursor-pointer text-xs text-zinc-700 select-none"
+      className="text-alt my-2 flex cursor-pointer text-xs select-none"
       onClick={() => onChangeValue(!value)}
     >
       <input

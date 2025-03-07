@@ -182,7 +182,7 @@ export default function Home() {
         <Card>
           <div>
             <h1>Weapon</h1>
-            <p className="text-xs text-zinc-700">
+            <p className="text-secondary text-xs">
               {'Enable "Display Without Coefficient" in game options.'}
             </p>
           </div>
@@ -192,17 +192,20 @@ export default function Home() {
               value={attack}
               onChangeValue={setAttack}
               min={0}
+              step={5}
             />
             <NumberInput
               label="Element"
               value={element}
               onChangeValue={setElement}
               min={0}
+              step={10}
             />
             <NumberInput
               label="Affinity"
               value={affinity}
               onChangeValue={setAffinity}
+              step={5}
             />
             <Select
               label="Sharpness"
@@ -216,7 +219,7 @@ export default function Home() {
         <Card>
           <div>
             <h1>Skills</h1>
-            <p className="text-xs text-zinc-700"></p>
+            <p className="text-secondary text-xs"></p>
           </div>
           <div className="flex flex-col gap-1">
             <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
@@ -271,18 +274,18 @@ export default function Home() {
         <Card>
           <div>
             <h1>Buffs</h1>
-            <p className="text-xs text-zinc-700">
+            <p className="text-secondary text-xs">
               Add miscellaneous buffs from unsupported skills, Hunting Horn
               songs, etc. here.
             </p>
           </div>
-          <div className="flex gap-2">
+          <div className="flex flex-wrap gap-x-2 gap-y-0">
             <Checkbox
               label="Overcame Frenzy"
               value={frenzy}
               onChangeValue={setFrenzy}
             />
-            {Object.values(Buffs).map((b, i) => (
+            {Object.values(Buffs).map((b) => (
               <Checkbox
                 key={b.name}
                 label={b.name}
@@ -382,7 +385,7 @@ export default function Home() {
         <Card>
           <div>
             <h1>Status</h1>
-            <p className="text-xs text-zinc-700">
+            <p className="text-secondary text-xs">
               {
                 "In-game display rounds but decimals are stored for damage calculations."
               }
@@ -398,7 +401,7 @@ export default function Home() {
         <Card>
           <div>
             <h1>Damage</h1>
-            <p className="text-xs text-zinc-700">
+            <p className="text-secondary text-xs">
               These should match what you see in-game with decimals enabled.
             </p>
           </div>

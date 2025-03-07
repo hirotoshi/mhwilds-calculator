@@ -33,7 +33,7 @@ export const calculateElement = (
   buffs: (Buff | undefined)[] = [],
   frenzy?: boolean,
 ) => {
-  if (!base) return 0;
+  if (!base || base <= 0) return 0;
   return calculate(
     base,
     buffs.map((b) =>
@@ -50,7 +50,6 @@ export const calculateAffinity = (
   weakness?: boolean,
   wound?: boolean,
 ) => {
-  console.log(buffs);
   return (
     base +
     sum(

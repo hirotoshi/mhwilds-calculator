@@ -22,7 +22,7 @@ export function Select<T>({
   return (
     <InputContainer label={label} description={description}>
       <select
-        className="rounded-md border border-zinc-300 px-2 py-1 text-sm text-zinc-900 disabled:bg-zinc-300 disabled:text-zinc-400"
+        className="border-divider bg-content text-primary hover:bg-content-alt focus:border-primary rounded-sm border px-0.5 py-1 text-sm disabled:bg-zinc-300 disabled:text-zinc-400"
         value={value ? labelFn(value) : undefined}
         onChange={(e) => {
           const { value } = e.target;

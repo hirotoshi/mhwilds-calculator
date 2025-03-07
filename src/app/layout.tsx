@@ -14,7 +14,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`bg-gray-300 ${inter.variable} antialiased`}>
+      <body
+        className={`bg-background text-white ${inter.variable} antialiased`}
+      >
         <Header />
         <main className="mx-auto max-w-7xl p-2">{children}</main>
       </body>

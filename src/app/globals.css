@@ -3,8 +3,27 @@
 @theme {
   --font-inter: "Inter", "Inter Fallback";
   --font-sans: var(--font-inter), sans-serif;
+
+  --color-background: var(--color-zinc-950);
+  --color-content: var(--color-zinc-900);
+  --color-content-alt: var(--color-zinc-800);
+  --color-divider: var(--color-zinc-700);
+  --color-primary: var(--color-white);
+  --color-secondary: var(--color-zinc-300);
+  --color-accent: var(--color-amber-500);
 }
 
 h1 {
   @apply text-xl;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield; /* Firefox */
+}
+
+/* Chrome, Safari, Edge, Opera */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }

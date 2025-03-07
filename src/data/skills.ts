@@ -276,6 +276,13 @@ export const SetSkills: Record<string, BuffGroup> = {
       { name: "Doshaguma's Might 2", attack: 25 },
     ],
   },
+  EbonyOdogaronsPower: {
+    name: "Ebony Odogaron's Power",
+    levels: [
+      { name: "Ebony Odogaron's Power 1", attack: 3 },
+      { name: "Ebony Odogaron's Power 2", attack: 10 },
+    ],
+  },
   JinDahaadsRevolt: {
     name: "Jin Dahaad's Revolt",
     levels: [

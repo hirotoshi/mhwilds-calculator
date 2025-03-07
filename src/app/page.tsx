@@ -158,8 +158,8 @@ export default function Home() {
       sharpness,
       rawCritMulti,
       eleCritMulti,
-      [rawDamageMul, isWound ? 1.25 : 1],
-      [eleDamageMul, isWound ? 1.25 : 1],
+      [rawDamageMul / 100, isWound ? 1.25 : 1],
+      [eleDamageMul / 100, isWound ? 1.25 : 1],
     );
   }, [
     uiAttack,

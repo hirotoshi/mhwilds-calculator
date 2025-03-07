@@ -1,9 +1,8 @@
-import { type Buff } from "@/data";
-import { type Skill } from "@/data/skills";
+import { type Buff, BuffGroup } from "@/data";
 import { Select } from ".";
 
 type Props = {
-  skill: Skill;
+  skill: BuffGroup;
   onChangeValue: (value: Buff) => void;
 };
 

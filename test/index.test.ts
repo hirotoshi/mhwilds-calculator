@@ -1,19 +1,40 @@
 import { expect, test } from "vitest";
-import { calculateCrit, calculateHit, calculateUI } from "@/model";
+import { Buffs } from "@/data";
+import { ArmorSkills, WeaponSkills } from "@/data/skills";
+import {
+  calculateAttack,
+  calculateCrit,
+  calculateElement,
+  calculateHit,
+} from "@/model";
 
-// expected values are in-game values with decimals enabled
+const { AttackBoost, ElementAttack, OffensiveGuard } = WeaponSkills;
+const { Coalescence } = ArmorSkills;
 
 // 230 Attack, Attack Boost 4, Offensive Guard 3, Powercharm
-const a = calculateUI(230, [1.15, 1.02], [8, 6]);
+const a = calculateAttack(230, [
+  AttackBoost.levels[3],
+  OffensiveGuard.levels[2],
+  Buffs.Powercharm,
+]);
 // 210 Attack, Attack Boost 5, Powercharm
-const b = calculateUI(210, [1.04], [9, 6]);
-// 180 Element, Element Boost 1
-const c = calculateUI(180, [], [40]);
+const b = calculateAttack(210, [AttackBoost.levels[4], Buffs.Powercharm]);
+// 180 Element, Element Attack 1
+const c = calculateElement(180, [ElementAttack.levels[0]]);
+// 180 Element, Element Attack 3, Coalescence 1, Frenzy
+const d = calculateElement(180, [
+  ElementAttack.levels[2],
+  Coalescence.levels[0],
+]);
 
-test("calculateUI", () => {
+test("calculateAttack", () => {
   expect(a).toBe(283.8);
   expect(b).toBe(233.4);
   expect(c).toBe(220);
+});
+
+test("calculateElement", () => {
+  expect(Math.round(d)).toBe(298);
 });
 
 test("calculateHit", () => {

@@ -1,13 +1,6 @@
-import type { Buff } from ".";
+import type { BuffGroup } from ".";
 
-export type Skill = {
-  name: string;
-  levels: Buff[];
-  conditional?: boolean;
-  description?: string;
-};
-
-export const WeaponSkills: Record<string, Skill> = {
+export const WeaponSkills: Record<string, BuffGroup> = {
   AttackBoost: {
     name: "Attack Boost",
     levels: [
@@ -56,45 +49,17 @@ export const WeaponSkills: Record<string, Skill> = {
   },
   OffensiveGuard: {
     name: "Offensive Guard",
-    conditional: true,
     levels: [
       { name: "Offensive Guard 1", attackMul: 1.05 },
       { name: "Offensive Guard 2", attackMul: 1.1 },
       { name: "Offensive Guard 3", attackMul: 1.15 },
     ],
   },
-  WeaknessExploit: {
-    name: "Weakness Exploit",
-    levels: [
-      { name: "Weakness Exploit 1", weaknessAffinity: 5, woundAffinity: 3 },
-      {
-        name: "Weakness Exploit 2",
-        weaknessAffinity: 10,
-        woundAffinity: 5,
-      },
-      {
-        name: "Weakness Exploit 3",
-        weaknessAffinity: 15,
-        woundAffinity: 10,
-      },
-      {
-        name: "Weakness Exploit 4",
-        weaknessAffinity: 20,
-        woundAffinity: 15,
-      },
-      {
-        name: "Weakness Exploit 5",
-        weaknessAffinity: 30,
-        woundAffinity: 20,
-      },
-    ],
-  },
 };
 
-export const ArmorSkills: Record<string, Skill> = {
+export const ArmorSkills: Record<string, BuffGroup> = {
   Agitator: {
     name: "Agitator",
-    conditional: true,
     description:
       "Increases attack power and affinity when large monsters become enraged.",
     levels: [
@@ -107,7 +72,6 @@ export const ArmorSkills: Record<string, Skill> = {
   },
   Ambush: {
     name: "Ambush",
-    conditional: true,
     description:
       "Temporarily increases damage to large monsters with a successful Sneak Attack.",
     levels: [
@@ -118,13 +82,12 @@ export const ArmorSkills: Record<string, Skill> = {
   },
   Antivirus: {
     name: "Antivirus",
-    conditional: true,
     description:
       "Once infected, makes it easier to overcome the Frenzy and increases affinity if cured.",
     levels: [
-      { name: "Antivirus 1", affinity: 3 },
-      { name: "Antivirus 2", affinity: 6 },
-      { name: "Antivirus 3", affinity: 10 },
+      { name: "Antivirus 1", frenzy: { affinity: 3 } },
+      { name: "Antivirus 2", frenzy: { affinity: 6 } },
+      { name: "Antivirus 3", frenzy: { affinity: 10 } },
     ],
   },
   BurstDB: {
@@ -177,6 +140,14 @@ export const ArmorSkills: Record<string, Skill> = {
       { name: "Burst 5", attack: 18, element: 140 },
     ],
   },
+  Coalescence: {
+    name: "Coalescence",
+    levels: [
+      { name: "Coalescence 1", elementMul: 1.1 },
+      { name: "Coalescence 2", elementMul: 1.2 },
+      { name: "Coalescence 3", elementMul: 1.3 },
+    ],
+  },
   Counterstrike: {
     name: "Counterstrike",
     description: "Temporarily increases attack power after being knocked back.",
@@ -188,7 +159,6 @@ export const ArmorSkills: Record<string, Skill> = {
   },
   Foray: {
     name: "Foray",
-    conditional: true,
     description:
       "Increases attack power and affinity against large monsters affected by poison or paralysis.",
     levels: [
@@ -201,7 +171,6 @@ export const ArmorSkills: Record<string, Skill> = {
   },
   Heroics: {
     name: "Heroics",
-    conditional: true,
     description:
       "Increases attack power and defense when health drops to 35% or lower.",
     levels: [
@@ -214,7 +183,6 @@ export const ArmorSkills: Record<string, Skill> = {
   },
   LatentPower: {
     name: "Latent Power",
-    conditional: true,
     description:
       "Temporarily increases affinity and reduces stamina depletion when certain conditions are met.",
     levels: [
@@ -227,7 +195,6 @@ export const ArmorSkills: Record<string, Skill> = {
   },
   MaximumMight: {
     name: "Maximum Might",
-    conditional: true,
     levels: [
       { name: "Maximum Might 1", affinity: 10 },
       { name: "Maximum Might 2", affinity: 20 },
@@ -236,7 +203,6 @@ export const ArmorSkills: Record<string, Skill> = {
   },
   PeakPerformance: {
     name: "Peak Performance",
-    conditional: true,
     description: "Increases attack when your health is full.",
     levels: [
       { name: "Peak Performance 1", attack: 3 },
@@ -248,7 +214,6 @@ export const ArmorSkills: Record<string, Skill> = {
   },
   Resentment: {
     name: "Resentment",
-    conditional: true,
     description:
       "Increases attack when you have recoverable damage (the red portion of your Health Gauge).",
     levels: [
@@ -259,9 +224,39 @@ export const ArmorSkills: Record<string, Skill> = {
       { name: "Resentment 5", attack: 15 },
     ],
   },
+  WeaknessExploit: {
+    name: "Weakness Exploit",
+    levels: [
+      {
+        name: "Weakness Exploit 1",
+        weakness: { affinity: 5 },
+        wound: { affinity: 3 },
+      },
+      {
+        name: "Weakness Exploit 2",
+        weakness: { affinity: 10 },
+        wound: { affinity: 5 },
+      },
+      {
+        name: "Weakness Exploit 3",
+        weakness: { affinity: 15 },
+        wound: { affinity: 10 },
+      },
+      {
+        name: "Weakness Exploit 4",
+        weakness: { affinity: 20 },
+        wound: { affinity: 15 },
+      },
+      {
+        name: "Weakness Exploit 5",
+        weakness: { affinity: 30 },
+        wound: { affinity: 20 },
+      },
+    ],
+  },
 };
 
-export const SetSkills: Record<string, Skill> = {
+export const SetSkills: Record<string, BuffGroup> = {
   DoshagumasMight: {
     name: "Doshaguma's Might",
     description:
@@ -284,8 +279,7 @@ export const SetSkills: Record<string, Skill> = {
       "Temporarily grants attack after a successful Power Clash or Offset attack.",
     levels: [
       { name: "Gore Magala's Tyranny 1" },
-      { name: "Gore Magala's Tyranny 2", attack: 10 },
-      { name: "Gore Magala's Tyranny 2 (Overcame Frenzy)", attack: 15 },
+      { name: "Gore Magala's Tyranny 2", attack: 10, frenzy: { attack: 5 } },
     ],
   },
   XuWusVigor: {

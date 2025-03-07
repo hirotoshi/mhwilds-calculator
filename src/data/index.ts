@@ -1,5 +1,3 @@
-import { Skill } from "./skills";
-
 export const Sharpnesses = [
   "Ranged",
   "Red",
@@ -13,7 +11,7 @@ export const Sharpnesses = [
 export type Sharpness = (typeof Sharpnesses)[number];
 
 // TODO: confirm Wilds values
-export const SharpnessRawMultipliers: { [K in Sharpness]: number } = {
+export const sharpnessRaw: { [K in Sharpness]: number } = {
   Ranged: 1,
   Red: 0.5,
   Orange: 0.75,
@@ -24,7 +22,7 @@ export const SharpnessRawMultipliers: { [K in Sharpness]: number } = {
 } as const;
 
 // TODO: confirm Wilds values
-export const SharpnessEleMultipliers: { [K in Sharpness]: number } = {
+export const sharpnessEle: { [K in Sharpness]: number } = {
   Ranged: 1,
   Red: 0.25,
   Orange: 0.5,
@@ -46,17 +44,27 @@ export type MeleeWeapon = IWeapon & { isRanged: false; sharpness: Sharpness };
 export type RangedWeapon = IWeapon & { isRanged: true };
 export type Weapon = MeleeWeapon | RangedWeapon;
 
-export type Buff = {
-  name: string;
+export type BuffNumbers = {
   attack?: number;
   attackMul?: number;
+  affinity?: number;
   element?: number;
   elementMul?: number;
-  affinity?: number;
-  weaknessAffinity?: number;
-  woundAffinity?: number;
+};
+
+export type Buff = BuffNumbers & {
+  name: string;
   criticalBoost?: number;
   criticalElement?: number;
+  frenzy?: BuffNumbers;
+  weakness?: BuffNumbers;
+  wound?: BuffNumbers;
+};
+
+export type BuffGroup = {
+  name: string;
+  description?: string;
+  levels: Buff[];
 };
 
 export const Buffs: Record<string, Buff> = {
@@ -65,13 +73,30 @@ export const Buffs: Record<string, Buff> = {
   DemonPowder: { name: "Demon Powder", attack: 10 },
   Demondrug: { name: "Demondrug", attack: 5 },
   MegaDemondrug: { name: "Mega Demondrug", attack: 7 },
-  OvercameFrenzy: { name: "Overcame Frenzy", affinity: 15 },
+  Frenzy: { name: "Frenzy", frenzy: { affinity: 15 } },
 };
 
-export const Demondrug: Skill = {
+export const Demondrug: BuffGroup = {
   name: "Demondrug",
   levels: [
     { name: "Demondrug", attack: 5 },
     { name: "Mega Demondrug", attack: 7 },
   ],
+};
+
+export const FieldBuffs: Record<string, BuffGroup> = {
+  Food: {
+    name: "Food",
+    levels: [
+      { name: "Attack +2", attack: 2 },
+      { name: "Attack +5", attack: 5 },
+    ],
+  },
+  Demondrug: {
+    name: "Demondrug",
+    levels: [
+      { name: "Demondrug", attack: 5 },
+      { name: "Mega Demondrug", attack: 7 },
+    ],
+  },
 };

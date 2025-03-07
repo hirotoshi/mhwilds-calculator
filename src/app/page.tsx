@@ -12,18 +12,18 @@ import Checkbox from "@/components/Checkbox";
 import {
   type Buff,
   Buffs,
-  Demondrug,
+  FieldBuffs,
   Sharpness,
-  SharpnessEleMultipliers,
-  SharpnessRawMultipliers,
   Sharpnesses,
+  sharpnessEle,
+  sharpnessRaw,
 } from "@/data";
 import { ArmorSkills, SetSkills, WeaponSkills } from "@/data/skills";
 import {
-  calculateAffinityUI,
-  calculateAttackUI,
+  calculateAffinity,
+  calculateAttack,
   calculateCrit,
-  calculateElementUI,
+  calculateElement,
   calculateHit,
 } from "@/model";
 
@@ -34,6 +34,7 @@ export default function Home() {
   const [weaponBuffs, setWeaponBuffs] = useState<(Buff | undefined)[]>([]);
   const [armorBuffs, setArmorBuffs] = useState<(Buff | undefined)[]>([]);
   const [setBuffs, setSetBuffs] = useState<(Buff | undefined)[]>([]);
+  const [fieldBuffs, setFieldBuffs] = useState<(Buff | undefined)[]>([]);
   const [sharpness, setSharpness] = useState<Sharpness>("White");
 
   const [miscAttack, setMiscAttack] = useState(0);
@@ -42,11 +43,10 @@ export default function Home() {
   const [miscElementMul, setMiscElementMul] = useState(0);
   const [miscAffinity, setMiscAffinity] = useState(0);
 
-  const [demondrug, setDemondrug] = useState<Buff | undefined>();
   const [powercharm, setPowercharm] = useState(true);
   const [mightSeed, setMightSeed] = useState(false);
   const [demonPowder, setDemonPowder] = useState(false);
-  const [overcameFrenzy, setOvercameFrenzy] = useState(false);
+  const [frenzy, setFrenzy] = useState(false);
 
   const [mv, setMv] = useState(45);
   const [rawHzv, setRawHzv] = useState(80);
@@ -68,61 +68,68 @@ export default function Home() {
 
   const effectiveBuffs: (Buff | undefined)[] = useMemo(() => {
     return [
-      demondrug ?? undefined,
+      Buffs.Frenzy,
       powercharm ? Buffs.Powercharm : undefined,
       mightSeed ? Buffs.MightSeed : undefined,
       demonPowder ? Buffs.DemonPowder : undefined,
-      overcameFrenzy ? Buffs.OvercameFrenzy : undefined,
+      frenzy ? Buffs.OvercameFrenzy : undefined,
       ...weaponBuffs,
       ...armorBuffs,
       ...setBuffs,
+      ...fieldBuffs,
       miscBuffs,
     ];
   }, [
     miscBuffs,
-    demondrug,
     powercharm,
     mightSeed,
     demonPowder,
-    overcameFrenzy,
+    frenzy,
     weaponBuffs,
     armorBuffs,
     setBuffs,
+    fieldBuffs,
   ]);
 
   const uiAttack = useMemo(() => {
-    return calculateAttackUI(attack, effectiveBuffs);
-  }, [attack, effectiveBuffs]);
+    return calculateAttack(attack, effectiveBuffs, frenzy);
+  }, [attack, effectiveBuffs, frenzy]);
 
   const uiElement = useMemo(() => {
-    return calculateElementUI(element, effectiveBuffs);
+    return calculateElement(element, effectiveBuffs);
   }, [element, effectiveBuffs]);
 
   const uiAffinity = useMemo(() => {
-    return calculateAffinityUI(affinity, effectiveBuffs);
-  }, [affinity, effectiveBuffs]);
+    return Math.min(calculateAffinity(affinity, effectiveBuffs, frenzy), 100);
+  }, [affinity, effectiveBuffs, frenzy]);
 
   const effectiveAffinity = useMemo(() => {
-    const weaknessAffinity =
-      rawHzv > 45
-        ? effectiveBuffs.reduce((acc, b) => acc + (b?.weaknessAffinity ?? 0), 0)
-        : 0;
-    const woundAffinity = isWound
-      ? effectiveBuffs.reduce((acc, b) => acc + (b?.woundAffinity ?? 0), 0)
-      : 0;
-    return uiAffinity + weaknessAffinity + woundAffinity;
-  }, [uiAffinity, rawHzv, effectiveBuffs, isWound]);
+    return Math.min(
+      calculateAffinity(
+        affinity,
+        effectiveBuffs,
+        frenzy,
+        rawHzv >= 45,
+        isWound,
+      ),
+      100,
+    );
+  }, [affinity, effectiveBuffs, frenzy, rawHzv, isWound]);
 
   const rawCritMulti = useMemo(() => {
     if (uiAffinity < 0) return 0.75;
-    const criticalBoost = effectiveBuffs.find((b) => b?.criticalBoost);
-    return criticalBoost?.criticalBoost ?? 1.25;
+    return effectiveBuffs.reduce(
+      (acc, b) => (b?.criticalBoost ? Math.max(b.criticalBoost, acc) : acc),
+      1.25,
+    );
   }, [uiAffinity, effectiveBuffs]);
 
   const eleCritMulti = useMemo(() => {
     if (uiAffinity < 0) return 1;
-    const criticalElement = effectiveBuffs.find((b) => b?.criticalElement);
-    return criticalElement?.criticalElement ?? 1;
+    return effectiveBuffs.reduce(
+      (acc, b) => (b?.criticalElement ? Math.max(b.criticalElement, acc) : acc),
+      1,
+    );
   }, [uiAffinity, effectiveBuffs]);
 
   const totalHit = useMemo(() => {
@@ -214,18 +221,14 @@ export default function Home() {
               value={sharpness}
               onChangeValue={setSharpness}
               options={[...Sharpnesses]}
-              description={`Raw: ${SharpnessRawMultipliers[sharpness]} Element: ${SharpnessEleMultipliers[sharpness]}`}
+              description={`Raw: ${sharpnessRaw[sharpness]} Element: ${sharpnessEle[sharpness]}`}
             />
           </div>
         </Card>
         <Card>
           <div>
             <h1>Skills</h1>
-            <p className="text-xs text-zinc-700">
-              {
-                "Skill bonuses are always active if enabled (besides Weakness Exploit)."
-              }
-            </p>
+            <p className="text-xs text-zinc-700"></p>
           </div>
           <div className="flex flex-col gap-1">
             <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
@@ -281,8 +284,8 @@ export default function Home() {
           <div>
             <h1>Buffs</h1>
             <p className="text-xs text-zinc-700">
-              Add miscellaneous buffs from food, unsupported skills, Hunting
-              Horn songs, etc. here.
+              Add miscellaneous buffs from unsupported skills, Hunting Horn
+              songs, etc. here.
             </p>
           </div>
           <div className="flex gap-2">
@@ -303,12 +306,24 @@ export default function Home() {
             />
             <Checkbox
               label="Overcame Frenzy"
-              value={overcameFrenzy}
-              onChangeValue={setOvercameFrenzy}
+              value={frenzy}
+              onChangeValue={setFrenzy}
             />
           </div>
           <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-4">
-            <SkillSelect skill={Demondrug} onChangeValue={setDemondrug} />
+            {Object.values(FieldBuffs).map((s, i) => (
+              <SkillSelect
+                key={s.name}
+                skill={s}
+                onChangeValue={(buff) => {
+                  setFieldBuffs((buffs) => {
+                    const newBuffs = [...buffs];
+                    newBuffs[i] = buff;
+                    return newBuffs;
+                  });
+                }}
+              />
+            ))}
             <NumberInput
               label="Attack (Flat)"
               value={miscAttack}
@@ -379,7 +394,9 @@ export default function Home() {
           <div>
             <h1>Status</h1>
             <p className="text-xs text-zinc-700">
-              {"Values you see in-game are after rounding."}
+              {
+                "In-game display rounds but decimals are stored for damage calculations."
+              }
             </p>
           </div>
           <div>

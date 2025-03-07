@@ -18,21 +18,22 @@ import {
   SharpnessRawMultipliers,
   Sharpnesses,
 } from "@/data";
-import Skills from "@/data/skills";
+import { ArmorSkills, SetSkills, WeaponSkills } from "@/data/skills";
 import {
   calculateAffinityUI,
   calculateAttackUI,
-  calculateElementHit,
+  calculateCrit,
   calculateElementUI,
   calculateHit,
-  calculateRawHit,
 } from "@/model";
 
 export default function Home() {
   const [attack, setAttack] = useState(200);
   const [affinity, setAffinity] = useState(0);
   const [element, setElement] = useState(0);
-  const [buffs, setBuffs] = useState<(Buff | undefined)[]>([]);
+  const [weaponBuffs, setWeaponBuffs] = useState<(Buff | undefined)[]>([]);
+  const [armorBuffs, setArmorBuffs] = useState<(Buff | undefined)[]>([]);
+  const [setBuffs, setSetBuffs] = useState<(Buff | undefined)[]>([]);
   const [sharpness, setSharpness] = useState<Sharpness>("White");
 
   const [miscAttack, setMiscAttack] = useState(0);
@@ -73,20 +74,23 @@ export default function Home() {
       mightSeed ? Buffs.MightSeed : undefined,
       demonPowder ? Buffs.DemonPowder : undefined,
       overcameFrenzy ? Buffs.OvercameFrenzy : undefined,
-      ...buffs,
+      ...weaponBuffs,
+      ...armorBuffs,
+      ...setBuffs,
     ];
   }, [
     miscBuffs,
     demondrug,
-    buffs,
     powercharm,
     mightSeed,
     demonPowder,
     overcameFrenzy,
+    weaponBuffs,
+    armorBuffs,
+    setBuffs,
   ]);
 
   const uiAttack = useMemo(() => {
-    console.log(calculateAttackUI(attack, effectiveBuffs));
     return calculateAttackUI(attack, effectiveBuffs);
   }, [attack, effectiveBuffs]);
 
@@ -109,16 +113,6 @@ export default function Home() {
     return uiAffinity + weaknessAffinity + woundAffinity;
   }, [uiAffinity, rawHzv, effectiveBuffs, isWound]);
 
-  const rawHit = useMemo(() => {
-    return calculateRawHit(uiAttack, mv, rawHzv, sharpness, [1 + rawDamageMul]);
-  }, [uiAttack, mv, rawHzv, sharpness, rawDamageMul]);
-
-  const eleHit = useMemo(() => {
-    return calculateElementHit(uiElement, eleHzv, sharpness, [
-      1 + eleDamageMul,
-    ]);
-  }, [uiElement, eleHzv, sharpness, eleDamageMul]);
-
   const rawCritMulti = useMemo(() => {
     if (uiAffinity < 0) return 0.75;
     const criticalBoost = effectiveBuffs.find((b) => b?.criticalBoost);
@@ -130,9 +124,6 @@ export default function Home() {
     const criticalElement = effectiveBuffs.find((b) => b?.criticalElement);
     return criticalElement?.criticalElement ?? 1;
   }, [uiAffinity, effectiveBuffs]);
-
-  const rawCrit = useMemo(() => rawHit * rawCritMulti, [rawHit, rawCritMulti]);
-  const eleCrit = useMemo(() => eleHit * eleCritMulti, [eleHit, eleCritMulti]);
 
   const totalHit = useMemo(() => {
     return calculateHit(
@@ -158,13 +149,36 @@ export default function Home() {
   ]);
 
   const totalCrit = useMemo(() => {
-    return Math.round((rawCrit + eleCrit) * 10 * (isWound ? 1.25 : 1)) / 10;
-  }, [rawCrit, eleCrit, isWound]);
+    return calculateCrit(
+      uiAttack,
+      uiElement,
+      mv,
+      rawHzv,
+      eleHzv,
+      sharpness,
+      rawCritMulti,
+      eleCritMulti,
+      [1 + rawDamageMul, isWound ? 1.25 : 1],
+      [1 + eleDamageMul, isWound ? 1.25 : 1],
+    );
+  }, [
+    uiAttack,
+    uiElement,
+    mv,
+    rawHzv,
+    eleHzv,
+    sharpness,
+    rawCritMulti,
+    eleCritMulti,
+    rawDamageMul,
+    eleDamageMul,
+    isWound,
+  ]);
 
   const averageHit = useMemo(() => {
     const critChance = Math.abs(effectiveAffinity) / 100;
     const avg = totalCrit * critChance + totalHit * (1 - critChance);
-    return Math.round(avg * 100) / 100;
+    return Math.round(avg * 1000) / 1000;
   }, [totalHit, totalCrit, effectiveAffinity]);
 
   return (
@@ -213,20 +227,54 @@ export default function Home() {
               }
             </p>
           </div>
-          <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-            {Object.values(Skills).map((s, i) => (
-              <SkillSelect
-                key={s.name}
-                skill={s}
-                onChangeValue={(buff) => {
-                  setBuffs((buffs) => {
-                    const newBuffs = [...buffs];
-                    newBuffs[i] = buff;
-                    return newBuffs;
-                  });
-                }}
-              />
-            ))}
+          <div className="flex flex-col gap-1">
+            <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+              {Object.values(WeaponSkills).map((s, i) => {
+                return (
+                  <SkillSelect
+                    key={s.name}
+                    skill={s}
+                    onChangeValue={(buff) => {
+                      setWeaponBuffs((buffs) => {
+                        const newBuffs = [...buffs];
+                        newBuffs[i] = buff;
+                        return newBuffs;
+                      });
+                    }}
+                  />
+                );
+              })}
+            </div>
+            <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+              {Object.values(ArmorSkills).map((s, i) => (
+                <SkillSelect
+                  key={s.name}
+                  skill={s}
+                  onChangeValue={(buff) => {
+                    setArmorBuffs((buffs) => {
+                      const newBuffs = [...buffs];
+                      newBuffs[i] = buff;
+                      return newBuffs;
+                    });
+                  }}
+                />
+              ))}
+            </div>
+            <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+              {Object.values(SetSkills).map((s, i) => (
+                <SkillSelect
+                  key={s.name}
+                  skill={s}
+                  onChangeValue={(buff) => {
+                    setSetBuffs((buffs) => {
+                      const newBuffs = [...buffs];
+                      newBuffs[i] = buff;
+                      return newBuffs;
+                    });
+                  }}
+                />
+              ))}
+            </div>
           </div>
         </Card>
         <Card>
@@ -333,7 +381,7 @@ export default function Home() {
           <div>
             <h1>Status</h1>
             <p className="text-xs text-zinc-700">
-              {"These should match what you see in-game (without rounding)."}
+              {"Values you see in-game are after rounding."}
             </p>
           </div>
           <div>

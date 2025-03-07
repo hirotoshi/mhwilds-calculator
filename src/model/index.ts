@@ -58,14 +58,12 @@ export const calculateRawHit = (
   sh: Sharpness,
   multipliers: number[] = [],
 ) => {
-  return round(
-    mul(
-      uiAttack,
-      mv / 100,
-      hzv / 100,
-      SharpnessRawMultipliers[sh],
-      ...multipliers,
-    ),
+  return mul(
+    uiAttack,
+    mv / 100,
+    hzv / 100,
+    SharpnessRawMultipliers[sh],
+    ...multipliers,
   );
 };
 
@@ -75,8 +73,12 @@ export const calculateElementHit = (
   sh: Sharpness,
   multipliers: number[] = [],
 ) => {
-  return round(
-    mul(uiElement, 0.1, hzv / 100, SharpnessEleMultipliers[sh], ...multipliers),
+  return mul(
+    uiElement,
+    0.1,
+    hzv / 100,
+    SharpnessEleMultipliers[sh],
+    ...multipliers,
   );
 };
 
@@ -93,7 +95,25 @@ export const calculateHit = (
   const r = calculateRawHit(uiAttack, mv, rawHzv, sh, rawMultipliers);
   const e = calculateElementHit(uiElement, eleHzv, sh, eleMultipliers);
 
-  return r + e;
+  return round(r) + round(e);
+};
+
+export const calculateCrit = (
+  uiAttack: number,
+  uiElement: number,
+  mv: number,
+  rawHzv: number,
+  eleHzv: number,
+  sh: Sharpness,
+  rawCritMulti: number,
+  eleCritMulti: number,
+  rawMultipliers: number[] = [],
+  eleMultipliers: number[] = [],
+) => {
+  const r = calculateRawHit(uiAttack, mv, rawHzv, sh, rawMultipliers);
+  const e = calculateElementHit(uiElement, eleHzv, sh, eleMultipliers);
+
+  return round(r * rawCritMulti) + round(e * eleCritMulti);
 };
 
 export const ceil = (value: number) => {

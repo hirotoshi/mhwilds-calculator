@@ -22,6 +22,7 @@ export function NumberInput({
         type="number"
         onChange={(e) => onChangeValue?.(Number(e.target.value))}
         value={value}
+        pattern="-?[0-9]+"
         {...props}
       />
     </InputContainer>

@@ -7,7 +7,91 @@ export type Skill = {
   description?: string;
 };
 
-const Skills: Record<string, Skill> = {
+export const WeaponSkills: Record<string, Skill> = {
+  AttackBoost: {
+    name: "Attack Boost",
+    levels: [
+      { name: "Attack Boost 1", attack: 3 },
+      { name: "Attack Boost 2", attack: 5 },
+      { name: "Attack Boost 3", attack: 7 },
+      { name: "Attack Boost 4", attack: 8, attackMul: 1.02 },
+      { name: "Attack Boost 5", attack: 9, attackMul: 1.04 },
+    ],
+  },
+  CriticalBoost: {
+    name: "Critical Boost",
+    levels: [
+      { name: "Critical Boost 1", criticalBoost: 1.28 },
+      { name: "Critical Boost 2", criticalBoost: 1.31 },
+      { name: "Critical Boost 3", criticalBoost: 1.34 },
+      { name: "Critical Boost 4", criticalBoost: 1.37 },
+      { name: "Critical Boost 5", criticalBoost: 1.4 },
+    ],
+  },
+  CriticalElement: {
+    name: "Critical Element",
+    levels: [
+      { name: "Critical Element 1", criticalElement: 1.05 },
+      { name: "Critical Element 2", criticalElement: 1.1 },
+      { name: "Critical Element 3", criticalElement: 1.15 },
+    ],
+  },
+  CriticalEye: {
+    name: "Critical Eye",
+    levels: [
+      { name: "Critical Eye 1", affinity: 4 },
+      { name: "Critical Eye 2", affinity: 8 },
+      { name: "Critical Eye 3", affinity: 12 },
+      { name: "Critical Eye 4", affinity: 16 },
+      { name: "Critical Eye 5", affinity: 20 },
+    ],
+  },
+  ElementAttack: {
+    name: "Element Attack",
+    levels: [
+      { name: "Element Attack 1", element: 40 },
+      { name: "Element Attack 2", element: 50, elementMul: 1.1 },
+      { name: "Element Attack 3", element: 60, elementMul: 1.2 },
+    ],
+  },
+  OffensiveGuard: {
+    name: "Offensive Guard",
+    conditional: true,
+    levels: [
+      { name: "Offensive Guard 1", attackMul: 1.05 },
+      { name: "Offensive Guard 2", attackMul: 1.1 },
+      { name: "Offensive Guard 3", attackMul: 1.15 },
+    ],
+  },
+  WeaknessExploit: {
+    name: "Weakness Exploit",
+    levels: [
+      { name: "Weakness Exploit 1", weaknessAffinity: 5, woundAffinity: 3 },
+      {
+        name: "Weakness Exploit 2",
+        weaknessAffinity: 10,
+        woundAffinity: 5,
+      },
+      {
+        name: "Weakness Exploit 3",
+        weaknessAffinity: 15,
+        woundAffinity: 10,
+      },
+      {
+        name: "Weakness Exploit 4",
+        weaknessAffinity: 20,
+        woundAffinity: 15,
+      },
+      {
+        name: "Weakness Exploit 5",
+        weaknessAffinity: 30,
+        woundAffinity: 20,
+      },
+    ],
+  },
+};
+
+export const ArmorSkills: Record<string, Skill> = {
   Agitator: {
     name: "Agitator",
     conditional: true,
@@ -41,16 +125,6 @@ const Skills: Record<string, Skill> = {
       { name: "Antivirus 1", affinity: 3 },
       { name: "Antivirus 2", affinity: 6 },
       { name: "Antivirus 3", affinity: 10 },
-    ],
-  },
-  AttackBoost: {
-    name: "Attack Boost",
-    levels: [
-      { name: "Attack Boost 1", attack: 3 },
-      { name: "Attack Boost 2", attack: 5 },
-      { name: "Attack Boost 3", attack: 7 },
-      { name: "Attack Boost 4", attack: 8, attackMul: 1.02 },
-      { name: "Attack Boost 5", attack: 9, attackMul: 1.04 },
     ],
   },
   BurstDB: {
@@ -112,42 +186,6 @@ const Skills: Record<string, Skill> = {
       { name: "Counterstrike 3", attack: 25 },
     ],
   },
-  CriticalBoost: {
-    name: "Critical Boost",
-    levels: [
-      { name: "Critical Boost 1", criticalBoost: 1.28 },
-      { name: "Critical Boost 2", criticalBoost: 1.31 },
-      { name: "Critical Boost 3", criticalBoost: 1.34 },
-      { name: "Critical Boost 4", criticalBoost: 1.37 },
-      { name: "Critical Boost 5", criticalBoost: 1.4 },
-    ],
-  },
-  CriticalElement: {
-    name: "Critical Element",
-    levels: [
-      { name: "Critical Element 1", criticalElement: 1.05 },
-      { name: "Critical Element 2", criticalElement: 1.1 },
-      { name: "Critical Element 3", criticalElement: 1.15 },
-    ],
-  },
-  CriticalEye: {
-    name: "Critical Eye",
-    levels: [
-      { name: "Critical Eye 1", affinity: 4 },
-      { name: "Critical Eye 2", affinity: 8 },
-      { name: "Critical Eye 3", affinity: 12 },
-      { name: "Critical Eye 4", affinity: 16 },
-      { name: "Critical Eye 5", affinity: 20 },
-    ],
-  },
-  ElementAttack: {
-    name: "Element Attack",
-    levels: [
-      { name: "Element Attack 1", element: 40 },
-      { name: "Element Attack 2", element: 50, elementMul: 1.1 },
-      { name: "Element Attack 3", element: 60, elementMul: 1.2 },
-    ],
-  },
   Foray: {
     name: "Foray",
     conditional: true,
@@ -196,15 +234,6 @@ const Skills: Record<string, Skill> = {
       { name: "Maximum Might 3", affinity: 30 },
     ],
   },
-  OffensiveGuard: {
-    name: "Offensive Guard",
-    conditional: true,
-    levels: [
-      { name: "Offensive Guard 1", attackMul: 1.05 },
-      { name: "Offensive Guard 2", attackMul: 1.1 },
-      { name: "Offensive Guard 3", attackMul: 1.15 },
-    ],
-  },
   PeakPerformance: {
     name: "Peak Performance",
     conditional: true,
@@ -230,32 +259,9 @@ const Skills: Record<string, Skill> = {
       { name: "Resentment 5", attack: 15 },
     ],
   },
-  WeaknessExploit: {
-    name: "Weakness Exploit",
-    levels: [
-      { name: "Weakness Exploit 1", weaknessAffinity: 5, woundAffinity: 3 },
-      {
-        name: "Weakness Exploit 2",
-        weaknessAffinity: 10,
-        woundAffinity: 5,
-      },
-      {
-        name: "Weakness Exploit 3",
-        weaknessAffinity: 15,
-        woundAffinity: 10,
-      },
-      {
-        name: "Weakness Exploit 4",
-        weaknessAffinity: 20,
-        woundAffinity: 15,
-      },
-      {
-        name: "Weakness Exploit 5",
-        weaknessAffinity: 30,
-        woundAffinity: 20,
-      },
-    ],
-  },
+};
+
+export const SetSkills: Record<string, Skill> = {
   DoshagumasMight: {
     name: "Doshaguma's Might",
     description:
@@ -263,6 +269,13 @@ const Skills: Record<string, Skill> = {
     levels: [
       { name: "Doshaguma's Might 1", attack: 10 },
       { name: "Doshaguma's Might 2", attack: 25 },
+    ],
+  },
+  JinDahaadsRevolt: {
+    name: "Jin Dahaad's Revolt",
+    levels: [
+      { name: "Jin Dahaad's Revolt 1", attack: 25 },
+      { name: "Jin Dahaad's Revolt 2", attack: 50 },
     ],
   },
   GoreMagalasTyranny: {
@@ -285,5 +298,3 @@ const Skills: Record<string, Skill> = {
     ],
   },
 };
-
-export default Skills;

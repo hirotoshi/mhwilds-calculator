@@ -13,6 +13,7 @@ import {
   type Buff,
   Buffs,
   FieldBuffs,
+  FrenzyBuff,
   Sharpness,
   Sharpnesses,
   sharpnessEle,
@@ -27,14 +28,17 @@ import {
   calculateHit,
 } from "@/model";
 
+type UBuff = Buff | undefined;
+
 export default function Home() {
   const [attack, setAttack] = useState(200);
   const [affinity, setAffinity] = useState(0);
   const [element, setElement] = useState(0);
-  const [weaponBuffs, setWeaponBuffs] = useState<(Buff | undefined)[]>([]);
-  const [armorBuffs, setArmorBuffs] = useState<(Buff | undefined)[]>([]);
-  const [setBuffs, setSetBuffs] = useState<(Buff | undefined)[]>([]);
-  const [fieldBuffs, setFieldBuffs] = useState<(Buff | undefined)[]>([]);
+  const [weaponBuffs, setWeaponBuffs] = useState<UBuff[]>([]);
+  const [armorBuffs, setArmorBuffs] = useState<UBuff[]>([]);
+  const [setBuffs, setSetBuffs] = useState<UBuff[]>([]);
+  const [boolBuffs, setBoolBuffs] = useState<UBuff[]>([Buffs.Powercharm]);
+  const [fieldBuffs, setFieldBuffs] = useState<UBuff[]>([]);
   const [sharpness, setSharpness] = useState<Sharpness>("White");
 
   const [miscAttack, setMiscAttack] = useState(0);
@@ -43,9 +47,6 @@ export default function Home() {
   const [miscElementMul, setMiscElementMul] = useState(0);
   const [miscAffinity, setMiscAffinity] = useState(0);
 
-  const [powercharm, setPowercharm] = useState(true);
-  const [mightSeed, setMightSeed] = useState(false);
-  const [demonPowder, setDemonPowder] = useState(false);
   const [frenzy, setFrenzy] = useState(false);
 
   const [mv, setMv] = useState(45);
@@ -68,28 +69,15 @@ export default function Home() {
 
   const effectiveBuffs: (Buff | undefined)[] = useMemo(() => {
     return [
-      Buffs.Frenzy,
-      powercharm ? Buffs.Powercharm : undefined,
-      mightSeed ? Buffs.MightSeed : undefined,
-      demonPowder ? Buffs.DemonPowder : undefined,
-      frenzy ? Buffs.OvercameFrenzy : undefined,
+      FrenzyBuff,
       ...weaponBuffs,
       ...armorBuffs,
       ...setBuffs,
+      ...boolBuffs,
       ...fieldBuffs,
       miscBuffs,
     ];
-  }, [
-    miscBuffs,
-    powercharm,
-    mightSeed,
-    demonPowder,
-    frenzy,
-    weaponBuffs,
-    armorBuffs,
-    setBuffs,
-    fieldBuffs,
-  ]);
+  }, [miscBuffs, weaponBuffs, armorBuffs, setBuffs, boolBuffs, fieldBuffs]);
 
   const uiAttack = useMemo(() => {
     return calculateAttack(attack, effectiveBuffs, frenzy);
@@ -290,25 +278,26 @@ export default function Home() {
           </div>
           <div className="flex gap-2">
             <Checkbox
-              label="Powercharm"
-              value={powercharm}
-              onChangeValue={setPowercharm}
-            />
-            <Checkbox
-              label="Might Seed"
-              value={mightSeed}
-              onChangeValue={setMightSeed}
-            />
-            <Checkbox
-              label="Demon Powder"
-              value={demonPowder}
-              onChangeValue={setDemonPowder}
-            />
-            <Checkbox
               label="Overcame Frenzy"
               value={frenzy}
               onChangeValue={setFrenzy}
             />
+            {Object.values(Buffs).map((b, i) => (
+              <Checkbox
+                key={b.name}
+                label={b.name}
+                value={boolBuffs.includes(b)}
+                onChangeValue={(checked) => {
+                  setBoolBuffs((buffs) => {
+                    if (checked) {
+                      return [...buffs, b];
+                    } else {
+                      return buffs.filter((buff) => buff !== b);
+                    }
+                  });
+                }}
+              />
+            ))}
           </div>
           <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-4">
             {Object.values(FieldBuffs).map((s, i) => (

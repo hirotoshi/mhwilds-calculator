@@ -71,11 +71,9 @@ export const Buffs: Record<string, Buff> = {
   Powercharm: { name: "Powercharm", attack: 6 },
   MightSeed: { name: "Might Seed", attack: 10 },
   DemonPowder: { name: "Demon Powder", attack: 10 },
-  Demondrug: { name: "Demondrug", attack: 5 },
-  MegaDemondrug: { name: "Mega Demondrug", attack: 7 },
-  Frenzy: { name: "Frenzy", frenzy: { affinity: 15 } },
-  SelfImprovement: { name: "Self-Improvement", attackMul: 1.2 },
+  SelfImprovement: { name: "Self-Improvement (HH)", attackMul: 1.2 },
 };
+export const FrenzyBuff = { name: "Frenzy", frenzy: { affinity: 15 } };
 
 export const Demondrug: BuffGroup = {
   name: "Demondrug",

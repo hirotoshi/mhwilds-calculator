@@ -95,7 +95,7 @@ export const calculateHit = (
   const r = calculateRawHit(uiAttack, mv, rawHzv, sh, rawMultipliers);
   const e = calculateElementHit(uiElement, eleHzv, sh, eleMultipliers);
 
-  return round(r) + round(e);
+  return round(round(r) + round(e));
 };
 
 export const calculateCrit = (
@@ -113,7 +113,7 @@ export const calculateCrit = (
   const r = calculateRawHit(uiAttack, mv, rawHzv, sh, rawMultipliers);
   const e = calculateElementHit(uiElement, eleHzv, sh, eleMultipliers);
 
-  return round(r * rawCritMulti) + round(e * eleCritMulti);
+  return round(round(r * rawCritMulti) + round(e * eleCritMulti));
 };
 
 export const ceil = (value: number) => {

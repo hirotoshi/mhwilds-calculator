@@ -1,5 +1,5 @@
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
-  label: string;
+  label?: string;
   description?: string;
   children: React.ReactNode;
 }
@@ -9,9 +9,11 @@ export type InputContainerProps = Pick<Props, "label" | "description">;
 export function InputContainer({ label, description, children }: Props) {
   return (
     <div className="flex flex-col gap-0.5">
-      <label htmlFor={label} className="text-primary pl-0.5 text-xs">
-        {label}
-      </label>
+      {label && (
+        <label htmlFor={label} className="text-primary pl-0.5 text-xs">
+          {label}
+        </label>
+      )}
       {children}
       {description && (
         <p className="text-secondary pl-0.5 text-xs">{description}</p>

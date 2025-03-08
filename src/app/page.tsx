@@ -1,14 +1,16 @@
 "use client";
 
+import { ChevronDown, ChevronUp } from "lucide-react";
 import { useMemo, useState } from "react";
 import {
+  Button,
   Card,
+  Checkbox,
   NumberDisplay,
   NumberInput,
   Select,
   SkillSelect,
 } from "@/components";
-import Checkbox from "@/components/Checkbox";
 import {
   type Buff,
   Buffs,
@@ -27,6 +29,7 @@ import {
   calculateElement,
   calculateHit,
 } from "@/model";
+import { cn, flatten } from "@/utils";
 
 type UBuff = Buff | undefined;
 
@@ -49,6 +52,9 @@ export default function Home() {
 
   const [frenzy, setFrenzy] = useState(false);
 
+  const [collapseSkills, setCollapseSkills] = useState(false);
+  const [collapseBuffs] = useState(false);
+
   const [mv, setMv] = useState(45);
   const [rawHzv, setRawHzv] = useState(80);
   const [eleHzv, setEleHzv] = useState(30);
@@ -67,16 +73,11 @@ export default function Home() {
     };
   }, [miscAttack, miscAttackMul, miscAffinity, miscElement, miscElementMul]);
 
-  const effectiveBuffs: (Buff | undefined)[] = useMemo(() => {
-    return [
+  const effectiveBuffs: Buff[] = useMemo(() => {
+    return flatten(weaponBuffs, armorBuffs, setBuffs, boolBuffs, fieldBuffs, [
       FrenzyBuff,
-      ...weaponBuffs,
-      ...armorBuffs,
-      ...setBuffs,
-      ...boolBuffs,
-      ...fieldBuffs,
       miscBuffs,
-    ];
+    ]).filter((b): b is Buff => b !== undefined && b.name !== "");
   }, [miscBuffs, weaponBuffs, armorBuffs, setBuffs, boolBuffs, fieldBuffs]);
 
   const uiAttack = useMemo(() => {
@@ -218,15 +219,36 @@ export default function Home() {
         </Card>
         <Card>
           <div>
-            <h1>Skills</h1>
-            <p className="text-secondary text-xs"></p>
+            <div className="flex justify-between">
+              <div>
+                <h1>Skills</h1>
+              </div>
+              <Button
+                variant="text"
+                size="icon"
+                onClick={() => setCollapseSkills((c) => !c)}
+              >
+                {collapseSkills ? <ChevronUp /> : <ChevronDown />}
+              </Button>
+            </div>
+            {!collapseSkills && (
+              <p className="text-xs">
+                {
+                  "Tick 'Overcame Frenzy' in Buffs to enable related skills. Weakness Exploit activates on HZV ≥ 45 and Wounds."
+                }
+              </p>
+            )}
           </div>
-          <div className="flex flex-col gap-1">
+          <div
+            className={cn("flex flex-col gap-2", collapseSkills && "hidden")}
+          >
+            <p className="text-xs">Weapon</p>
             <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
               {Object.values(WeaponSkills).map((s, i) => {
                 return (
                   <SkillSelect
                     key={s.name}
+                    value={weaponBuffs[i]}
                     skill={s}
                     onChangeValue={(buff) => {
                       setWeaponBuffs((buffs) => {
@@ -239,11 +261,13 @@ export default function Home() {
                 );
               })}
             </div>
+            <p className="text-xs">Armor</p>
             <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
               {Object.values(ArmorSkills).map((s, i) => (
                 <SkillSelect
                   key={s.name}
                   skill={s}
+                  value={armorBuffs[i]}
                   onChangeValue={(buff) => {
                     setArmorBuffs((buffs) => {
                       const newBuffs = [...buffs];
@@ -254,11 +278,13 @@ export default function Home() {
                 />
               ))}
             </div>
+            <p className="text-xs">Set</p>
             <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
               {Object.values(SetSkills).map((s, i) => (
                 <SkillSelect
                   key={s.name}
                   skill={s}
+                  value={setBuffs[i]}
                   onChangeValue={(buff) => {
                     setSetBuffs((buffs) => {
                       const newBuffs = [...buffs];
@@ -270,16 +296,81 @@ export default function Home() {
               ))}
             </div>
           </div>
+          {collapseSkills && (
+            <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+              {Object.values(WeaponSkills).map((s, i) => {
+                if (!weaponBuffs[i]) return undefined;
+                return (
+                  <SkillSelect
+                    key={s.name}
+                    value={weaponBuffs[i]}
+                    skill={s}
+                    onChangeValue={(buff) => {
+                      setWeaponBuffs((buffs) => {
+                        const newBuffs = [...buffs];
+                        newBuffs[i] = buff;
+                        return newBuffs;
+                      });
+                    }}
+                  />
+                );
+              })}
+              {Object.values(ArmorSkills).map((s, i) => {
+                if (!armorBuffs[i]) return undefined;
+                return (
+                  <SkillSelect
+                    key={s.name}
+                    value={armorBuffs[i]}
+                    skill={s}
+                    onChangeValue={(buff) => {
+                      setWeaponBuffs((buffs) => {
+                        const newBuffs = [...buffs];
+                        newBuffs[i] = buff;
+                        return newBuffs;
+                      });
+                    }}
+                  />
+                );
+              })}
+              {Object.values(SetSkills).map((s, i) => {
+                if (!setBuffs[i]) return undefined;
+                return (
+                  <SkillSelect
+                    key={s.name}
+                    value={setBuffs[i]}
+                    skill={s}
+                    onChangeValue={(buff) => {
+                      setWeaponBuffs((buffs) => {
+                        const newBuffs = [...buffs];
+                        newBuffs[i] = buff;
+                        return newBuffs;
+                      });
+                    }}
+                  />
+                );
+              })}
+            </div>
+          )}
         </Card>
         <Card>
           <div>
-            <h1>Buffs</h1>
-            <p className="text-secondary text-xs">
-              Add miscellaneous buffs from unsupported skills, Hunting Horn
-              songs, etc. here.
-            </p>
+            <div className="flex justify-between">
+              <h1>Buffs</h1>
+              {/* <Button
+                variant="text"
+                size="icon"
+                onClick={() => setCollapseBuffs((c) => !c)}
+              >
+                {collapseBuffs ? <ChevronUp /> : <ChevronDown />}
+              </Button> */}
+            </div>
+            {!collapseBuffs && (
+              <p className="text-secondary text-xs">
+                {"Add other unsupported buffs here."}
+              </p>
+            )}
           </div>
-          <div className="flex flex-wrap gap-x-2 gap-y-0">
+          <div className="flex flex-wrap gap-x-4 gap-y-0">
             <Checkbox
               label="Overcame Frenzy"
               value={frenzy}
@@ -306,7 +397,10 @@ export default function Home() {
             {Object.values(FieldBuffs).map((s, i) => (
               <SkillSelect
                 key={s.name}
+                value={fieldBuffs[i]}
                 skill={s}
+                label={s.name}
+                placeholder=""
                 onChangeValue={(buff) => {
                   setFieldBuffs((buffs) => {
                     const newBuffs = [...buffs];
@@ -344,7 +438,10 @@ export default function Home() {
           </div>
         </Card>
         <Card>
-          <h1>Target</h1>
+          <div>
+            <h1>Target</h1>
+            <p></p>
+          </div>
           <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             <NumberInput
               label="Motion Value"

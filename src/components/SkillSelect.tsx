@@ -1,21 +1,28 @@
 import { type Buff, BuffGroup } from "@/data";
-import { Select } from ".";
+import { Select, type SelectProps } from ".";
 
-type Props = {
+type Props = Omit<SelectProps<Buff | undefined>, "options"> & {
   skill: BuffGroup;
-  onChangeValue: (value: Buff) => void;
 };
 
-export function SkillSelect({ skill, onChangeValue }: Props) {
+export function SkillSelect({
+  skill,
+  onChangeValue,
+  label,
+  placeholder,
+  value,
+}: Props) {
   const { name, levels } = skill;
-  const options = [{ name: "" }, ...levels];
+  const options = [undefined, ...levels];
 
   return (
     <Select
-      label={name}
       options={options}
-      labelFn={(opt) => opt.name}
+      label={label}
+      value={value}
+      labelFn={(opt) => opt?.name ?? ""}
       onChangeValue={onChangeValue}
+      placeholder={placeholder ?? name}
       // description={""}
     />
   );

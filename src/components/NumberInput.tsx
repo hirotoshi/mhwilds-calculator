@@ -7,6 +7,10 @@ interface Props
   extends InputContainerProps,
     React.InputHTMLAttributes<HTMLInputElement> {
   onChangeValue?: (value: number) => void;
+  min?: number;
+  max?: number;
+  step?: number;
+  value: number;
 }
 
 export function NumberInput({
@@ -14,7 +18,7 @@ export function NumberInput({
   onChangeValue,
   description,
   value,
-  step,
+  step = 1,
   min,
   max,
   ...props
@@ -32,29 +36,27 @@ export function NumberInput({
         />
         <div className="absolute right-0 flex">
           <button
+            disabled={min !== undefined && value <= min}
             type="button"
-            className="hover:text-accent h-full cursor-pointer px-1"
+            className="hover:text-accent h-full cursor-pointer p-1 disabled:pointer-events-none disabled:opacity-30"
             onClick={() => {
               if (!onChangeValue) return;
-              const s = Number(step);
-              const n = Number(value) - (isNaN(s) ? 1 : s);
-              const m = Number(min);
-              if (isNaN(m)) onChangeValue(n);
-              else onChangeValue(Math.max(m, n));
+              const n = value - step;
+              if (min !== undefined) onChangeValue(Math.max(min, n));
+              else onChangeValue(n);
             }}
           >
             <MinusIcon size={14} />
           </button>
           <button
+            disabled={max !== undefined && value >= max}
             type="button"
-            className="hover:text-accent h-full cursor-pointer px-1"
+            className="hover:text-accent mr-0.5 h-full cursor-pointer p-1 disabled:pointer-events-none disabled:opacity-30"
             onClick={() => {
               if (!onChangeValue) return;
-              const s = Number(step);
-              const n = Number(value) + (isNaN(s) ? 1 : s);
-              const m = Number(max);
-              if (isNaN(m)) onChangeValue(n);
-              else onChangeValue(Math.min(m, n));
+              const n = value + step;
+              if (max !== undefined) onChangeValue(Math.min(max, n));
+              else onChangeValue(n);
             }}
           >
             <PlusIcon size={14} />

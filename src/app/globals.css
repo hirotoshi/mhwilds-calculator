@@ -10,7 +10,10 @@
   --color-divider: var(--color-zinc-700);
   --color-primary: var(--color-white);
   --color-secondary: var(--color-zinc-300);
+  --color-placeholder: var(--color-zinc-600);
   --color-accent: var(--color-amber-500);
+
+  --spacing-8xl: 88rem;
 }
 
 h1 {
@@ -27,3 +30,15 @@ input[type="number"]::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+
+/* Hide default arrow in select dropdown */
+select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+select::-ms-expand {
+  display: none;
+}
+

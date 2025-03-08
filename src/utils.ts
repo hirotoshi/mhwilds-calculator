@@ -12,3 +12,7 @@ import { twMerge } from "tailwind-merge";
 export const cn = (...inputs: ClassValue[]) => {
   return twMerge(clsx(inputs));
 };
+
+export const flatten = <T>(...arr: T[][]): T[] => {
+  return ([] as T[]).concat(...arr);
+};

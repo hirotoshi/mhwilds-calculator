@@ -18,34 +18,32 @@ export const calculate = (
 
 export const calculateAttack = (
   base: number,
-  buffs: (Buff | undefined)[] = [],
+  buffs: Buff[] = [],
   frenzy?: boolean,
 ) => {
   return calculate(
     base,
-    buffs.map((b) => b?.attackMul ?? 1),
-    buffs.map((b) => sum(b?.attack, frenzy ? b?.frenzy?.attack : 0)),
+    buffs.map((b) => b.attackMul ?? 1),
+    buffs.map((b) => sum(b.attack, frenzy ? b.frenzy?.attack : 0)),
   );
 };
 
 export const calculateElement = (
   base?: number,
-  buffs: (Buff | undefined)[] = [],
+  buffs: Buff[] = [],
   frenzy?: boolean,
 ) => {
   if (!base || base <= 0) return 0;
   return calculate(
     base,
-    buffs.map((b) =>
-      mul(b?.elementMul ?? 1, frenzy ? b?.frenzy?.elementMul : 1),
-    ),
-    buffs.map((b) => b?.element ?? 0),
+    buffs.map((b) => mul(b.elementMul ?? 1, frenzy ? b.frenzy?.elementMul : 1)),
+    buffs.map((b) => b.element ?? 0),
   );
 };
 
 export const calculateAffinity = (
   base: number,
-  buffs: (Buff | undefined)[],
+  buffs: Buff[],
   frenzy?: boolean,
   weakness?: boolean,
   wound?: boolean,
@@ -55,10 +53,10 @@ export const calculateAffinity = (
     sum(
       ...buffs.map((b) =>
         sum(
-          b?.affinity,
-          frenzy ? b?.frenzy?.affinity : 0,
-          weakness ? b?.weakness?.affinity : 0,
-          wound ? b?.wound?.affinity : 0,
+          b.affinity,
+          frenzy ? b.frenzy?.affinity : 0,
+          weakness ? b.weakness?.affinity : 0,
+          wound ? b.wound?.affinity : 0,
         ),
       ),
     )

@@ -7,12 +7,7 @@ type Props = {
   disabled?: boolean;
 };
 
-export default function Checkbox({
-  value,
-  onChangeValue,
-  label,
-  disabled,
-}: Props) {
+export function Checkbox({ value, onChangeValue, label, disabled }: Props) {
   return (
     <div
       className="text-alt my-2 flex cursor-pointer text-xs select-none"

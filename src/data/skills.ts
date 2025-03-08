@@ -272,22 +272,22 @@ export const SetSkills: Record<string, BuffGroup> = {
     description:
       "Temporarily grants attack after a successful Power Clash or Offset attack.",
     levels: [
-      { name: "Doshaguma's Might 1", attack: 10 },
-      { name: "Doshaguma's Might 2", attack: 25 },
+      { name: "Powerhouse I", attack: 10 },
+      { name: "Powerhouse II", attack: 25 },
     ],
   },
   EbonyOdogaronsPower: {
     name: "Ebony Odogaron's Power",
     levels: [
-      { name: "Ebony Odogaron's Power 1", attack: 3 },
-      { name: "Ebony Odogaron's Power 2", attack: 10 },
+      { name: "Burst Boost I", attack: 3 },
+      { name: "Burst Boost II", attack: 10 },
     ],
   },
   JinDahaadsRevolt: {
     name: "Jin Dahaad's Revolt",
     levels: [
-      { name: "Jin Dahaad's Revolt 1", attack: 25 },
-      { name: "Jin Dahaad's Revolt 2", attack: 50 },
+      { name: "Binding Counter I", attack: 25 },
+      { name: "Binding Counter II", attack: 50 },
     ],
   },
   GoreMagalasTyranny: {
@@ -295,8 +295,8 @@ export const SetSkills: Record<string, BuffGroup> = {
     description:
       "Temporarily grants attack after a successful Power Clash or Offset attack.",
     levels: [
-      { name: "Gore Magala's Tyranny 1" },
-      { name: "Gore Magala's Tyranny 2", attack: 10, frenzy: { attack: 5 } },
+      { name: "Black Eclipse I" },
+      { name: "Black Eclipse II", attack: 10, frenzy: { attack: 5 } },
     ],
   },
   XuWusVigor: {
@@ -304,8 +304,8 @@ export const SetSkills: Record<string, BuffGroup> = {
     description:
       "Temporarily grants attack after eating items such as well-done steak.",
     levels: [
-      { name: "Xu Wu's Vigor 1", attack: 15 },
-      { name: "Xu Wu's Vigor 2", attack: 25 },
+      { name: "Protein Fiend I", attack: 15 },
+      { name: "Protein Fiend II", attack: 25 },
     ],
   },
 };

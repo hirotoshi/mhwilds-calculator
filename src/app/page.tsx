@@ -64,7 +64,7 @@ export default function Home() {
 
   const miscBuffs: Buff = useMemo(() => {
     return {
-      name: "",
+      name: "Miscellaneous",
       attack: miscAttack,
       element: miscElement,
       elementMul: 1 + miscElementMul / 100,

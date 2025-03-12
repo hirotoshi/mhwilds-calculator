@@ -79,7 +79,7 @@ export default function Home() {
   const [mv, setMv] = useState(45);
   const [rawMul, setRawMul] = useState(100);
   const [eleMul, setEleMul] = useState(100);
-  const [fixedEle, setFixedEle] = useState(0);
+  const [fixedEle] = useState(0);
 
   const efr = useMemo(() => calcEffectiveRaw(), [calcEffectiveRaw]);
 

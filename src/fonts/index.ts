@@ -8,6 +8,12 @@ export const inter = localFont({
   ],
 });
 
-export const fonts = { inter };
+export const notoSansMono = localFont({
+  variable: "--font-noto-sans-mono",
+  src: "./NotoSansMono.ttf",
+  style: "mono",
+});
+
+export const fonts = { inter, notoSansMono };
 
 export default fonts;

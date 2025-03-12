@@ -1,3 +1,6 @@
+import { Weapon } from "@/types";
+import { ArmorSkills, SetSkills, WeaponSkills } from "./skills";
+
 export const Sharpnesses = [
   "Ranged",
   "Red",
@@ -10,7 +13,6 @@ export const Sharpnesses = [
 
 export type Sharpness = (typeof Sharpnesses)[number];
 
-// TODO: confirm Wilds values
 export const sharpnessRaw: { [K in Sharpness]: number } = {
   Ranged: 1,
   Red: 0.5,
@@ -21,7 +23,6 @@ export const sharpnessRaw: { [K in Sharpness]: number } = {
   White: 1.32,
 } as const;
 
-// TODO: confirm Wilds values
 export const sharpnessEle: { [K in Sharpness]: number } = {
   Ranged: 1,
   Red: 0.25,
@@ -32,19 +33,7 @@ export const sharpnessEle: { [K in Sharpness]: number } = {
   White: 1.15,
 } as const;
 
-export interface IWeapon {
-  raw: number;
-  element: number;
-  affinity: number;
-  isRanged?: boolean;
-  sharpness?: Sharpness;
-}
-
-export type MeleeWeapon = IWeapon & { isRanged: false; sharpness: Sharpness };
-export type RangedWeapon = IWeapon & { isRanged: true };
-export type Weapon = MeleeWeapon | RangedWeapon;
-
-export type BuffNumbers = {
+export type BuffValues = {
   attack?: number;
   attackMul?: number;
   affinity?: number;
@@ -52,18 +41,19 @@ export type BuffNumbers = {
   elementMul?: number;
 };
 
-export type Buff = BuffNumbers & {
-  name: string;
+export type Buff = BuffValues & {
+  name?: string;
   criticalBoost?: number;
   criticalElement?: number;
-  frenzy?: BuffNumbers;
-  weakness?: BuffNumbers;
-  wound?: BuffNumbers;
+  frenzy?: BuffValues;
+  weakness?: BuffValues;
+  wound?: BuffValues;
 };
 
 export type BuffGroup = {
   name: string;
   description?: string;
+  weapons?: Weapon[];
   levels: Buff[];
 };
 
@@ -71,16 +61,11 @@ export const Buffs: Record<string, Buff> = {
   Powercharm: { name: "Powercharm", attack: 6 },
   MightSeed: { name: "Might Seed", attack: 10 },
   DemonPowder: { name: "Demon Powder", attack: 10 },
-  SelfImprovement: { name: "Self-Improvement (HH)", attackMul: 1.2 },
-};
-export const FrenzyBuff = { name: "Frenzy", frenzy: { affinity: 15 } };
-
-export const Demondrug: BuffGroup = {
-  name: "Demondrug",
-  levels: [
-    { name: "Demondrug", attack: 5 },
-    { name: "Mega Demondrug", attack: 7 },
-  ],
+  SelfImprovement: {
+    name: "Self-Improvement (HH)",
+    attackMul: 1.2,
+    // weapons: ["Hunting Horn"],
+  },
 };
 
 export const FieldBuffs: Record<string, BuffGroup> = {
@@ -113,3 +98,13 @@ export const FieldBuffs: Record<string, BuffGroup> = {
     ],
   },
 };
+
+// make TypeScript complain if two buffs share a key
+export const CombinedBuffs = {
+  Miscellaneous: { name: "Miscellaneous" },
+  ...Buffs,
+  ...WeaponSkills,
+  ...ArmorSkills,
+  ...SetSkills,
+  ...FieldBuffs,
+} satisfies Record<string, BuffGroup | Buff>;

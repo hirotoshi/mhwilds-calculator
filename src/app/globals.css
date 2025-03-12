@@ -2,7 +2,9 @@
 
 @theme {
   --font-inter: "Inter", "Inter Fallback";
+  --font-noto-sans-mono: "Noto Sans Mono", "Noto Sans Mono Fallback";
   --font-sans: var(--font-inter), sans-serif;
+  --font-mono: var(--font-noto-sans-mono), monospace;
 
   --color-background: var(--color-zinc-950);
   --color-content: var(--color-zinc-900);
@@ -14,11 +16,18 @@
   --color-accent: var(--color-amber-500);
 
   --spacing-8xl: 88rem;
+  --spacing-9xl: 96rem;
+  --spacing-10xl: 104rem;
 }
 
 h1 {
   @apply text-xl;
 }
+
+h3 {
+  @apply text-xs;
+}
+
 
 input[type="number"] {
   -moz-appearance: textfield; /* Firefox */
@@ -41,4 +50,3 @@ select {
 select::-ms-expand {
   display: none;
 }
-

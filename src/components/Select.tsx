@@ -9,6 +9,7 @@ export interface SelectProps<T> extends InputContainerProps {
   keyFn?: (option: T) => string;
   onChangeValue: (value: T) => void;
   placeholder?: string;
+  disabled?: boolean;
 }
 
 export function Select<T>({
@@ -20,12 +21,13 @@ export function Select<T>({
   description,
   onChangeValue,
   placeholder,
+  ...props
 }: SelectProps<T>) {
   return (
     <InputContainer label={label} description={description}>
       <div className="relative">
         <select
-          className="border-divider bg-content text-primary hover:bg-content-alt focus:border-primary w-full rounded-sm border px-2 py-1 text-sm disabled:bg-zinc-300 disabled:text-zinc-400"
+          className="border-divider bg-content text-primary hover:bg-content-alt focus:border-primary disabled:text-placeholder w-full rounded-sm border px-2 py-1 text-sm"
           value={value ? labelFn(value) : undefined}
           onChange={(e) => {
             const { value } = e.target;
@@ -33,6 +35,7 @@ export function Select<T>({
             if (option) onChangeValue(option);
             else onChangeValue(options[0]);
           }}
+          {...props}
         >
           {options.map((option) => (
             <option key={keyFn(option)} value={keyFn(option)}>

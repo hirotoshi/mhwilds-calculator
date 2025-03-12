@@ -1,4 +1,21 @@
+import type { Weapon } from "@/types";
 import type { BuffGroup } from ".";
+
+const DBGroup: Weapon[] = ["Dual Blades"];
+const BowGroup: Weapon[] = ["Bow"];
+const LightGroup: Weapon[] = ["Dual Blades", "Bow"];
+const HeavyGroup: Weapon[] = ["Great Sword", "Hunting Horn"];
+const BowgunGroup: Weapon[] = ["Light Bowgun", "Heavy Bowgun"];
+const OthersGroup: Weapon[] = [
+  "Sword and Shield",
+  "Long Sword",
+  "Hammer",
+  "Switch Axe",
+  "Charge Blade",
+  "Insect Glaive",
+  "Lance",
+  "Gunlance",
+];
 
 export const WeaponSkills: Record<string, BuffGroup> = {
   AttackBoost: {
@@ -101,7 +118,8 @@ export const ArmorSkills: Record<string, BuffGroup> = {
     ],
   },
   BurstDB: {
-    name: "Burst (Dual Blades)",
+    name: "Burst",
+    weapons: DBGroup,
     levels: [
       { name: "Burst 1", attack: 8, element: 40 },
       { name: "Burst 2", attack: 10, element: 60 },
@@ -111,7 +129,8 @@ export const ArmorSkills: Record<string, BuffGroup> = {
     ],
   },
   BurstBow: {
-    name: "Burst (Bow)",
+    name: "Burst",
+    weapons: BowGroup,
     levels: [
       { name: "Burst 1", attack: 6, element: 40 },
       { name: "Burst 2", attack: 7, element: 60 },
@@ -121,7 +140,8 @@ export const ArmorSkills: Record<string, BuffGroup> = {
     ],
   },
   BurstBowgun: {
-    name: "Burst (LBG/HBG)",
+    name: "Burst",
+    weapons: BowgunGroup,
     levels: [
       { name: "Burst 1", attack: 6 },
       { name: "Burst 2", attack: 7 },
@@ -131,7 +151,8 @@ export const ArmorSkills: Record<string, BuffGroup> = {
     ],
   },
   BurstHeavy: {
-    name: "Burst (GS/HH)",
+    name: "Burst",
+    weapons: HeavyGroup,
     levels: [
       { name: "Burst 1", attack: 10, element: 80 },
       { name: "Burst 2", attack: 12, element: 100 },
@@ -141,7 +162,8 @@ export const ArmorSkills: Record<string, BuffGroup> = {
     ],
   },
   BurstOthers: {
-    name: "Burst (Others)",
+    name: "Burst",
+    weapons: OthersGroup,
     levels: [
       { name: "Burst 1", attack: 8, element: 60 },
       { name: "Burst 2", attack: 10, element: 80 },
@@ -158,6 +180,14 @@ export const ArmorSkills: Record<string, BuffGroup> = {
       { name: "Coalescence 3", elementMul: 1.3 },
     ],
   },
+  ConvertElement: {
+    name: "Convert Element",
+    levels: [
+      { name: "Convert Element 1", element: 80 },
+      { name: "Convert Element 2", element: 120 },
+      { name: "Convert Element 3", element: 180 },
+    ],
+  },
   Counterstrike: {
     name: "Counterstrike",
     description: "Temporarily increases attack power after being knocked back.",
@@ -165,6 +195,66 @@ export const ArmorSkills: Record<string, BuffGroup> = {
       { name: "Counterstrike 1", attack: 10 },
       { name: "Counterstrike 2", attack: 15 },
       { name: "Counterstrike 3", attack: 25 },
+    ],
+  },
+  ElementalAbsorptionLight: {
+    name: "Elemental Absorption",
+    weapons: LightGroup,
+    levels: [
+      { name: "Elemental Absorption 1", element: 30 },
+      { name: "Elemental Absorption 1+", element: 40 },
+      { name: "Elemental Absorption 1++", element: 50 },
+      { name: "Elemental Absorption 2", element: 40 },
+      { name: "Elemental Absorption 2+", element: 50 },
+      { name: "Elemental Absorption 2++", element: 60 },
+      { name: "Elemental Absorption 3", element: 50 },
+      { name: "Elemental Absorption 3+", element: 60 },
+      { name: "Elemental Absorption 3++", element: 70 },
+    ],
+  },
+  ElementalAbsorptionHeavy: {
+    name: "Elemental Absorption",
+    weapons: HeavyGroup,
+    levels: [
+      { name: "Elemental Absorption 1", element: 50 },
+      { name: "Elemental Absorption 1+", element: 60 },
+      { name: "Elemental Absorption 1++", element: 70 },
+      { name: "Elemental Absorption 2", element: 80 },
+      { name: "Elemental Absorption 2+", element: 90 },
+      { name: "Elemental Absorption 2++", element: 100 },
+      { name: "Elemental Absorption 3", element: 100 },
+      { name: "Elemental Absorption 3+", element: 110 },
+      { name: "Elemental Absorption 3++", element: 120 },
+    ],
+  },
+  ElementalAbsorptionBowgun: {
+    name: "Elemental Absorption",
+    weapons: BowgunGroup,
+    levels: [
+      { name: "Elemental Absorption 1" },
+      { name: "Elemental Absorption 1+" },
+      { name: "Elemental Absorption 1++" },
+      { name: "Elemental Absorption 2" },
+      { name: "Elemental Absorption 2+" },
+      { name: "Elemental Absorption 2++" },
+      { name: "Elemental Absorption 3" },
+      { name: "Elemental Absorption 3+" },
+      { name: "Elemental Absorption 3++" },
+    ],
+  },
+  ElementalAbsorptionOthers: {
+    name: "Elemental Absorption",
+    weapons: OthersGroup,
+    levels: [
+      { name: "Elemental Absorption 1", element: 40 },
+      { name: "Elemental Absorption 1+", element: 50 },
+      { name: "Elemental Absorption 1++", element: 60 },
+      { name: "Elemental Absorption 2", element: 50 },
+      { name: "Elemental Absorption 2+", element: 60 },
+      { name: "Elemental Absorption 2++", element: 70 },
+      { name: "Elemental Absorption 3", element: 60 },
+      { name: "Elemental Absorption 3+", element: 70 },
+      { name: "Elemental Absorption 3++", element: 80 },
     ],
   },
   Foray: {

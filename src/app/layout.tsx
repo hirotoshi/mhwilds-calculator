@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Header } from "@/components/Header";
-import { inter } from "@/fonts";
+import { inter, notoSansMono } from "@/fonts";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -16,7 +16,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`bg-background text-white ${inter.variable} antialiased`}
+        className={`bg-background text-white ${inter.variable} ${notoSansMono.variable} antialiased`}
       >
         <Header />
         <main className="max-w-8xl mx-auto p-2">{children}</main>

@@ -68,10 +68,6 @@ export default function Home() {
     };
   }, [miscAttack, miscAttackMul, miscAffinity, miscElement, miscElementMul]);
 
-  useEffect(() => {
-    setBuff("Miscellaneous", miscBuff);
-  }, [miscBuff, setBuff]);
-
   const [hideSkills, setHideSkills] = useState(false);
   const [hideBuffs, setHideBuffs] = useState(false);
   const [custom, setCustom] = useState(true);
@@ -94,18 +90,37 @@ export default function Home() {
     [mv, rawMul, eleMul, fixedEle],
   );
 
+  useEffect(() => {
+    setBuff("Miscellaneous", miscBuff);
+  }, [miscBuff, setBuff]);
+
+  useEffect(() => {
+    const unsupported = [
+      "Hammer",
+      "Lance",
+      "Gunlance",
+      "Charge Blade",
+      "Insect Glaive",
+      "Bow",
+      "Light Bowgun",
+      "Heavy Bowgun",
+    ];
+    if (unsupported.includes(weapon)) setCustom(true);
+    else setCustom(false);
+  }, [weapon, setCustom]);
+
   return (
     <div className="flex flex-col gap-2 md:flex-row">
       <div className="flex flex-2 flex-col gap-2">
         <Card>
           <div>
             <h1>Weapon</h1>
-            <p className="text-secondary text-xs">
+            <h3>
               {`Enable "Display Without Coefficient" in game options. Don't divide Element by 10.`}
-            </p>
+            </h3>
           </div>
-          <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-            <div className="col-span-4">
+          <div className="grid grid-cols-2 gap-2 lg:grid-cols-4">
+            <div className="col-span-2 lg:col-span-4">
               <Select
                 label="Weapon"
                 value={weapon}
@@ -160,11 +175,11 @@ export default function Home() {
               </Button>
             </div>
             {!hideSkills && (
-              <p className="text-secondary text-xs">
+              <h3>
                 {
                   "Tick 'Overcame Frenzy' to enable related skills. Weakness Exploit activates on HZV ≥ 45 and Wound. Convert Element only buffs Dragon."
                 }
-              </p>
+              </h3>
             )}
           </div>
           <div className="flex flex-col gap-2">
@@ -225,11 +240,7 @@ export default function Home() {
                 {hideBuffs ? <ChevronUp /> : <ChevronDown />}
               </Button>
             </div>
-            {!hideBuffs && (
-              <p className="text-secondary text-xs">
-                {"Add other unsupported buffs here."}
-              </p>
-            )}
+            {!hideBuffs && <h3>{"Add other unsupported buffs here."}</h3>}
           </div>
           <div className="flex flex-wrap gap-x-4 gap-y-0">
             {(!hideBuffs || frenzy) && (
@@ -253,7 +264,7 @@ export default function Home() {
               );
             })}
           </div>
-          <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+          <div className="grid grid-cols-2 gap-2 md:grid-cols-3 lg:grid-cols-4">
             {Object.entries(FieldBuffs).map(([k, s]) => {
               if (hideBuffs && !buffs[k]) return undefined;
               return (

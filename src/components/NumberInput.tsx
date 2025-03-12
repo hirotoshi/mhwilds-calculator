@@ -46,7 +46,7 @@ export function NumberInput({
               else onChangeValue(n);
             }}
           >
-            <MinusIcon size={14} />
+            <MinusIcon size={16} />
           </button>
           <button
             disabled={max !== undefined && value >= max}
@@ -59,7 +59,7 @@ export function NumberInput({
               else onChangeValue(n);
             }}
           >
-            <PlusIcon size={14} />
+            <PlusIcon size={16} />
           </button>
         </div>
       </div>

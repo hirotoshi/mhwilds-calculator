@@ -338,6 +338,7 @@ export const HuntingHornAttacks = [
   { name: "Overhead Smash 2", mv: 42 },
   { name: "Overhead Smash Follow-up Attack", mv: 65 },
   { name: "Hilt Stab", mv: 10 },
+  { name: "Perform", mv: 29 },
   { name: "Performance Beat I", mv: 29 },
   { name: "Performance Beat I (Power)", mv: 35 },
   { name: "Performance Beat II", mv: 31 },

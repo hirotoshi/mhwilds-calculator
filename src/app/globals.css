@@ -25,7 +25,7 @@ h1 {
 }
 
 h3 {
-  @apply text-xs;
+  @apply text-xs text-secondary;
 }
 
 

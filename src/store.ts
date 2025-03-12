@@ -39,7 +39,7 @@ export type Store = InitialStore & {
 };
 
 const initialStore: InitialStore = {
-  weapon: "Hunting Horn",
+  weapon: "Sword and Shield",
   attack: 200,
   affinity: 0,
   element: 0,

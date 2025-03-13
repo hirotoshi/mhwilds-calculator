@@ -13,6 +13,7 @@ import {
 } from "@/components";
 import { MovesTable } from "@/components/MovesTable";
 import { Buffs, FieldBuffs, Sharpnesses, WeaponBuffs, Weapons } from "@/data";
+import Attacks from "@/data/attacks";
 import { ArmorSkills, SetSkills, WeaponSkills } from "@/data/skills";
 import { useCalcs, useGetters, useModel } from "@/store";
 import { Attack, Buff, isRanged } from "@/types";
@@ -88,15 +89,8 @@ export default function Home() {
   }, [miscBuff, setBuff]);
 
   useEffect(() => {
-    const unsupported = [
-      "Hammer",
-      "Lance",
-      "Gunlance",
-      "Charge Blade",
-      "Insect Glaive",
-    ];
-    if (unsupported.includes(weapon)) setCustom(true);
-    else setCustom(false);
+    if (Attacks[weapon]) setCustom(false);
+    else setCustom(true);
   }, [weapon, setCustom]);
 
   return (

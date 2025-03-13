@@ -29,7 +29,7 @@ export type BuffGroup = {
   name: string;
   description?: string;
   weapons?: Weapon[];
-  levels: [Buff, ...Buff[]];
+  levels: Buff[];
 };
 
 export type WeaponFlags = {

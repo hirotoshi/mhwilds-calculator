@@ -1,7 +1,6 @@
 import { produce } from "immer";
 import { create } from "zustand";
-import { Buffs, CombinedBuffs, WeaponBuffs } from "@/data";
-import { ArmorSkills } from "@/data/skills";
+import { Buffs, CombinedBuffs } from "@/data";
 import {
   calculateAffinity,
   calculateAttack,
@@ -102,7 +101,6 @@ export const useModel = create<Store>((set) => ({
 
 export const useGetters = () => {
   const s = useModel();
-
   const uiAffinity = calculateAffinity(s);
   return {
     uiAttack: calculateAttack(s),

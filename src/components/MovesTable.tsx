@@ -1,15 +1,5 @@
 import { useMemo } from "react";
-import {
-  BowAttacks,
-  DualBladesAttacks,
-  GreatSwordAttacks,
-  HeavyBowgunAttacks,
-  HuntingHornAttacks,
-  LightBowgunAttacks,
-  LongSwordAttacks,
-  SwitchAxeAttacks,
-  SwordAndShieldAttacks,
-} from "@/data/attacks";
+import Attacks from "@/data/attacks";
 import { useCalcs, useModel } from "@/store";
 import { Attack } from "@/types";
 import { cn } from "@/utils";
@@ -20,16 +10,7 @@ export function MovesTable({ override }: { override?: Attack[] }) {
 
   const attacks: Attack[] = useMemo(() => {
     if (override) return override;
-    if (weapon === "Sword and Shield") return SwordAndShieldAttacks;
-    if (weapon === "Dual Blades") return DualBladesAttacks;
-    if (weapon === "Great Sword") return GreatSwordAttacks;
-    if (weapon === "Long Sword") return LongSwordAttacks;
-    if (weapon === "Switch Axe") return SwitchAxeAttacks;
-    if (weapon === "Hunting Horn") return HuntingHornAttacks;
-    if (weapon === "Light Bowgun") return LightBowgunAttacks;
-    if (weapon === "Heavy Bowgun") return HeavyBowgunAttacks;
-    if (weapon === "Bow") return BowAttacks;
-    return [];
+    return Attacks[weapon];
   }, [override, weapon]);
 
   const cellCn = cn(

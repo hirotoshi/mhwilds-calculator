@@ -102,18 +102,28 @@ export const useModel = create<Store>((set) => ({
 
 export const useGetters = () => {
   const s = useModel();
+
+  const uiAffinity = calculateAffinity(s);
   return {
     uiAttack: calculateAttack(s),
     uiElement: calculateElement(s),
-    uiAffinity: calculateAffinity(s),
-    critMulti: Object.values(s.buffs).reduce(
-      (acc, b) => (b?.criticalBoost ? Math.max(b.criticalBoost, acc) : acc),
-      1.25,
-    ),
-    eleCritMulti: Object.values(s.buffs).reduce(
-      (acc, b) => (b?.criticalElement ? Math.max(b.criticalElement, acc) : acc),
-      1,
-    ),
+    uiAffinity,
+    critMulti:
+      uiAffinity >= 0
+        ? Object.values(s.buffs).reduce(
+            (acc, b) =>
+              b?.criticalBoost ? Math.max(b.criticalBoost, acc) : acc,
+            1.25,
+          )
+        : 0.75,
+    eleCritMulti:
+      uiAffinity >= 0
+        ? Object.values(s.buffs).reduce(
+            (acc, b) =>
+              b?.criticalElement ? Math.max(b.criticalElement, acc) : acc,
+            1,
+          )
+        : 1,
     saPowerPhial: Object.values(s.buffs).some((b) => b?.saPowerPhial),
     saElementPhial: Object.values(s.buffs).some((b) => b?.saElementPhial),
     chargeEleMul: Object.values(s.buffs).reduce((acc, b) => {
@@ -139,6 +149,16 @@ export const useCalcs = () => {
     calcCrit: (atk: Attack) => calculateCrit({ ...s, ...g, ...atk }),
     calcAverage: (hit: number, crit: number) => {
       return calculateAverage(hit, crit, g.uiAffinity);
+    },
+    calculateEleCritMulti: () => {
+      if (g.uiAffinity >= 0) {
+        return Object.values(s.buffs).reduce(
+          (acc, b) =>
+            b?.criticalElement ? Math.max(b.criticalElement, acc) : acc,
+          1,
+        );
+      }
+      return 1;
     },
     calcEffectiveRaw: () => {
       const params = { ...s, ...g, mv: 100, rawHzv: 100, eleHzv: 0 };

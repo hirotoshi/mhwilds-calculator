@@ -1,11 +1,5 @@
-import {
-  Buff,
-  BuffValues,
-  Sharpness,
-  sharpnessEle,
-  sharpnessRaw,
-} from "@/data";
-import { Attack } from "@/types";
+import { sharpnessEle, sharpnessRaw } from "@/data";
+import { Attack, Buff, BuffValues, Sharpness, Weapon } from "@/types";
 
 export const sum = (...args: (number | undefined)[]) => {
   return args.reduce<number>((sum, a) => (a ? sum + a : sum), 0);
@@ -105,11 +99,15 @@ export const calculateAffinity = ({
 };
 
 type RawHitParams = Attack & {
+  weapon?: Weapon;
   uiAttack: number;
   sharpness: Sharpness;
   rawHzv: number;
+  saPowerPhial?: boolean;
+  coatingRawMul?: number;
 };
 export const calculateRawHit = ({
+  weapon,
   uiAttack,
   mv,
   ignoreHzv,
@@ -117,6 +115,9 @@ export const calculateRawHit = ({
   ignoreSharpness,
   sharpness,
   rawMul,
+  saPowerPhial,
+  sword,
+  coatingRawMul,
 }: RawHitParams) => {
   return mul(
     uiAttack,
@@ -124,22 +125,37 @@ export const calculateRawHit = ({
     ignoreHzv ? 1 : rawHzv / 100,
     ignoreSharpness ? 1 : sharpnessRaw[sharpness],
     rawMul,
+    weapon === "Switch Axe" && saPowerPhial && sword ? 1.17 : 1,
+    weapon === "Bow" && coatingRawMul ? coatingRawMul : 1,
   );
 };
 
 type EleHitParams = Attack & {
+  weapon?: Weapon;
+  uiAttack: number;
   uiElement: number;
   sharpness: Sharpness;
   eleHzv: number;
+  saElementPhial?: boolean;
+  sword?: boolean;
+  chargeEleMul?: number;
 };
 export const calculateEleHit = ({
+  weapon,
+  uiAttack,
   uiElement,
   sharpness,
   eleHzv,
   ignoreSharpness,
   fixedEle,
+  rawEle,
   eleMul,
+  saElementPhial,
+  sword,
+  charge,
+  chargeEleMul = 1,
 }: EleHitParams) => {
+  if (rawEle) return uiAttack * (rawEle / 100) * (eleHzv / 100);
   if (fixedEle) return fixedEle * (eleHzv / 100);
   return mul(
     uiElement,
@@ -147,6 +163,8 @@ export const calculateEleHit = ({
     eleHzv / 100,
     ignoreSharpness ? 1 : sharpnessEle[sharpness],
     eleMul,
+    charge ? chargeEleMul : 1,
+    weapon === "Switch Axe" && saElementPhial && sword ? 1.45 : 1,
   );
 };
 
@@ -154,6 +172,9 @@ type HitParams = RawHitParams & EleHitParams;
 export const calculateHit = (params: HitParams) => {
   const r = calculateRawHit(params);
   const e = calculateEleHit(params);
+  if (params.name === "True Charged Slash 2 Lv3 (Power) ") {
+    console.log(e);
+  }
   return round(round(r) + round(e));
 };
 

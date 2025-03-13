@@ -1,8 +1,7 @@
 import { produce } from "immer";
 import { create } from "zustand";
-import { type Buff, Buffs, Sharpness } from "@/data";
-import { Attack, Weapon, isRanged } from "@/types";
-import { ArmorSkills } from "./data/skills";
+import { Buffs } from "@/data";
+import { ArmorSkills } from "@/data/skills";
 import {
   calculateAffinity,
   calculateAttack,
@@ -10,7 +9,8 @@ import {
   calculateCrit,
   calculateElement,
   calculateHit,
-} from "./model";
+} from "@/model";
+import { Attack, Buff, Sharpness, Weapon, isBowgun, isRanged } from "@/types";
 
 export type InitialStore = {
   weapon: Weapon;
@@ -39,52 +39,59 @@ export type Store = InitialStore & {
 };
 
 const initialStore: InitialStore = {
-  weapon: "Sword and Shield",
+  weapon: "Great Sword",
   attack: 200,
   affinity: 0,
-  element: 0,
+  element: 480,
   sharpness: "White",
   frenzy: false,
-  buffs: { Powercharm: Buffs.Powercharm },
+  buffs: { Powercharm: Buffs.Powercharm.levels[0] },
   rawHzv: 80,
   eleHzv: 30,
   isWound: false,
 };
 
-export const useModel = create<Store>((set, get) => ({
+export const useModel = create<Store>((set) => ({
   ...initialStore,
-  setWeapon: (weapon: Weapon) => {
-    set({ weapon });
-    const { buffs, sharpness } = get();
+  setWeapon: (weapon: Weapon) =>
+    set(
+      produce<Store>((d) => {
+        {
+          d.weapon = weapon;
+          const { buffs, sharpness } = d;
 
-    if (isRanged(weapon)) {
-      set({ sharpness: "Ranged" });
-    } else {
-      if (sharpness === "Ranged") set({ sharpness: "White" });
-    }
+          if (isBowgun(weapon)) {
+            d.sharpness = "Bowgun";
+            d.element = 0;
+          }
+          if (weapon === "Bow") d.sharpness = "Bow";
 
-    const replaceSkill = (key: string) => {
-      const skill = Object.entries(buffs).find(([k]) => k.includes(key));
-      if (!skill) return;
-      const newSkill = Object.entries(ArmorSkills).find(([k, s]) => {
-        return k.includes(key) && s.weapons?.includes(weapon);
-      });
-      if (!newSkill) return;
-      const [oldKey, oldValue] = skill;
-      const [newKey, newValue] = newSkill;
-      const newLevel = newValue.levels.find((l) => l.name === oldValue.name);
-      if (!newLevel) return;
-      set(
-        produce((d) => {
-          delete d.buffs[oldKey];
-          d.buffs[newKey] = newLevel;
-        }),
-      );
-    };
+          if (!isRanged(weapon) && ["Bowgun", "Bow"].includes(sharpness)) {
+            d.sharpness = "White";
+          }
 
-    replaceSkill("Burst");
-    replaceSkill("ElementalAbsorption");
-  },
+          const replaceSkill = (key: string) => {
+            const skill = Object.entries(buffs).find(([k]) => k.includes(key));
+            if (!skill) return;
+            const newSkill = Object.entries(ArmorSkills).find(([k, s]) => {
+              return k.includes(key) && s.weapons?.includes(weapon);
+            });
+            if (!newSkill) return;
+            const [oldKey, oldValue] = skill;
+            const [newKey, newValue] = newSkill;
+            const newLevel = newValue.levels.find(
+              (l) => l.name === oldValue.name,
+            );
+            if (!newLevel) return;
+            delete d.buffs[oldKey];
+            d.buffs[newKey] = newLevel;
+          };
+
+          replaceSkill("Burst");
+          replaceSkill("ElementalAbsorption");
+        }
+      }),
+    ),
   setAttack: (attack: number) => set({ attack: attack }),
   setAffinity: (affinity: number) => set({ affinity: affinity }),
   setElement: (element: number) => set({ element: element }),
@@ -115,6 +122,20 @@ export const useGetters = () => {
     ),
     eleCritMulti: Object.values(s.buffs).reduce(
       (acc, b) => (b?.criticalElement ? Math.max(b.criticalElement, acc) : acc),
+      1,
+    ),
+    saPowerPhial: Object.values(s.buffs).some((b) => b?.saPowerPhial),
+    saElementPhial: Object.values(s.buffs).some((b) => b?.saElementPhial),
+    chargeEleMul: Object.values(s.buffs).reduce((acc, b) => {
+      if (isRanged(s.weapon)) {
+        if (b?.rangedChargeEleMul) return Math.max(b.rangedChargeEleMul, acc);
+      } else {
+        if (b?.meleeChargeEleMul) return Math.max(b.meleeChargeEleMul, acc);
+      }
+      return acc;
+    }, 1),
+    coatingRawMul: Object.values(s.buffs).reduce(
+      (acc, b) => (b?.coatingRawMul ? Math.max(b.coatingRawMul, acc) : acc),
       1,
     ),
   };

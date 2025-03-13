@@ -12,17 +12,10 @@ import {
   SkillSelect,
 } from "@/components";
 import { MovesTable } from "@/components/MovesTable";
-import {
-  type Buff,
-  Buffs,
-  FieldBuffs,
-  Sharpnesses,
-  sharpnessEle,
-  sharpnessRaw,
-} from "@/data";
+import { Buffs, FieldBuffs, Sharpnesses, WeaponBuffs, Weapons } from "@/data";
 import { ArmorSkills, SetSkills, WeaponSkills } from "@/data/skills";
 import { useCalcs, useGetters, useModel } from "@/store";
-import { Attack, Weapons, isRanged } from "@/types";
+import { Attack, Buff, isRanged } from "@/types";
 
 export default function Home() {
   const {
@@ -101,9 +94,6 @@ export default function Home() {
       "Gunlance",
       "Charge Blade",
       "Insect Glaive",
-      "Bow",
-      "Light Bowgun",
-      "Heavy Bowgun",
     ];
     if (unsupported.includes(weapon)) setCustom(true);
     else setCustom(false);
@@ -141,6 +131,7 @@ export default function Home() {
               onChangeValue={setElement}
               min={0}
               step={10}
+              disabled={["Light Bowgun", "Heavy Bowgun"].includes(weapon)}
             />
             <NumberInput
               label="Affinity"
@@ -156,8 +147,21 @@ export default function Home() {
               disabled={isRanged(weapon)}
               onChangeValue={setSharpness}
               options={[...Sharpnesses]}
-              description={`Raw: ${sharpnessRaw[sharpness]} Element: ${sharpnessEle[sharpness]}`}
+              // description={`Raw: ${sharpnessRaw[sharpness]} Element: ${sharpnessEle[sharpness]}`}
             />
+            {Object.entries(WeaponBuffs).map(([k, s]) => {
+              if (!s.weapons?.includes(weapon)) return undefined;
+              return (
+                <SkillSelect
+                  key={k}
+                  skill={s}
+                  value={buffs[k]}
+                  label={s.name}
+                  placeholder=""
+                  onChangeValue={(buff) => setBuff(k, buff)}
+                />
+              );
+            })}
           </div>
         </Card>
         <Card>
@@ -256,9 +260,9 @@ export default function Home() {
                 <Checkbox
                   key={k}
                   label={b.name}
-                  value={!!buffs[k]}
+                  value={buffs[k] === b.levels[0]}
                   onChangeValue={(checked) =>
-                    setBuff(k, checked ? b : undefined)
+                    setBuff(k, checked ? b.levels[0] : undefined)
                   }
                 />
               );

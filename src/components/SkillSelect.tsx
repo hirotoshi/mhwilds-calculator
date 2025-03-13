@@ -1,4 +1,4 @@
-import { type Buff, BuffGroup } from "@/data";
+import type { Buff, BuffGroup } from "@/types";
 import { Select, type SelectProps } from ".";
 
 type Props = Omit<SelectProps<Buff | undefined>, "options"> & {

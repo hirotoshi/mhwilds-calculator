@@ -1,8 +1,11 @@
 import { useMemo } from "react";
 import {
+  BowAttacks,
   DualBladesAttacks,
   GreatSwordAttacks,
+  HeavyBowgunAttacks,
   HuntingHornAttacks,
+  LightBowgunAttacks,
   LongSwordAttacks,
   SwitchAxeAttacks,
   SwordAndShieldAttacks,
@@ -23,6 +26,9 @@ export function MovesTable({ override }: { override?: Attack[] }) {
     if (weapon === "Long Sword") return LongSwordAttacks;
     if (weapon === "Switch Axe") return SwitchAxeAttacks;
     if (weapon === "Hunting Horn") return HuntingHornAttacks;
+    if (weapon === "Light Bowgun") return LightBowgunAttacks;
+    if (weapon === "Heavy Bowgun") return HeavyBowgunAttacks;
+    if (weapon === "Bow") return BowAttacks;
     return [];
   }, [override, weapon]);
 
@@ -35,6 +41,7 @@ export function MovesTable({ override }: { override?: Attack[] }) {
       <thead>
         <tr className="border-primary border-b">
           <th className={cellCn}></th>
+          <th className={cellCn}>×</th>
           <th className={cellCn}>Hit</th>
           <th className={cellCn}>Crit</th>
           <th className={cellCn}>Avg</th>
@@ -51,6 +58,7 @@ export function MovesTable({ override }: { override?: Attack[] }) {
               key={a.name}
             >
               <td className={cellCn}>{a.name}</td>
+              <td className={cn(cellCn, "font-mono")}>{a.hits}</td>
               <td className={cn(cellCn, "font-mono")}>{hit}</td>
               <td className={cn(cellCn, "font-mono")}>{!a.cantCrit && crit}</td>
               <td className={cn(cellCn, "text-primary font-mono font-bold")}>

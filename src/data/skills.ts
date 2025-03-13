@@ -1,5 +1,4 @@
-import type { Weapon } from "@/types";
-import type { BuffGroup } from ".";
+import type { BuffGroup, Weapon } from "@/types";
 
 const DBGroup: Weapon[] = ["Dual Blades"];
 const BowGroup: Weapon[] = ["Bow"];
@@ -28,6 +27,26 @@ export const WeaponSkills: Record<string, BuffGroup> = {
       { name: "Attack Boost 5", attack: 9, attackMul: 1.04 },
     ],
   },
+  // ChargeMaster: {
+  //   name: "Charge Master",
+  //   levels: [
+  //     {
+  //       name: "Charge Master 1",
+  //       meleeChargeEleMul: 1.15,
+  //       rangedChargeEleMul: 1.05,
+  //     },
+  //     {
+  //       name: "Charge Master 2",
+  //       meleeChargeEleMul: 1.2,
+  //       rangedChargeEleMul: 1.1,
+  //     },
+  //     {
+  //       name: "Charge Master 3",
+  //       meleeChargeEleMul: 1.25, // TODO: GS TCS seems to multiply these exponentially
+  //       rangedChargeEleMul: 1.15,
+  //     },
+  //   ],
+  // },
   CriticalBoost: {
     name: "Critical Boost",
     levels: [

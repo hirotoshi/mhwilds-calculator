@@ -1,8 +1,26 @@
-import { Weapon } from "@/types";
+import { Buff, BuffGroup, Sharpness } from "@/types";
 import { ArmorSkills, SetSkills, WeaponSkills } from "./skills";
 
+export const Weapons = [
+  "Sword and Shield",
+  "Dual Blades",
+  "Great Sword",
+  "Long Sword",
+  "Hammer",
+  "Hunting Horn",
+  "Lance",
+  "Gunlance",
+  "Switch Axe",
+  "Charge Blade",
+  "Insect Glaive",
+  "Light Bowgun",
+  "Heavy Bowgun",
+  "Bow",
+] as const;
+
 export const Sharpnesses = [
-  "Ranged",
+  "Bowgun",
+  "Bow",
   "Red",
   "Orange",
   "Yellow",
@@ -11,10 +29,9 @@ export const Sharpnesses = [
   "White",
 ] as const;
 
-export type Sharpness = (typeof Sharpnesses)[number];
-
 export const sharpnessRaw: { [K in Sharpness]: number } = {
-  Ranged: 1,
+  Bowgun: 1,
+  Bow: 1.1,
   Red: 0.5,
   Orange: 0.75,
   Yellow: 1,
@@ -24,7 +41,8 @@ export const sharpnessRaw: { [K in Sharpness]: number } = {
 } as const;
 
 export const sharpnessEle: { [K in Sharpness]: number } = {
-  Ranged: 1,
+  Bowgun: 1,
+  Bow: 1,
   Red: 0.25,
   Orange: 0.5,
   Yellow: 0.75,
@@ -33,38 +51,51 @@ export const sharpnessEle: { [K in Sharpness]: number } = {
   White: 1.15,
 } as const;
 
-export type BuffValues = {
-  attack?: number;
-  attackMul?: number;
-  affinity?: number;
-  element?: number;
-  elementMul?: number;
-};
-
-export type Buff = BuffValues & {
-  name?: string;
-  criticalBoost?: number;
-  criticalElement?: number;
-  frenzy?: BuffValues;
-  weakness?: BuffValues;
-  wound?: BuffValues;
-};
-
-export type BuffGroup = {
-  name: string;
-  description?: string;
-  weapons?: Weapon[];
-  levels: Buff[];
-};
-
-export const Buffs: Record<string, Buff> = {
-  Powercharm: { name: "Powercharm", attack: 6 },
-  MightSeed: { name: "Might Seed", attack: 10 },
-  DemonPowder: { name: "Demon Powder", attack: 10 },
+export const WeaponBuffs: Record<string, BuffGroup> = {
   SelfImprovement: {
-    name: "Self-Improvement (HH)",
-    attackMul: 1.2,
-    // weapons: ["Hunting Horn"],
+    name: "Self-Improvement",
+    weapons: ["Hunting Horn"],
+    levels: [{ name: "Self-Improvement", attackMul: 1.2 }],
+  },
+  BowCoating: {
+    name: "Coating",
+    weapons: ["Bow"],
+    levels: [
+      { name: "Power Coating", coatingRawMul: 1.3 },
+      { name: "Close Range Coating", coatingRawMul: 1.4 },
+    ],
+  },
+  SwitchAxePhial: {
+    name: "Phial Type",
+    weapons: ["Switch Axe"],
+    levels: [
+      { name: "Power Phial", saPowerPhial: true },
+      { name: "Element Phial", saElementPhial: true },
+    ],
+  },
+  SpiritGauge: {
+    name: "Spirit Gauge",
+    weapons: ["Long Sword"],
+    levels: [
+      { name: "White", attackMul: 1.025 },
+      { name: "Yellow", attackMul: 1.05 },
+      { name: "Red", attackMul: 1.1 },
+    ],
+  },
+};
+
+export const Buffs: Record<string, BuffGroup> = {
+  Powercharm: {
+    name: "Powercharm",
+    levels: [{ name: "Powercharm", attack: 6 }],
+  },
+  MightSeed: {
+    name: "Might Seed",
+    levels: [{ name: "Might Seed", attack: 10 }],
+  },
+  DemonPowder: {
+    name: "Demon Powder",
+    levels: [{ name: "Demon Powder", attack: 10 }],
   },
 };
 
@@ -103,6 +134,7 @@ export const FieldBuffs: Record<string, BuffGroup> = {
 export const CombinedBuffs = {
   Miscellaneous: { name: "Miscellaneous" },
   ...Buffs,
+  ...WeaponBuffs,
   ...WeaponSkills,
   ...ArmorSkills,
   ...SetSkills,

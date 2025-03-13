@@ -136,27 +136,25 @@ export const useGetters = () => {
       (acc, b) => (b?.coatingRawMul ? Math.max(b.coatingRawMul, acc) : acc),
       1,
     ),
+    artillery: Object.values(s.buffs).reduce((acc, b) => {
+      if (b?.artillery) return Math.max(b.artillery, acc);
+      return acc;
+    }, 0),
   };
 };
 
 export const useCalcs = () => {
   const s = useModel();
   const g = useGetters();
+  const calcHit = (atk: Attack) => calculateHit({ ...s, ...g, ...atk });
+  const calcCrit = (atk: Attack) => calculateCrit({ ...s, ...g, ...atk });
   return {
-    calcHit: (atk: Attack) => calculateHit({ ...s, ...g, ...atk }),
-    calcCrit: (atk: Attack) => calculateCrit({ ...s, ...g, ...atk }),
-    calcAverage: (hit: number, crit: number) => {
-      return calculateAverage(hit, crit, g.uiAffinity);
-    },
-    calculateEleCritMulti: () => {
-      if (g.uiAffinity >= 0) {
-        return Object.values(s.buffs).reduce(
-          (acc, b) =>
-            b?.criticalElement ? Math.max(b.criticalElement, acc) : acc,
-          1,
-        );
-      }
-      return 1;
+    calcHit,
+    calcCrit,
+    calcAverage: (atk: Attack) => {
+      const hit = calcHit(atk);
+      const crit = calcCrit(atk);
+      return calculateAverage(hit, crit, atk.cantCrit ? 0 : g.uiAffinity);
     },
     calcEffectiveRaw: () => {
       const params = { ...s, ...g, mv: 100, rawHzv: 100, eleHzv: 0 };

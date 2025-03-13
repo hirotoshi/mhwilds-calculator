@@ -12,7 +12,14 @@ import {
   SkillSelect,
 } from "@/components";
 import { MovesTable } from "@/components/MovesTable";
-import { Buffs, FieldBuffs, Sharpnesses, WeaponBuffs, Weapons } from "@/data";
+import {
+  Buffs,
+  FieldBuffs,
+  HuntingHornBuffs,
+  Sharpnesses,
+  WeaponBuffs,
+  Weapons,
+} from "@/data";
 import Attacks from "@/data/attacks";
 import { ArmorSkills, SetSkills, WeaponSkills } from "@/data/skills";
 import { useCalcs, useGetters, useModel } from "@/store";
@@ -89,7 +96,7 @@ export default function Home() {
   }, [miscBuff, setBuff]);
 
   useEffect(() => {
-    if (Attacks[weapon]) setCustom(false);
+    if (Attacks[weapon].length > 0) setCustom(false);
     else setCustom(true);
   }, [weapon, setCustom]);
 
@@ -311,6 +318,23 @@ export default function Home() {
                 onChangeValue={setMiscAffinity}
               />
             )}
+          </div>
+          <div className="flex flex-col gap-2">
+            <h2 className="text-xs">Hunting Horn</h2>
+            <div className="grid grid-cols-2 gap-2 md:grid-cols-3 lg:grid-cols-4">
+              {Object.entries(HuntingHornBuffs).map(([k, b]) => {
+                if (hideBuffs && !buffs[k]) return undefined;
+                return (
+                  <SkillSelect
+                    key={k}
+                    value={buffs[k]}
+                    skill={b}
+                    placeholder={b.name}
+                    onChangeValue={(buff) => setBuff(k, buff)}
+                  />
+                );
+              })}
+            </div>
           </div>
         </Card>
       </div>

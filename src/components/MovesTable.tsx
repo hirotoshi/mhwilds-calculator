@@ -32,7 +32,7 @@ export function MovesTable({ override }: { override?: Attack[] }) {
         {attacks.map((a) => {
           const hit = calcHit(a);
           const crit = calcCrit(a);
-          const avg = calcAverage(hit, crit);
+          const avg = calcAverage(a);
           return (
             <tr
               className="border-b border-zinc-800 p-1.5 last:border-0"

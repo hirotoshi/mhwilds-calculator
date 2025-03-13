@@ -47,6 +47,14 @@ export const WeaponSkills: Record<string, BuffGroup> = {
       },
     ],
   },
+  Artillery: {
+    name: "Artillery",
+    levels: [
+      { name: "Artillery 1", artillery: 0.05 },
+      { name: "Artillery 2", artillery: 0.1 },
+      { name: "Artillery 3", artillery: 0.15 },
+    ],
+  },
   CriticalBoost: {
     name: "Critical Boost",
     levels: [

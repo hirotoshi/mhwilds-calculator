@@ -1,4 +1,4 @@
-import { Buff, BuffGroup, Sharpness } from "@/types";
+import { BuffGroup, Sharpness } from "@/types";
 import { ArmorSkills, SetSkills, WeaponSkills } from "./skills";
 
 export const Weapons = [
@@ -121,15 +121,29 @@ export const FieldBuffs: Record<string, BuffGroup> = {
       { name: "Stage 2", attackMul: 1.1, affinity: 30 },
     ],
   },
-  HuntingHorn: {
-    name: "Hunting Horn",
+};
+
+export const HuntingHornBuffs: Record<string, BuffGroup> = {
+  HornAttackUp: {
+    name: "Attack Up",
     levels: [
       { name: "Attack Up (S)", attackMul: 1.05 },
       { name: "Attack Up (L)", attackMul: 1.1 },
     ],
   },
+  HornElementUp: {
+    name: "Elem Attack Boost",
+    levels: [{ name: "Elem Attack Up", elementMul: 1.1 }],
+  },
+  HornAffinityUp: {
+    name: "Affinity Up",
+    levels: [{ name: "Affinity Up", affinity: 15 }],
+  },
+  HornEchoBubble: {
+    name: "Echo Bubble",
+    levels: [{ name: "Attack & Affinity Up", attackMul: 1.1, affinity: 25 }],
+  },
 };
-
 // make TypeScript complain if two buffs share a key
 export const CombinedBuffs: Record<string, BuffGroup> = {
   ...Buffs,
@@ -138,4 +152,5 @@ export const CombinedBuffs: Record<string, BuffGroup> = {
   ...ArmorSkills,
   ...SetSkills,
   ...FieldBuffs,
+  ...HuntingHornBuffs,
 };

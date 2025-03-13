@@ -100,13 +100,17 @@ export const calculateAffinity = ({
 
 type RawHitParams = Attack & {
   weapon?: Weapon;
+  attack: number;
   uiAttack: number;
   sharpness: Sharpness;
   rawHzv: number;
   saPowerPhial?: boolean;
   coatingRawMul?: number;
+  artillery?: number;
+  shelling?: boolean;
 };
 export const calculateRawHit = ({
+  attack,
   weapon,
   uiAttack,
   mv,
@@ -118,9 +122,11 @@ export const calculateRawHit = ({
   saPowerPhial,
   sword,
   coatingRawMul,
+  artillery = 0,
+  shelling,
 }: RawHitParams) => {
   return mul(
-    uiAttack,
+    sum(uiAttack, shelling ? artillery * attack : 0),
     mv / 100,
     ignoreHzv ? 1 : rawHzv / 100,
     ignoreSharpness ? 1 : sharpnessRaw[sharpness],

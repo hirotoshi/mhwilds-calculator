@@ -23,6 +23,7 @@ export type Buff = BuffValues & {
   meleeChargeEleMul?: number;
   rangedChargeEleMul?: number;
   coatingRawMul?: number;
+  artillery?: number;
 };
 
 export type BuffGroup = {
@@ -51,6 +52,7 @@ export type Attack = {
   charge?: boolean; // Charge Master
   total?: boolean;
   hits?: number;
+  shelling?: boolean;
 };
 
 export const isRanged = (weapon: Weapon) => {

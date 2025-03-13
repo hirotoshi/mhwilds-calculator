@@ -131,7 +131,7 @@ export const FieldBuffs: Record<string, BuffGroup> = {
 };
 
 // make TypeScript complain if two buffs share a key
-export const CombinedBuffs = {
+export const CombinedBuffs: Record<string, BuffGroup | Buff> = {
   Miscellaneous: { name: "Miscellaneous" },
   ...Buffs,
   ...WeaponBuffs,
@@ -139,4 +139,4 @@ export const CombinedBuffs = {
   ...ArmorSkills,
   ...SetSkills,
   ...FieldBuffs,
-} satisfies Record<string, BuffGroup | Buff>;
+};

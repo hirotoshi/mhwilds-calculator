@@ -1,6 +1,6 @@
 import { produce } from "immer";
 import { create } from "zustand";
-import { Buffs } from "@/data";
+import { Buffs, CombinedBuffs, WeaponBuffs } from "@/data";
 import { ArmorSkills } from "@/data/skills";
 import {
   calculateAffinity,
@@ -39,10 +39,10 @@ export type Store = InitialStore & {
 };
 
 const initialStore: InitialStore = {
-  weapon: "Great Sword",
+  weapon: "Sword and Shield",
   attack: 200,
   affinity: 0,
-  element: 480,
+  element: 0,
   sharpness: "White",
   frenzy: false,
   buffs: { Powercharm: Buffs.Powercharm.levels[0] },
@@ -58,7 +58,7 @@ export const useModel = create<Store>((set) => ({
       produce<Store>((d) => {
         {
           d.weapon = weapon;
-          const { buffs, sharpness } = d;
+          const { sharpness } = d;
 
           if (isBowgun(weapon)) {
             d.sharpness = "Bowgun";
@@ -70,25 +70,15 @@ export const useModel = create<Store>((set) => ({
             d.sharpness = "White";
           }
 
-          const replaceSkill = (key: string) => {
-            const skill = Object.entries(buffs).find(([k]) => k.includes(key));
-            if (!skill) return;
-            const newSkill = Object.entries(ArmorSkills).find(([k, s]) => {
-              return k.includes(key) && s.weapons?.includes(weapon);
-            });
-            if (!newSkill) return;
-            const [oldKey, oldValue] = skill;
-            const [newKey, newValue] = newSkill;
-            const newLevel = newValue.levels.find(
-              (l) => l.name === oldValue.name,
-            );
-            if (!newLevel) return;
-            delete d.buffs[oldKey];
-            d.buffs[newKey] = newLevel;
-          };
-
-          replaceSkill("Burst");
-          replaceSkill("ElementalAbsorption");
+          Object.entries(CombinedBuffs).forEach(([key, value]) => {
+            if (
+              "weapons" in value &&
+              value.weapons &&
+              !value.weapons.includes(weapon)
+            ) {
+              delete d.buffs[key];
+            }
+          });
         }
       }),
     ),

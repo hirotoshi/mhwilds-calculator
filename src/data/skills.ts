@@ -50,9 +50,9 @@ export const WeaponSkills: Record<string, BuffGroup> = {
   Artillery: {
     name: "Artillery",
     levels: [
-      { name: "Artillery 1", artillery: 0.05 },
-      { name: "Artillery 2", artillery: 0.1 },
-      { name: "Artillery 3", artillery: 0.15 },
+      { name: "Artillery 1", artilleryEle: 3, artilleryBaseMul: 0.05 },
+      { name: "Artillery 2", artilleryEle: 6, artilleryBaseMul: 0.1 },
+      { name: "Artillery 3", artilleryEle: 9, artilleryBaseMul: 0.15 },
     ],
   },
   CriticalBoost: {
@@ -114,8 +114,6 @@ export const ArmorSkills: Record<string, BuffGroup> = {
   },
   Agitator: {
     name: "Agitator",
-    description:
-      "Increases attack power and affinity when large monsters become enraged.",
     levels: [
       { name: "Agitator 1", attack: 4, affinity: 3 },
       { name: "Agitator 2", attack: 8, affinity: 5 },
@@ -126,8 +124,6 @@ export const ArmorSkills: Record<string, BuffGroup> = {
   },
   Ambush: {
     name: "Ambush",
-    description:
-      "Temporarily increases damage to large monsters with a successful Sneak Attack.",
     levels: [
       { name: "Ambush 1", attackMul: 1.05 },
       { name: "Ambush 2", attackMul: 1.1 },
@@ -136,8 +132,6 @@ export const ArmorSkills: Record<string, BuffGroup> = {
   },
   Antivirus: {
     name: "Antivirus",
-    description:
-      "Once infected, makes it easier to overcome the Frenzy and increases affinity if cured.",
     levels: [
       { name: "Antivirus 1", frenzy: { affinity: 3 } },
       { name: "Antivirus 2", frenzy: { affinity: 6 } },
@@ -217,7 +211,6 @@ export const ArmorSkills: Record<string, BuffGroup> = {
   },
   Counterstrike: {
     name: "Counterstrike",
-    description: "Temporarily increases attack power after being knocked back.",
     levels: [
       { name: "Counterstrike 1", attack: 10 },
       { name: "Counterstrike 2", attack: 15 },
@@ -286,8 +279,6 @@ export const ArmorSkills: Record<string, BuffGroup> = {
   },
   Foray: {
     name: "Foray",
-    description:
-      "Increases attack power and affinity against large monsters affected by poison or paralysis.",
     levels: [
       { name: "Foray 1", attack: 6 },
       { name: "Foray 2", attack: 8, affinity: 5 },
@@ -298,8 +289,6 @@ export const ArmorSkills: Record<string, BuffGroup> = {
   },
   Heroics: {
     name: "Heroics",
-    description:
-      "Increases attack power and defense when health drops to 35% or lower.",
     levels: [
       { name: "Heroics 1" },
       { name: "Heroics 2", attackMul: 1.05 },
@@ -310,8 +299,6 @@ export const ArmorSkills: Record<string, BuffGroup> = {
   },
   LatentPower: {
     name: "Latent Power",
-    description:
-      "Temporarily increases affinity and reduces stamina depletion when certain conditions are met.",
     levels: [
       { name: "Latent Power 1", affinity: 10 },
       { name: "Latent Power 2", affinity: 20 },
@@ -330,7 +317,6 @@ export const ArmorSkills: Record<string, BuffGroup> = {
   },
   PeakPerformance: {
     name: "Peak Performance",
-    description: "Increases attack when your health is full.",
     levels: [
       { name: "Peak Performance 1", attack: 3 },
       { name: "Peak Performance 2", attack: 6 },
@@ -341,8 +327,6 @@ export const ArmorSkills: Record<string, BuffGroup> = {
   },
   Resentment: {
     name: "Resentment",
-    description:
-      "Increases attack when you have recoverable damage (the red portion of your Health Gauge).",
     levels: [
       { name: "Resentment 1", attack: 5 },
       { name: "Resentment 2", attack: 10 },
@@ -386,8 +370,6 @@ export const ArmorSkills: Record<string, BuffGroup> = {
 export const SetSkills: Record<string, BuffGroup> = {
   DoshagumasMight: {
     name: "Doshaguma's Might",
-    description:
-      "Temporarily grants attack after a successful Power Clash or Offset attack.",
     levels: [
       { name: "Powerhouse I", attack: 10 },
       { name: "Powerhouse II", attack: 25 },
@@ -409,8 +391,6 @@ export const SetSkills: Record<string, BuffGroup> = {
   },
   GoreMagalasTyranny: {
     name: "Gore Magala's Tyranny",
-    description:
-      "Temporarily grants attack after a successful Power Clash or Offset attack.",
     levels: [
       { name: "Black Eclipse I" },
       { name: "Black Eclipse II", attack: 10, frenzy: { attack: 5 } },
@@ -418,8 +398,6 @@ export const SetSkills: Record<string, BuffGroup> = {
   },
   XuWusVigor: {
     name: "Xu Wu's Vigor",
-    description:
-      "Temporarily grants attack after eating items such as well-done steak.",
     levels: [
       { name: "Protein Fiend I", attack: 15 },
       { name: "Protein Fiend II", attack: 25 },

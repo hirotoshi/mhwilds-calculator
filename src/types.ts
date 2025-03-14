@@ -23,7 +23,8 @@ export type Buff = BuffValues & {
   meleeChargeEleMul?: number;
   rangedChargeEleMul?: number;
   coatingRawMul?: number;
-  artillery?: number;
+  artilleryBaseMul?: number; // base attack multiplier
+  artilleryEle?: number; // bonus fixed fire damage
 };
 
 export type BuffGroup = {
@@ -45,7 +46,7 @@ export type Attack = {
   eleMul?: number;
   fixedEle?: number;
   rawEle?: number;
-  ignoreHzv?: boolean;
+  ignoreHzv?: boolean; // only applies to raw hitzone
   cantCrit?: boolean;
   ignoreSharpness?: boolean;
   sword?: boolean; // Switch Axe Phial

@@ -100,17 +100,16 @@ export const calculateAffinity = ({
 
 type RawHitParams = Attack & {
   weapon?: Weapon;
-  attack: number;
+  attack?: number;
   uiAttack: number;
   sharpness: Sharpness;
   rawHzv: number;
   saPowerPhial?: boolean;
   coatingRawMul?: number;
-  artillery?: number;
+  artilleryBaseMul?: number;
   shelling?: boolean;
 };
 export const calculateRawHit = ({
-  attack,
   weapon,
   uiAttack,
   mv,
@@ -122,11 +121,12 @@ export const calculateRawHit = ({
   saPowerPhial,
   sword,
   coatingRawMul,
-  artillery = 0,
+  artilleryBaseMul = 0,
+  attack = 0, // TODO: refactor to remove ambiguity with uiAttack
   shelling,
 }: RawHitParams) => {
   return mul(
-    sum(uiAttack, shelling ? artillery * attack : 0),
+    sum(uiAttack, shelling ? artilleryBaseMul * attack : 0),
     mv / 100,
     ignoreHzv ? 1 : rawHzv / 100,
     ignoreSharpness ? 1 : sharpnessRaw[sharpness],
@@ -145,6 +145,7 @@ type EleHitParams = Attack & {
   saElementPhial?: boolean;
   sword?: boolean;
   chargeEleMul?: number;
+  artilleryEle?: number;
 };
 export const calculateEleHit = ({
   weapon,
@@ -160,9 +161,14 @@ export const calculateEleHit = ({
   sword,
   charge,
   chargeEleMul = 1,
+  shelling,
+  artilleryEle = 0,
 }: EleHitParams) => {
-  if (rawEle) return uiAttack * (rawEle / 100) * (eleHzv / 100);
-  if (fixedEle) return fixedEle * (eleHzv / 100);
+  if (rawEle) return mul(uiAttack, rawEle / 100, eleHzv / 100);
+  if (fixedEle) {
+    const e = sum(fixedEle, shelling ? artilleryEle : 0);
+    return mul(e, eleHzv / 100, eleMul);
+  }
   return mul(
     uiElement,
     0.1,
@@ -178,9 +184,6 @@ type HitParams = RawHitParams & EleHitParams;
 export const calculateHit = (params: HitParams) => {
   const r = calculateRawHit(params);
   const e = calculateEleHit(params);
-  if (params.name === "True Charged Slash 2 Lv3 (Power) ") {
-    console.log(e);
-  }
   return round(round(r) + round(e));
 };
 

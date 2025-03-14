@@ -136,8 +136,12 @@ export const useGetters = () => {
       (acc, b) => (b?.coatingRawMul ? Math.max(b.coatingRawMul, acc) : acc),
       1,
     ),
-    artillery: Object.values(s.buffs).reduce((acc, b) => {
-      if (b?.artillery) return Math.max(b.artillery, acc);
+    artilleryBaseMul: Object.values(s.buffs).reduce((acc, b) => {
+      if (b?.artilleryBaseMul) return Math.max(b.artilleryBaseMul, acc);
+      return acc;
+    }, 0),
+    artilleryEle: Object.values(s.buffs).reduce((acc, b) => {
+      if (b?.artilleryEle) return Math.max(b.artilleryEle, acc);
       return acc;
     }, 0),
   };

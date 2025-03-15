@@ -34,8 +34,6 @@ export const SwitchAxeAttacks = [
   { name: "Axe: Morph Slash", mv: 34, saType: "Axe" },
   { name: "Axe: Morph Rising Double Slash 1", mv: 24, saType: "Sword" },
   { name: "Axe: Morph Rising Double Slash 2", mv: 20, saType: "Sword" },
-  { name: "Axe: Spiral Burst Slash 1", mv: 30 },
-  { name: "Axe: Spiral Burst Slash 2", mv: 41 },
   { name: "Sword: Overhead Slash", mv: 33, saType: "Sword" },
   { name: "Sword: Left Rising Slash", mv: 42, saType: "Sword" },
   { name: "Sword: Right Rising Slash", mv: 48, saType: "Sword" },

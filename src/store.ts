@@ -133,7 +133,7 @@ export const useGetters = () => {
     chargeEleMul: isRanged(s.weapon)
       ? (s.buffs.ChargeMaster?.rangedChargeEleMul ?? 1)
       : (s.buffs.ChargeMaster?.meleeChargeEleMul ?? 1),
-    coatingRawMul: s.buffs.Coating?.coatingRawMul ?? 1,
+    coatingRawMul: s.buffs.BowCoating?.coatingRawMul ?? 1,
     artilleryBaseMul: s.buffs.Artillery?.artilleryBaseMul ?? 0,
     artilleryEle: s.buffs.Artillery?.artilleryEle ?? 0,
   };

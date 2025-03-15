@@ -10,6 +10,8 @@ import {
 } from "@/model";
 import { Sharpness, Weapon } from "@/types";
 
+// TODO: refactor tests to use store instead of manually inserting values
+
 const display = (n: number) => Math.floor(n + 0.1);
 
 const buff = (key: string, level: number = 1) => {

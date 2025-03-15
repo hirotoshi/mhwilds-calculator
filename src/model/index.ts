@@ -120,20 +120,19 @@ export const calculateRawHit = ({
   ignoreSharpness,
   sharpness,
   rawMul,
-  sword,
+  saType,
   coatingRawMul,
   artilleryBaseMul = 0,
-  attack = 0, // TODO: refactor to remove ambiguity with uiAttack
+  attack = 0, // TODO: refactor to remove ambiguity with uiAttack?
   shelling,
   swordAttack = uiAttack,
   powerAxe,
-  axe,
 }: RawHitParams) => {
   return mul(
     sum(
-      sword ? swordAttack : uiAttack,
+      saType === "Sword" ? swordAttack : uiAttack,
       shelling ? artilleryBaseMul * attack : 0,
-      powerAxe && axe ? 10 : 0,
+      powerAxe && saType === "Axe" ? 10 : 0,
     ),
     mv / 100,
     ignoreHzv ? 1 : rawHzv / 100,
@@ -164,7 +163,7 @@ export const calculateEleHit = ({
   fixedEle,
   rawEle,
   eleMul,
-  sword,
+  saType,
   charge,
   chargeEleMul = 1,
   shelling,
@@ -178,7 +177,7 @@ export const calculateEleHit = ({
     return mul(e, eleHzv, eleMul);
   }
   return mul(
-    sword ? swordElement : uiElement,
+    saType === "Sword" ? swordElement : uiElement,
     0.1,
     eleHzv,
     ignoreSharpness ? 1 : sharpnessEle[sharpness],

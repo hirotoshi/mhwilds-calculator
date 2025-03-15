@@ -157,7 +157,7 @@ export const HuntingHornBuffs: Record<string, BuffGroup> = {
     levels: [{ name: "Attack & Affinity Up", attackMul: 1.1, affinity: 25 }],
   },
 };
-// make TypeScript complain if two buffs share a key
+// TODO: make TypeScript complain if two buffs share a key
 export const CombinedBuffs: Record<string, BuffGroup> = {
   ...Buffs,
   ...WeaponBuffs,

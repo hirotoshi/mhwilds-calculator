@@ -51,7 +51,7 @@ export type Attack = {
   cantCrit?: boolean;
   ignoreSharpness?: boolean;
   axe?: boolean; // Switch Axe Axe Mode
-  sword?: boolean; // Switch Axe Sword Mode
+  saType?: "Sword" | "Axe"; // Switch Axe Sword Mode
   charge?: boolean; // Charge Master
   total?: boolean;
   hits?: number;

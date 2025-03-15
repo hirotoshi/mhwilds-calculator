@@ -332,7 +332,7 @@ export const ArmorSkills: Record<string, BuffGroup> = {
       { name: "Resentment 2", attack: 10 },
       { name: "Resentment 3", attack: 15 },
       { name: "Resentment 4", attack: 20 },
-      { name: "Resentment 5", attack: 15 },
+      { name: "Resentment 5", attack: 25 },
     ],
   },
   WeaknessExploit: {

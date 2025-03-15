@@ -386,7 +386,7 @@ export const GunlanceAttacks: Attack[] = [
   },
   {
     name: "Wide Lv3 Wyvern Fire 1",
-    mv: 51,
+    mv: 54,
     fixedEle: 30,
     shelling: true,
     ignoreSharpness: true,
@@ -395,7 +395,7 @@ export const GunlanceAttacks: Attack[] = [
   },
   {
     name: "Wide Lv3 Wyvern Fire 2",
-    mv: 51,
+    mv: 54,
     fixedEle: 30,
     eleHzvCap: 5,
     shelling: true,

@@ -4,6 +4,7 @@ export * from "./Checkbox";
 export * from "./Dialog";
 export * from "./InputContainer";
 export * from "./MovesTable";
+export * from "./Notice";
 export * from "./NumberDisplay";
 export * from "./NumberInput";
 export * from "./Select";

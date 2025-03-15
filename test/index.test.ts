@@ -6,6 +6,7 @@ import {
   calculateCrit,
   calculateElement,
   calculateHit,
+  round,
 } from "@/model";
 import { Sharpness, Weapon } from "@/types";
 
@@ -337,10 +338,10 @@ test("Gunlance", () => {
 
   const s = atk("Gunlance", "Wide Lv3 Shell");
   const cs = atk("Gunlance", "Wide Lv3 Charged Shell");
-  const wf = atk("Gunlance", "Wide Lv3 Wyvern Fire 1st Hit");
-  const wfh = atk("Gunlance", "Wide Lv3 Wyvern Fire Hits");
+  const wf = atk("Gunlance", "Wide Lv3 Wyvern Fire 1");
+  const wfh = atk("Gunlance", "Wide Lv3 Wyvern Fire 2");
   const ws = atk("Gunlance", "Wyrmstake Lv3 Ticks");
-  const wse = atk("Gunlance", "Wide Lv3 Wyrmstake Explosion");
+  const wse = atk("Gunlance", "Normal / Wide Lv3 Wyrmstake Explosion");
 
   expect(calculateHit({ ...a1, ...s })).toBe(61.2);
   expect(calculateHit({ ...a1, ...cs })).toBe(107.3);
@@ -378,4 +379,21 @@ test("Gunlance", () => {
   expect(calculateHit({ ...a5, ...cs })).toBe(129.8);
   expect(calculateHit({ ...a5, ...wf })).toBe(162.9);
   expect(calculateHit({ ...a5, ...wfh })).toBe(162.9);
+});
+
+test("Switch Axe", () => {
+  const a1 = {
+    ...base,
+    uiAttack: 221,
+    sharpness: "White" as Sharpness,
+    uiElement: 300,
+    swordElement: round(200 * 1.45 * 1.2 + 60),
+    swordAttack: 221,
+    eleCritMulti: 1.05,
+  };
+
+  const ep = atk("Switch Axe", "Sword: Amped State Element Phial Explosion");
+
+  expect(calculateHit({ ...a1, ...ep })).toBe(34.3);
+  expect(calculateCrit({ ...a1, ...ep })).toBe(41.6);
 });

@@ -102,9 +102,11 @@ type RawHitParams = Attack & {
   weapon?: Weapon;
   attack?: number;
   uiAttack: number;
+  swordAttack?: number;
   sharpness: Sharpness;
   rawHzv: number;
-  saPowerPhial?: boolean;
+  powerAxe?: boolean;
+  saPhial?: "Power" | "Element";
   coatingRawMul?: number;
   artilleryBaseMul?: number;
   shelling?: boolean;
@@ -118,20 +120,25 @@ export const calculateRawHit = ({
   ignoreSharpness,
   sharpness,
   rawMul,
-  saPowerPhial,
   sword,
   coatingRawMul,
   artilleryBaseMul = 0,
   attack = 0, // TODO: refactor to remove ambiguity with uiAttack
   shelling,
+  swordAttack = uiAttack,
+  powerAxe,
+  axe,
 }: RawHitParams) => {
   return mul(
-    sum(uiAttack, shelling ? artilleryBaseMul * attack : 0),
+    sum(
+      sword ? swordAttack : uiAttack,
+      shelling ? artilleryBaseMul * attack : 0,
+      powerAxe && axe ? 10 : 0,
+    ),
     mv / 100,
     ignoreHzv ? 1 : rawHzv / 100,
     ignoreSharpness ? 1 : sharpnessRaw[sharpness],
     rawMul,
-    weapon === "Switch Axe" && saPowerPhial && sword ? 1.17 : 1,
     weapon === "Bow" && coatingRawMul ? coatingRawMul : 1,
   );
 };
@@ -140,24 +147,23 @@ type EleHitParams = Attack & {
   weapon?: Weapon;
   uiAttack: number;
   uiElement: number;
+  swordElement?: number;
   sharpness: Sharpness;
   eleHzv: number;
-  saElementPhial?: boolean;
   sword?: boolean;
   chargeEleMul?: number;
   artilleryEle?: number;
 };
 export const calculateEleHit = ({
-  weapon,
   uiAttack,
   uiElement,
+  swordElement = uiElement,
   sharpness,
   eleHzv,
   ignoreSharpness,
   fixedEle,
   rawEle,
   eleMul,
-  saElementPhial,
   sword,
   charge,
   chargeEleMul = 1,
@@ -172,13 +178,12 @@ export const calculateEleHit = ({
     return mul(e, eleHzv, eleMul);
   }
   return mul(
-    uiElement,
+    sword ? swordElement : uiElement,
     0.1,
     eleHzv,
     ignoreSharpness ? 1 : sharpnessEle[sharpness],
     eleMul,
     charge ? chargeEleMul : 1,
-    weapon === "Switch Axe" && saElementPhial && sword ? 1.45 : 1,
   );
 };
 

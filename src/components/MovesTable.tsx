@@ -22,7 +22,7 @@ export function MovesTable({ override }: { override?: Attack[] }) {
       <thead>
         <tr className="border-primary border-b">
           <th className={cellCn}></th>
-          <th className={cellCn}>×</th>
+          <th className={cellCn}></th>
           <th className={cellCn}>Hit</th>
           <th className={cellCn}>Crit</th>
           <th className={cellCn}>Avg</th>
@@ -39,7 +39,9 @@ export function MovesTable({ override }: { override?: Attack[] }) {
               key={a.name}
             >
               <td className={cellCn}>{a.name}</td>
-              <td className={cn(cellCn, "font-mono")}>{a.hits}</td>
+              <td className={cn(cellCn, "font-mono")}>
+                {a.hits && `${a.hits}x`}
+              </td>
               <td className={cn(cellCn, "font-mono")}>{hit}</td>
               <td className={cn(cellCn, "font-mono")}>{!a.cantCrit && crit}</td>
               <td className={cn(cellCn, "text-primary font-mono font-bold")}>

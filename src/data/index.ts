@@ -65,12 +65,25 @@ export const WeaponBuffs: Record<string, BuffGroup> = {
       { name: "Close Range Coating", coatingRawMul: 1.4 },
     ],
   },
+  SwitchAxePowerAxe: {
+    name: "Power Axe",
+    weapons: ["Switch Axe"],
+    levels: [{ name: "Power Axe", powerAxe: true }],
+  },
   SwitchAxePhial: {
     name: "Phial Type",
     weapons: ["Switch Axe"],
     levels: [
-      { name: "Power Phial", saPowerPhial: true },
-      { name: "Element Phial", saElementPhial: true },
+      { name: "Power Phial", saPhial: "Power" },
+      { name: "Element Phial", saPhial: "Element" },
+    ],
+  },
+  KinsectExtracts: {
+    name: "Extracts",
+    weapons: ["Insect Glaive"],
+    levels: [
+      { name: "Red + White", attackMul: 1.1 },
+      { name: "Red + White + Yellow", attackMul: 1.15 },
     ],
   },
   SpiritGauge: {

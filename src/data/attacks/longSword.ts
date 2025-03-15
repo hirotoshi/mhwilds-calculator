@@ -70,6 +70,6 @@ export const LongSwordAttacks = [
   { name: "Spirit Helmbreaker (Yellow)", mv: 20, eleMul: 0.2 },
   { name: "Spirit Helmbreaker (Red)", mv: 23, eleMul: 0.2 },
   { name: "Spirit Release Slash 1", mv: 5 },
-  { name: "Spirit Release Slash 2 / 3 / 4", mv: 9, eleMul: 0.1 },
-  { name: "Spirit Release Slash 5", mv: 32, eleMul: 0.1 },
+  { name: "Spirit Release Slash 2", mv: 9, eleMul: 0.1, hits: 3 },
+  { name: "Spirit Release Slash 3", mv: 32, eleMul: 0.1 },
 ] satisfies Attack[];

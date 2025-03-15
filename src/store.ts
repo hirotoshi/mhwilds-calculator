@@ -103,50 +103,39 @@ export const useModel = create<Store>((set) => ({
 export const useGetters = () => {
   const s = useModel();
   const uiAffinity = calculateAffinity(s);
-  // TODO: refactor all the reducers into a single reducer
   const buffs = Object.values(s.buffs);
+  const saPhial = buffs.find((b) => b?.saPhial)?.saPhial;
+
   return {
     uiAttack: calculateAttack(s),
     uiElement: calculateElement(s),
+    swordAttack: calculateAttack(
+      produce(s, (d) => {
+        if (d.buffs.SwitchAxePhial?.saPhial === "Power") {
+          d.buffs.SwitchAxePhialBuff = { attackMul: 1.17 };
+        }
+      }),
+    ),
+    swordElement: calculateElement(
+      produce(s, (d) => {
+        if (d.buffs.SwitchAxePhial?.saPhial === "Element") {
+          d.buffs.SwitchAxePhialBuff = { elementMul: 1.45 };
+        }
+      }),
+    ),
     uiAffinity,
     critMulti:
-      uiAffinity >= 0
-        ? buffs.reduce(
-            (acc, b) =>
-              b?.criticalBoost ? Math.max(b.criticalBoost, acc) : acc,
-            1.25,
-          )
-        : 0.75,
+      uiAffinity >= 0 ? (s.buffs.CriticalBoost?.criticalBoost ?? 1.25) : 0.75,
     eleCritMulti:
-      uiAffinity >= 0
-        ? buffs.reduce(
-            (acc, b) =>
-              b?.criticalElement ? Math.max(b.criticalElement, acc) : acc,
-            1,
-          )
-        : 1,
-    saPowerPhial: buffs.some((b) => b?.saPowerPhial),
-    saElementPhial: buffs.some((b) => b?.saElementPhial),
-    chargeEleMul: buffs.reduce((acc, b) => {
-      if (isRanged(s.weapon)) {
-        if (b?.rangedChargeEleMul) return Math.max(b.rangedChargeEleMul, acc);
-      } else {
-        if (b?.meleeChargeEleMul) return Math.max(b.meleeChargeEleMul, acc);
-      }
-      return acc;
-    }, 1),
-    coatingRawMul: buffs.reduce((acc, b) => {
-      if (b?.coatingRawMul) return Math.max(b.coatingRawMul, acc);
-      return acc;
-    }, 1),
-    artilleryBaseMul: buffs.reduce((acc, b) => {
-      if (b?.artilleryBaseMul) return Math.max(b.artilleryBaseMul, acc);
-      return acc;
-    }, 0),
-    artilleryEle: buffs.reduce((acc, b) => {
-      if (b?.artilleryEle) return Math.max(b.artilleryEle, acc);
-      return acc;
-    }, 0),
+      uiAffinity >= 0 ? (s.buffs.CriticalElement?.criticalElement ?? 1) : 1,
+    powerAxe: s.buffs.SwitchAxePowerAxe?.powerAxe,
+    saPhial,
+    chargeEleMul: isRanged(s.weapon)
+      ? (s.buffs.ChargeMaster?.rangedChargeEleMul ?? 1)
+      : (s.buffs.ChargeMaster?.meleeChargeEleMul ?? 1),
+    coatingRawMul: s.buffs.Coating?.coatingRawMul ?? 1,
+    artilleryBaseMul: s.buffs.Artillery?.artilleryBaseMul ?? 0,
+    artilleryEle: s.buffs.Artillery?.artilleryEle ?? 0,
   };
 };
 

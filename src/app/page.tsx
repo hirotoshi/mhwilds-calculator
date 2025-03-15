@@ -49,7 +49,7 @@ export default function Home() {
     setIsWound,
   } = useModel();
   const { uiAttack, uiElement, uiAffinity } = useGetters();
-  const { calcEffectiveRaw } = useCalcs();
+  const { calcEffectiveRaw, calcEffectiveEle } = useCalcs();
 
   const [miscAttack, setMiscAttack] = useState(0);
   const [miscAttackMul, setMiscAttackMul] = useState(0);
@@ -79,6 +79,7 @@ export default function Home() {
   const [fixedEle] = useState(0);
 
   const efr = useMemo(() => calcEffectiveRaw(), [calcEffectiveRaw]);
+  const efe = useMemo(() => calcEffectiveEle(), [calcEffectiveEle]);
 
   const customAttack: Attack = useMemo(
     () => ({
@@ -347,7 +348,8 @@ export default function Home() {
             <NumberDisplay label="Attack" value={uiAttack} />
             <NumberDisplay label="Element" value={uiElement} />
             <NumberDisplay label="Affinity" value={uiAffinity} suffix="%" />
-            <NumberDisplay label="Effective Raw" value={efr} />
+            <NumberDisplay label="Effective Attack" value={efr} />
+            <NumberDisplay label="Effective Element" value={efe} />
           </div>
         </Card>
         <Card>

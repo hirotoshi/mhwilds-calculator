@@ -63,17 +63,18 @@ export const useModel = create<Store>((set) => ({
             d.sharpness = "Bowgun";
             d.element = 0;
           }
+
           if (weapon === "Bow") d.sharpness = "Bow";
 
           if (!isRanged(weapon) && ["Bowgun", "Bow"].includes(sharpness)) {
             d.sharpness = "White";
           }
 
-          Object.entries(CombinedBuffs).forEach(([key, value]) => {
+          Object.entries(CombinedBuffs).forEach(([key, group]) => {
             if (
-              "weapons" in value &&
-              value.weapons &&
-              !value.weapons.includes(weapon)
+              "weapons" in group &&
+              group.weapons &&
+              !group.weapons.includes(weapon)
             ) {
               delete d.buffs[key];
             }
@@ -102,13 +103,15 @@ export const useModel = create<Store>((set) => ({
 export const useGetters = () => {
   const s = useModel();
   const uiAffinity = calculateAffinity(s);
+  // TODO: refactor all the reducers into a single reducer
+  const buffs = Object.values(s.buffs);
   return {
     uiAttack: calculateAttack(s),
     uiElement: calculateElement(s),
     uiAffinity,
     critMulti:
       uiAffinity >= 0
-        ? Object.values(s.buffs).reduce(
+        ? buffs.reduce(
             (acc, b) =>
               b?.criticalBoost ? Math.max(b.criticalBoost, acc) : acc,
             1.25,
@@ -116,15 +119,15 @@ export const useGetters = () => {
         : 0.75,
     eleCritMulti:
       uiAffinity >= 0
-        ? Object.values(s.buffs).reduce(
+        ? buffs.reduce(
             (acc, b) =>
               b?.criticalElement ? Math.max(b.criticalElement, acc) : acc,
             1,
           )
         : 1,
-    saPowerPhial: Object.values(s.buffs).some((b) => b?.saPowerPhial),
-    saElementPhial: Object.values(s.buffs).some((b) => b?.saElementPhial),
-    chargeEleMul: Object.values(s.buffs).reduce((acc, b) => {
+    saPowerPhial: buffs.some((b) => b?.saPowerPhial),
+    saElementPhial: buffs.some((b) => b?.saElementPhial),
+    chargeEleMul: buffs.reduce((acc, b) => {
       if (isRanged(s.weapon)) {
         if (b?.rangedChargeEleMul) return Math.max(b.rangedChargeEleMul, acc);
       } else {
@@ -132,15 +135,15 @@ export const useGetters = () => {
       }
       return acc;
     }, 1),
-    coatingRawMul: Object.values(s.buffs).reduce(
-      (acc, b) => (b?.coatingRawMul ? Math.max(b.coatingRawMul, acc) : acc),
-      1,
-    ),
-    artilleryBaseMul: Object.values(s.buffs).reduce((acc, b) => {
+    coatingRawMul: buffs.reduce((acc, b) => {
+      if (b?.coatingRawMul) return Math.max(b.coatingRawMul, acc);
+      return acc;
+    }, 1),
+    artilleryBaseMul: buffs.reduce((acc, b) => {
       if (b?.artilleryBaseMul) return Math.max(b.artilleryBaseMul, acc);
       return acc;
     }, 0),
-    artilleryEle: Object.values(s.buffs).reduce((acc, b) => {
+    artilleryEle: buffs.reduce((acc, b) => {
       if (b?.artilleryEle) return Math.max(b.artilleryEle, acc);
       return acc;
     }, 0),
@@ -162,6 +165,13 @@ export const useCalcs = () => {
     },
     calcEffectiveRaw: () => {
       const params = { ...s, ...g, mv: 100, rawHzv: 100, eleHzv: 0 };
+      const hit = calculateHit(params);
+      const crit = calculateCrit(params);
+      const avg = calculateAverage(hit, crit, g.uiAffinity);
+      return avg;
+    },
+    calcEffectiveEle: () => {
+      const params = { ...s, ...g, mv: 0, rawHzv: 0, eleHzv: 100 };
       const hit = calculateHit(params);
       const crit = calculateCrit(params);
       const avg = calculateAverage(hit, crit, g.uiAffinity);

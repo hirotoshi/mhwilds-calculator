@@ -163,16 +163,18 @@ export const calculateEleHit = ({
   chargeEleMul = 1,
   shelling,
   artilleryEle = 0,
+  eleHzvCap,
 }: EleHitParams) => {
-  if (rawEle) return mul(uiAttack, rawEle / 100, eleHzv / 100);
+  eleHzv = (eleHzvCap ? Math.min(eleHzv, eleHzvCap) : eleHzv) / 100;
+  if (rawEle) return mul(uiAttack, rawEle / 100, eleHzv);
   if (fixedEle) {
     const e = sum(fixedEle, shelling ? artilleryEle : 0);
-    return mul(e, eleHzv / 100, eleMul);
+    return mul(e, eleHzv, eleMul);
   }
   return mul(
     uiElement,
     0.1,
-    eleHzv / 100,
+    eleHzv,
     ignoreSharpness ? 1 : sharpnessEle[sharpness],
     eleMul,
     charge ? chargeEleMul : 1,

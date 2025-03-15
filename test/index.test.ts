@@ -338,14 +338,14 @@ test("Gunlance", () => {
   const s = atk("Gunlance", "Wide Lv3 Shell");
   const cs = atk("Gunlance", "Wide Lv3 Charged Shell");
   const wf = atk("Gunlance", "Wide Lv3 Wyvern Fire 1st Hit");
-  // const wfh = atk("Gunlance", "Wide Lv3 Wyvern Fire Hits");
+  const wfh = atk("Gunlance", "Wide Lv3 Wyvern Fire Hits");
   const ws = atk("Gunlance", "Wyrmstake Lv3 Ticks");
   const wse = atk("Gunlance", "Wide Lv3 Wyrmstake Explosion");
 
   expect(calculateHit({ ...a1, ...s })).toBe(61.2);
   expect(calculateHit({ ...a1, ...cs })).toBe(107.3);
   expect(calculateHit({ ...a1, ...wf })).toBe(138.6);
-  // expect(calculateHit({ ...a1, ...wfh })).toBe(131.1);
+  expect(calculateHit({ ...a1, ...wfh })).toBe(131.1);
   expect(calculateHit({ ...a1, ...ws })).toBe(13.4);
   expect(calculateHit({ ...a1, ...wse })).toBe(74.7);
 
@@ -354,7 +354,7 @@ test("Gunlance", () => {
   expect(calculateHit({ ...a2, ...s })).toBe(75.5);
   expect(calculateHit({ ...a2, ...cs })).toBe(133.0);
   expect(calculateHit({ ...a2, ...wf })).toBe(170.8);
-  // expect(calculateHit({ ...a2, ...wfh })).toBe(163.3);
+  expect(calculateHit({ ...a2, ...wfh })).toBe(163.3);
   expect(calculateHit({ ...a2, ...ws })).toBe(16.8);
   expect(calculateHit({ ...a2, ...wse })).toBe(91.4);
 
@@ -363,13 +363,19 @@ test("Gunlance", () => {
   expect(calculateHit({ ...a3, ...s })).toBe(72.5);
   expect(calculateHit({ ...a3, ...cs })).toBe(125.5);
   expect(calculateHit({ ...a3, ...wf })).toBe(160.7);
-  // expect(calculateHit({ ...a3, ...wfh })).toBe(151);
+  expect(calculateHit({ ...a3, ...wfh })).toBe(151);
   expect(calculateHit({ ...a3, ...ws })).toBe(15.5);
   expect(calculateHit({ ...a3, ...wse })).toBe(87.5);
 
-  const a4 = { ...a1, uiAttack: 262, ...buff("Artillery", 3), eleHzv: 5 };
-  expect(calculateHit({ ...a4, ...s })).toBe(72.6);
-  expect(calculateHit({ ...a4, ...cs })).toBe(129.8);
-  expect(calculateHit({ ...a4, ...wf })).toBe(162.9);
-  // expect(calculateHit({ ...a4, ...wfh })).toBe(162.9);
+  const a4 = { ...a1, uiAttack: 262, ...buff("Artillery", 3) };
+  expect(calculateHit({ ...a4, ...s })).toBe(77.8);
+  expect(calculateHit({ ...a4, ...cs })).toBe(135.0);
+  expect(calculateHit({ ...a4, ...wf })).toBe(172.6);
+  expect(calculateHit({ ...a4, ...wfh })).toBe(162.9);
+
+  const a5 = { ...a1, uiAttack: 262, ...buff("Artillery", 3), eleHzv: 5 };
+  expect(calculateHit({ ...a5, ...s })).toBe(72.6);
+  expect(calculateHit({ ...a5, ...cs })).toBe(129.8);
+  expect(calculateHit({ ...a5, ...wf })).toBe(162.9);
+  expect(calculateHit({ ...a5, ...wfh })).toBe(162.9);
 });

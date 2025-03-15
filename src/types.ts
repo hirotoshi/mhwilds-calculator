@@ -45,6 +45,7 @@ export type Attack = {
   rawMul?: number;
   eleMul?: number;
   fixedEle?: number;
+  eleHzvCap?: number;
   rawEle?: number;
   ignoreHzv?: boolean; // only applies to raw hitzone
   cantCrit?: boolean;

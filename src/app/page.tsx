@@ -8,6 +8,7 @@ import {
   Checkbox,
   ExportDialog,
   ImportDialog,
+  Notice,
   NumberDisplay,
   NumberInput,
   Select,
@@ -402,6 +403,7 @@ export default function Home() {
               />
             </div>
           )}
+          {notice && <Notice>{notice}</Notice>}
           <MovesTable custom={custom ? [customAttack] : undefined} />
         </Card>
       </div>

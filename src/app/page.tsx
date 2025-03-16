@@ -404,7 +404,7 @@ export default function Home() {
               />
             </div>
           )}
-          <MovesTable override={custom ? [customAttack] : undefined} />
+          <MovesTable custom={custom ? [customAttack] : undefined} />
         </Card>
       </div>
     </div>

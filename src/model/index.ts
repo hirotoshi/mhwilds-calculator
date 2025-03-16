@@ -127,6 +127,7 @@ export const calculateRawHit = ({
   shelling,
   swordAttack = uiAttack,
   powerAxe,
+  ignoreCoating,
 }: RawHitParams) => {
   return mul(
     sum(
@@ -138,7 +139,7 @@ export const calculateRawHit = ({
     ignoreHzv ? 1 : rawHzv / 100,
     ignoreSharpness ? 1 : sharpnessRaw[sharpness],
     rawMul,
-    weapon === "Bow" && coatingRawMul ? coatingRawMul : 1,
+    weapon === "Bow" && !ignoreCoating && coatingRawMul ? coatingRawMul : 1,
   );
 };
 

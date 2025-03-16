@@ -57,16 +57,10 @@ export const useModel = create<Store>((set) => ({
       produce<Store>((d) => {
         {
           d.weapon = weapon;
-          const { sharpness } = d;
 
-          if (isBowgun(weapon)) {
-            d.sharpness = "Bowgun";
-            d.element = 0;
-          }
-
-          if (weapon === "Bow") d.sharpness = "Bow";
-
-          if (!isRanged(weapon) && ["Bowgun", "Bow"].includes(sharpness)) {
+          if (isRanged(weapon)) d.sharpness = "Ranged";
+          if (isBowgun(weapon)) d.element = 0;
+          if (!isRanged(weapon) && d.sharpness === "Ranged") {
             d.sharpness = "White";
           }
 

@@ -19,8 +19,7 @@ export const Weapons = [
 ] as const;
 
 export const Sharpnesses = [
-  "Bowgun",
-  "Bow",
+  "Ranged",
   "Red",
   "Orange",
   "Yellow",
@@ -30,8 +29,7 @@ export const Sharpnesses = [
 ] as const;
 
 export const sharpnessRaw: { [K in Sharpness]: number } = {
-  Bowgun: 1,
-  Bow: 1.1,
+  Ranged: 1,
   Red: 0.5,
   Orange: 0.75,
   Yellow: 1,
@@ -41,8 +39,7 @@ export const sharpnessRaw: { [K in Sharpness]: number } = {
 } as const;
 
 export const sharpnessEle: { [K in Sharpness]: number } = {
-  Bowgun: 1,
-  Bow: 1,
+  Ranged: 1,
   Red: 0.25,
   Orange: 0.5,
   Yellow: 0.75,

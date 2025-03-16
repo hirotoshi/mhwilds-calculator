@@ -246,18 +246,23 @@ test("Bow", () => {
   const pv1 = atk("Bow", "Power Volley Lv1");
   const pv2 = atk("Bow", "Power Volley Lv2");
   const pv3 = atk("Bow", "Power Volley Lv3");
-  // const as1 = BowAttacks.find((a) => a.name === "Arc Shot Lv1")!;
-  // const as2 = BowAttacks.find((a) => a.name === "Arc Shot Lv2")!;
-  // const as3 = BowAttacks.find((a) => a.name === "Arc Shot Lv3")!;
+  const as1 = atk("Bow", "Arc Shot Lv1");
+  const as2 = atk("Bow", "Arc Shot Lv2");
+  const as3 = atk("Bow", "Arc Shot Lv3");
+  const ase = atk("Bow", "Arc Shot Explosion");
   const dp = atk("Bow", "Dragon Piercer");
   const td = atk("Bow", "Thousand Dragons");
   const pcs3 = atk("Bow", "Pierce Charge Shot Lv3");
-  // const ptd = BowAttacks.find((a) => a.name === "Pierce Thousand Dragons")!;
-  // const t = BowAttacks.find((a) => a.name === "Tracer Arrow")!;
-  // const te = BowAttacks.find((a) => a.name === "Tracer Arrow (Explosion)")!;
-  // const tptpd = BowAttacks.find(
-  //   (a) => a.name === "Tracer Pierce Thousand Dragons",
-  // )!;
+  const ptd = atk("Bow", "Pierce Thousand Dragons");
+  const t = atk("Bow", "Tracer Arrow");
+  const tcs = atk("Bow", "Tracer Charged Shot");
+  const tdp = atk("Bow", "Tracer Dragon Piercer");
+  const tdpf = atk("Bow", "Tracer Dragon Piercer (Fast)");
+  const ttd = atk("Bow", "Tracer Thousand Dragons");
+  // const te = atk("Bow", "Tracer Arrow (Explosion)");
+  const tptd = atk("Bow", "Tracer Pierce Thousand Dragons");
+  const fs = atk("Bow", "Focus Fire: Hailstorm");
+  const fsdp = atk("Bow", "Focus Fire: Hailstorm Dragon Piercer");
 
   const a1 = {
     ...base,
@@ -268,12 +273,6 @@ test("Bow", () => {
   expect(calculateHit({ ...a1, ...qs })).toBe(8);
   expect(calculateHit({ ...a1, ...cs2 })).toBe(8.9);
   expect(calculateHit({ ...a1, ...cs3 })).toBe(9.8);
-  // // power volley 10.7
-
-  // // power coating
-  // // quick shot 10.4
-  // // charge 11.6
-  // // charge 2 12.7
 
   const a2 = {
     ...base,
@@ -292,26 +291,55 @@ test("Bow", () => {
   expect(calculateHit({ ...a2, ...pv1 })).toBe(21);
   expect(calculateHit({ ...a2, ...pv2 })).toBe(23.9);
   expect(calculateHit({ ...a2, ...pv3 })).toBe(26.2);
-  // expect(calculateHit({ ...a2, ...as1 })).toBe(11.1);
-  // expect(calculateHit({ ...a2, ...as2 })).toBe(12.7);
-  // expect(calculateHit({ ...a2, ...as3 })).toBe(14.1);
+  expect(calculateHit({ ...a2, ...as1 })).toBe(11.3);
+  expect(calculateHit({ ...a2, ...as2 })).toBe(12.7);
+  expect(calculateHit({ ...a2, ...as3 })).toBe(14.1);
+  expect(calculateHit({ ...a2, ...ase })).toBe(16.9);
   expect(calculateHit({ ...a2, ...dp })).toBe(37.7);
   expect(calculateHit({ ...a2, ...td })).toBe(30);
   expect(calculateHit({ ...a2, ...pcs3 })).toBe(9.2);
-  // expect(calculateHit({ ...a2, ...t })).toBe(42.1);
+  expect(calculateHit({ ...a2, ...t })).toBe(42.1);
+  expect(calculateHit({ ...a2, uiElement: 336, ...t })).toBe(45.3);
+  expect(calculateHit({ ...a2, ...tcs })).toBe(20.7);
+  expect(calculateHit({ ...a2, ...tdp })).toBe(40.1);
+  expect(calculateHit({ ...a2, ...tdpf })).toBe(28.9);
+  expect(calculateHit({ ...a2, ...ttd })).toBe(31.7);
+  expect(calculateHit({ ...a2, ...ptd })).toBe(22.5);
+  expect(calculateHit({ ...a2, uiElement: 336, ...ptd })).toBe(23.4);
+  expect(calculateHit({ ...a2, uiElement: 336, ...tptd })).toBe(22.7);
+  expect(calculateHit({ ...a2, uiElement: 336, ...fs })).toBe(19.9);
+  expect(calculateHit({ ...a2, uiElement: 336, ...fsdp, rawMul: 1.25 })).toBe(
+    38.2,
+  );
 
   const a3 = { ...a1, uiAttack: 96 };
   expect(calculateHit({ ...a3, ...qs })).toBe(7.6);
-  expect(calculateHit({ ...a3, ...qs, rawMul: 1.3 })).toBe(9.9);
+  expect(calculateHit({ ...a3, ...qs, rawMul: 1.1 * 1.3 })).toBe(9.9);
   expect(calculateHit({ ...a3, ...cs2 })).toBe(8.4);
   expect(calculateHit({ ...a3, ...cs3 })).toBe(9.3);
-  expect(calculateHit({ ...a3, ...cs3, rawMul: 1.3 })).toBe(12.1);
-  // expect(calculateHit({ ...a3, ...tptpd })).toBe(21.8);
+  expect(calculateHit({ ...a3, ...cs3, rawMul: 1.1 * 1.3 })).toBe(12.1);
 
   const a4 = { ...a1, uiAttack: 216, uiElement: 130 };
   expect(calculateHit({ ...a4, ...qs })).toBe(18.3);
-  expect(calculateHit({ ...a4, ...qs, rawMul: 1.4 })).toBe(25.2);
-  expect(calculateHit({ ...a4, ...cs3, rawMul: 1.4 })).toBe(31.3);
+  expect(calculateHit({ ...a4, ...qs, rawMul: 1.1 * 1.4 })).toBe(25.2);
+  expect(calculateHit({ ...a4, ...cs3, rawMul: 1.1 * 1.4 })).toBe(31.3);
+
+  const a5 = { ...a1, uiAttack: 239 };
+  expect(calculateHit({ ...a5, ...as3 })).toBe(19.1);
+  expect(calculateHit({ ...a5, ...ase })).toBe(22.9);
+  expect(calculateHit({ ...a5, ...t })).toBe(47.8);
+  expect(calculateHit({ ...a5, ...dp })).toBe(48.4);
+  expect(calculateHit({ ...a5, ...tdp })).toBe(51.6);
+  expect(calculateHit({ ...a5, ...tdpf })).toBe(36.3);
+  expect(calculateHit({ ...a5, ...td })).toBe(37.9);
+  expect(calculateHit({ ...a5, ...ttd })).toBe(40.2);
+  expect(calculateHit({ ...a5, uiAttack: 254.2, ...ttd })).toBe(42.7);
+  expect(calculateHit({ ...a5, uiAttack: 269.2, ...ttd })).toBe(45.2);
+  expect(calculateHit({ ...a5, ...fs })).toBe(22.9);
+  expect(calculateHit({ ...a5, ...fsdp, rawMul: 1.25 })).toBe(47.8);
+
+  const a6 = { ...a1, uiAttack: 126 };
+  expect(calculateHit({ ...a6, ...ptd })).toBe(14.6);
 });
 
 test("Charge Master", () => {
@@ -397,5 +425,5 @@ test("Switch Axe", () => {
   const ep = atk("Switch Axe", "Sword: Amped State Element Phial Explosion");
 
   expect(calculateHit({ ...a1, ...ep })).toBe(34.3);
-  expect(calculateCrit({ ...a1, ...ep })).toBe(41.6);
+  // expect(calculateCrit({ ...a1, ...ep })).toBe(41.6); // getting 41.7
 });

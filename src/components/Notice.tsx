@@ -1,10 +1,37 @@
-import { InfoIcon } from "lucide-react";
+import { type VariantProps, cva } from "cva";
+import { CircleCheckIcon, InfoIcon, TriangleAlertIcon } from "lucide-react";
+import { cn } from "@/utils";
 
-export function Notice({ children }: { children: React.ReactNode }) {
+const notice = cva({
+  base: "flex flex-row items-center gap-2 rounded border p-2 text-sm",
+  variants: {
+    variant: {
+      info: "text-info",
+      success: "text-success",
+      error: "text-error",
+      warning: "text-warning",
+    },
+  },
+  defaultVariants: {
+    variant: "info",
+  },
+});
+
+type NoticeVariants = VariantProps<typeof notice>;
+
+export function Notice({
+  children,
+  variant = "info",
+  className,
+}: NoticeVariants & { children: React.ReactNode; className?: string }) {
   return (
-    <div className="flex flex-row items-center gap-2 rounded border p-2 text-xs text-blue-300">
-      <InfoIcon className="h-4 w-4" />
-      {children}
+    <div className={cn(notice({ variant }), className)}>
+      {variant === "info" && <InfoIcon className="h-5 w-5" />}
+      {variant === "success" && <CircleCheckIcon className="h-5 w-5" />}
+      {(variant === "error" || variant === "warning") && (
+        <TriangleAlertIcon className="h-5 w-5" />
+      )}
+      <div className="flex-1">{children}</div>
     </div>
   );
 }

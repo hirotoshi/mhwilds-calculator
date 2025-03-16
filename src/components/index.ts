@@ -2,6 +2,8 @@ export * from "./Button";
 export * from "./Card";
 export * from "./Checkbox";
 export * from "./Dialog";
+export * from "./ExportDialog";
+export * from "./ImportDialog";
 export * from "./InputContainer";
 export * from "./MovesTable";
 export * from "./Notice";

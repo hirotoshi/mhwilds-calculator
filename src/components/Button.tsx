@@ -3,16 +3,16 @@ import { type VariantProps, cva } from "cva";
 import { cn } from "@/utils";
 
 const button = cva({
-  base: "disabled:pointer-events inline-flex cursor-pointer items-center justify-center gap-1 rounded-md text-sm hover:opacity-75",
+  base: "disabled:pointer-events inline-flex cursor-pointer items-center justify-center gap-1 rounded-sm border text-sm hover:opacity-75 active:opacity-50",
   variants: {
     variant: {
       primary: "bg-accent text-background",
-      secondary: "bg-divider text-white",
-      text: "bg-inherit text-white hover:opacity-50",
+      secondary: "text-accent border bg-inherit",
+      text: "border-none bg-inherit text-white hover:opacity-50",
     },
     size: {
       md: "px-4 py-2",
-      sm: "px-3 py-1.5",
+      sm: "px-2 py-1",
       icon: "p-0.5",
     },
   },

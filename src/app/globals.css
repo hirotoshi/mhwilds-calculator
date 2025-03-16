@@ -13,7 +13,11 @@
   --color-primary: var(--color-white);
   --color-secondary: var(--color-zinc-300);
   --color-placeholder: var(--color-zinc-600);
+  --color-info: var(--color-blue-300);
+  --color-success: var(--color-green-500);
   --color-accent: var(--color-amber-500);
+  --color-error: var(--color-rose-400);
+  --color-warning: var(--color-yellow-200);
 
   --spacing-8xl: 88rem;
   --spacing-9xl: 96rem;

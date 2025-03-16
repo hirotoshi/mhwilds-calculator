@@ -25,6 +25,7 @@ export type InitialStore = {
 };
 
 export type Store = InitialStore & {
+  emptyBuffs: () => void;
   setWeapon: (weaponType: Weapon) => void;
   setAttack: (attack: number) => void;
   setAffinity: (affinity: number) => void;
@@ -52,6 +53,7 @@ const initialStore: InitialStore = {
 
 export const useModel = create<Store>((set) => ({
   ...initialStore,
+  emptyBuffs: () => set({ buffs: {} }),
   setWeapon: (weapon: Weapon) =>
     set(
       produce<Store>((d) => {

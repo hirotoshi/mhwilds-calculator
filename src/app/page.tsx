@@ -6,6 +6,8 @@ import {
   Button,
   Card,
   Checkbox,
+  ExportDialog,
+  ImportDialog,
   NumberDisplay,
   NumberInput,
   Select,
@@ -23,7 +25,7 @@ import {
 import Attacks from "@/data/attacks";
 import { ArmorSkills, SetSkills, WeaponSkills } from "@/data/skills";
 import { useCalcs, useGetters, useModel } from "@/store";
-import { Attack, Buff, isRanged } from "@/types";
+import { Attack, Buff, isBowgun, isRanged } from "@/types";
 
 export default function Home() {
   const {
@@ -80,6 +82,10 @@ export default function Home() {
 
   const efr = useMemo(() => calcEffectiveRaw(), [calcEffectiveRaw]);
   const efe = useMemo(() => calcEffectiveEle(), [calcEffectiveEle]);
+
+  const notice = useMemo(() => {
+    if (isBowgun(weapon)) return "Still working on Bowgun support.";
+  }, [weapon]);
 
   const customAttack: Attack = useMemo(
     () => ({
@@ -352,6 +358,10 @@ export default function Home() {
             <NumberDisplay label="Effective Element" value={efe} />
           </div>
         </Card>
+        <div className="flex justify-end gap-2">
+          <ImportDialog />
+          <ExportDialog />
+        </div>
         <Card>
           <h1>Damage</h1>
           <div className="flex place-items-center">

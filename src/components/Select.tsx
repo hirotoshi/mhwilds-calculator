@@ -28,7 +28,7 @@ export function Select<T>({
       <div className="relative">
         <select
           className="border-divider bg-content text-primary hover:bg-content-alt focus:border-primary disabled:hover:bg-content disabled:text-placeholder w-full rounded-sm border px-2 py-1 text-sm"
-          value={value ? labelFn(value) : undefined}
+          value={value ? labelFn(value) : ""}
           onChange={(e) => {
             const { value } = e.target;
             const option = options.find((o) => value === labelFn(o));

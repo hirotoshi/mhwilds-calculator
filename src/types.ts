@@ -30,6 +30,7 @@ export type Buff = BuffValues & {
   piercingShotsRawMul?: number;
   spreadPowerShotsRawMul?: number;
   specialAmmoBoostRawMul?: number;
+  demonBoost?: boolean;
 };
 
 export type BuffGroup = {

@@ -177,6 +177,7 @@ type EleHitParams = Attack & {
   chargeEleMul?: number;
   artilleryEle?: number;
   cbShieldElement?: boolean;
+  demonBoost?: boolean;
 };
 export const calculateEleHit = ({
   uiAttack,
@@ -196,6 +197,7 @@ export const calculateEleHit = ({
   eleHzvCap,
   cbShieldElement,
   cbPhial,
+  demonBoost,
 }: EleHitParams) => {
   eleHzv = (eleHzvCap ? Math.min(eleHzv, eleHzvCap) : eleHzv) / 100;
   if (rawEle) return mul(uiAttack, rawEle / 100, eleHzv);
@@ -211,6 +213,7 @@ export const calculateEleHit = ({
     eleMul,
     charge ? chargeEleMul : 1,
     cbShieldElement && cbPhial ? 1.3 : 1,
+    demonBoost ? 1.2 : 1,
   );
 };
 

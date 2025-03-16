@@ -49,11 +49,6 @@ export const sharpnessEle: { [K in Sharpness]: number } = {
 } as const;
 
 export const WeaponBuffs: Record<string, BuffGroup> = {
-  SelfImprovement: {
-    name: "Self-Improvement",
-    weapons: ["Hunting Horn"],
-    levels: [{ name: "Self-Improvement", attackMul: 1.2 }],
-  },
   BowCoating: {
     name: "Coating",
     weapons: ["Bow"],
@@ -67,18 +62,15 @@ export const WeaponBuffs: Record<string, BuffGroup> = {
     weapons: ["Charge Blade"],
     levels: [{ name: "Shield: Element Boost", cbShieldElement: true }],
   },
-  SwitchAxePowerAxe: {
-    name: "Power Axe",
-    weapons: ["Switch Axe"],
-    levels: [{ name: "Power Axe", powerAxe: true }],
+  DualBladesDemonBoost: {
+    name: "Demon Boost",
+    weapons: ["Dual Blades"],
+    levels: [{ name: "Demon Boost", attackMul: 1.2, demonBoost: true }],
   },
-  SwitchAxePhial: {
-    name: "Phial Type",
-    weapons: ["Switch Axe"],
-    levels: [
-      { name: "Power Phial", saPhial: "Power" },
-      { name: "Element Phial", saPhial: "Element" },
-    ],
+  HornSelfImprovement: {
+    name: "Self-Improvement",
+    weapons: ["Hunting Horn"],
+    levels: [{ name: "Self-Improvement", attackMul: 1.2 }],
   },
   KinsectExtracts: {
     name: "Extracts",
@@ -97,16 +89,25 @@ export const WeaponBuffs: Record<string, BuffGroup> = {
       { name: "Red", attackMul: 1.1 },
     ],
   },
+  SwitchAxePhial: {
+    name: "Phial Type",
+    weapons: ["Switch Axe"],
+    levels: [
+      { name: "Power Phial", saPhial: "Power" },
+      { name: "Element Phial", saPhial: "Element" },
+    ],
+  },
+  SwitchAxePowerAxe: {
+    name: "Power Axe",
+    weapons: ["Switch Axe"],
+    levels: [{ name: "Power Axe", powerAxe: true }],
+  },
 };
 
 export const Buffs: Record<string, BuffGroup> = {
   Powercharm: {
     name: "Powercharm",
     levels: [{ name: "Powercharm", attack: 6 }],
-  },
-  MightSeed: {
-    name: "Might Seed",
-    levels: [{ name: "Might Seed", attack: 10 }],
   },
   DemonPowder: {
     name: "Demon Powder",
@@ -127,6 +128,13 @@ export const FieldBuffs: Record<string, BuffGroup> = {
     levels: [
       { name: "Demondrug", attack: 5 },
       { name: "Mega Demondrug", attack: 7 },
+    ],
+  },
+  MightSeedPill: {
+    name: "Might Seed / Pill",
+    levels: [
+      { name: "Might Seed", attack: 10 },
+      { name: "Might Pill", attack: 25 },
     ],
   },
   CorruptedMantle: {

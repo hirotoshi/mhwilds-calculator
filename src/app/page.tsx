@@ -1,12 +1,11 @@
 "use client";
 
-import { ChevronDown, ChevronUp, SwordsIcon } from "lucide-react";
+import { ChevronDown, ChevronUp } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import {
   Button,
   Card,
   Checkbox,
-  Notice,
   NumberDisplay,
   NumberInput,
   Select,

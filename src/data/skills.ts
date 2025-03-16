@@ -118,6 +118,32 @@ export const WeaponSkills: Record<string, BuffGroup> = {
     name: "Spread/Power Shots",
     levels: [{ name: "Spread/Power Shots 1", spreadPowerShotsRawMul: 1.05 }],
   },
+  TetradShot: {
+    name: "Tetrad Shot",
+    levels: [
+      { name: "Tetrad Shot 1", affinity: 8 },
+      {
+        name: "Tetrad Shot 1 Attack",
+        affinity: 8,
+        attack: 3,
+        elementMul: 1.05,
+      },
+      { name: "Tetrad Shot 2", affinity: 10 },
+      {
+        name: "Tetrad Shot 2 Attack",
+        affinity: 10,
+        attack: 6,
+        elementMul: 1.05,
+      },
+      { name: "Tetrad Shot 3", affinity: 12 },
+      {
+        name: "Tetrad Shot 3 Attack",
+        affinity: 12,
+        attack: 10,
+        elementMul: 1.05,
+      },
+    ],
+  },
 };
 
 export const ArmorSkills: Record<string, BuffGroup> = {

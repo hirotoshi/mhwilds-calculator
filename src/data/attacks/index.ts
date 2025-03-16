@@ -3,6 +3,7 @@ import { BowAttacks } from "./bow";
 import { DualBladesAttacks } from "./dualBlades";
 import { GreatSwordAttacks } from "./greatSword";
 import { GunlanceAttacks } from "./gunlance";
+import { HammerAttacks } from "./hammer";
 import { HeavyBowgunAttacks } from "./heavyBowgun";
 import { HuntingHornAttacks } from "./huntingHorn";
 import { InsectGlaiveAttacks } from "./insectGlaive";
@@ -17,7 +18,7 @@ const Attacks: Record<Weapon, Attack[]> = {
   ["Dual Blades"]: DualBladesAttacks,
   ["Great Sword"]: GreatSwordAttacks,
   ["Gunlance"]: GunlanceAttacks,
-  Hammer: [],
+  Hammer: HammerAttacks,
   ["Heavy Bowgun"]: HeavyBowgunAttacks,
   ["Hunting Horn"]: HuntingHornAttacks,
   ["Insect Glaive"]: InsectGlaiveAttacks,

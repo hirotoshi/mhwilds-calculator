@@ -10,7 +10,7 @@ import {
 } from "@/model";
 import { Sharpness, Weapon } from "@/types";
 
-// TODO: refactor tests to use store instead of manually inserting values
+// TODO: refactor tests to use store instead of manually setting parameters
 
 const display = (n: number) => Math.floor(n + 0.1);
 

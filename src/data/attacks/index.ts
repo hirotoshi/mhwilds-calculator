@@ -7,6 +7,7 @@ import { HammerAttacks } from "./hammer";
 import { HeavyBowgunAttacks } from "./heavyBowgun";
 import { HuntingHornAttacks } from "./huntingHorn";
 import { InsectGlaiveAttacks } from "./insectGlaive";
+import { LanceAttacks } from "./lance";
 import { LightBowgunAttacks } from "./lightBowgun";
 import { LongSwordAttacks } from "./longSword";
 import { SwitchAxeAttacks } from "./switchAxe";
@@ -22,7 +23,7 @@ const Attacks: Record<Weapon, Attack[]> = {
   ["Heavy Bowgun"]: HeavyBowgunAttacks,
   ["Hunting Horn"]: HuntingHornAttacks,
   ["Insect Glaive"]: InsectGlaiveAttacks,
-  Lance: [],
+  Lance: LanceAttacks,
   ["Light Bowgun"]: LightBowgunAttacks,
   ["Long Sword"]: LongSwordAttacks,
   ["Switch Axe"]: SwitchAxeAttacks,

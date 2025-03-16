@@ -65,6 +65,7 @@ export type Attack = {
   piercingShot?: boolean;
   spreadPowerShot?: boolean;
   specialAmmo?: boolean;
+  airborne?: boolean; // TODO
 };
 
 export const isRanged = (weapon: Weapon) => {

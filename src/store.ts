@@ -130,6 +130,8 @@ export const useGetters = () => {
     coatingRawMul: s.buffs.BowCoating?.coatingRawMul ?? 1,
     artilleryBaseMul: s.buffs.Artillery?.artilleryBaseMul ?? 0,
     artilleryEle: s.buffs.Artillery?.artilleryEle ?? 0,
+    spreadPowerShotsRawMul:
+      s.buffs.SpreadPowerShots?.spreadPowerShotsRawMul ?? 1,
   };
 };
 

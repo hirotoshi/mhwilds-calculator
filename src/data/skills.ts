@@ -99,6 +99,17 @@ export const WeaponSkills: Record<string, BuffGroup> = {
       { name: "Offensive Guard 3", attackMul: 1.15 },
     ],
   },
+  SpecialAmmoBoost: {
+    name: "Special Ammo Boost",
+    levels: [
+      { name: "Special Ammo Boost 1", specialAmmoBoostRawMul: 1.1 },
+      { name: "Special Ammo Boost 2", specialAmmoBoostRawMul: 1.2 },
+    ],
+  },
+  SpreadPowerShots: {
+    name: "Spread/Power Shots",
+    levels: [{ name: "Spread/Power Shots 1", spreadPowerShotsRawMul: 1.05 }],
+  },
 };
 
 export const ArmorSkills: Record<string, BuffGroup> = {

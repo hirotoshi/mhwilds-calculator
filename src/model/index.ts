@@ -110,6 +110,9 @@ type RawHitParams = Attack & {
   coatingRawMul?: number;
   artilleryBaseMul?: number;
   shelling?: boolean;
+  spreadPowerShot?: boolean;
+  spreadPowerShotsRawMul?: number;
+  specialAmmoBoostRawMul?: number;
 };
 export const calculateRawHit = ({
   weapon,
@@ -122,17 +125,21 @@ export const calculateRawHit = ({
   rawMul,
   saType,
   coatingRawMul,
-  artilleryBaseMul = 0,
+  artilleryBaseMul,
   attack = 0, // TODO: refactor to remove ambiguity with uiAttack?
   shelling,
   swordAttack = uiAttack,
   powerAxe,
   ignoreCoating,
+  spreadPowerShot,
+  spreadPowerShotsRawMul,
+  specialAmmo,
+  specialAmmoBoostRawMul,
 }: RawHitParams) => {
   return mul(
     sum(
       saType === "Sword" ? swordAttack : uiAttack,
-      shelling ? artilleryBaseMul * attack : 0,
+      shelling ? (artilleryBaseMul ?? 0) * attack : 0,
       powerAxe && saType === "Axe" ? 10 : 0,
     ),
     mv / 100,
@@ -140,6 +147,8 @@ export const calculateRawHit = ({
     ignoreSharpness ? 1 : sharpnessRaw[sharpness],
     rawMul,
     weapon === "Bow" && !ignoreCoating && coatingRawMul ? coatingRawMul : 1,
+    spreadPowerShot ? spreadPowerShotsRawMul : 1,
+    specialAmmo ? specialAmmoBoostRawMul : 1,
   );
 };
 

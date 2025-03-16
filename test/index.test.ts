@@ -240,9 +240,9 @@ test("Bow", () => {
   const cs1 = atk("Bow", "Charged Shot Lv1");
   const cs2 = atk("Bow", "Charged Shot Lv2");
   const cs3 = atk("Bow", "Charged Shot Lv3");
-  const qs = atk("Bow", "Quick Shot");
-  const ps2 = atk("Bow", "Power Shot / Flying Sparrow Shot Lv2");
-  const ps3 = atk("Bow", "Power Shot / Flying Sparrow Shot Lv3");
+  const qs = atk("Bow", "Quick Shot / Power Shot Lv 1");
+  const ps2 = atk("Bow", "Power Shot Lv2");
+  const ps3 = atk("Bow", "Power Shot Lv3");
   const pv1 = atk("Bow", "Power Volley Lv1");
   const pv2 = atk("Bow", "Power Volley Lv2");
   const pv3 = atk("Bow", "Power Volley Lv3");
@@ -304,8 +304,6 @@ test("Bow", () => {
   expect(calculateHit({ ...a2, ...tdp })).toBe(40.1);
   expect(calculateHit({ ...a2, ...tdpf })).toBe(28.9);
   expect(calculateHit({ ...a2, ...ttd })).toBe(31.7);
-  expect(calculateHit({ ...a2, ...ptd })).toBe(22.5);
-  expect(calculateHit({ ...a2, uiElement: 336, ...ptd })).toBe(23.4);
   expect(calculateHit({ ...a2, uiElement: 336, ...tptd })).toBe(22.7);
   expect(calculateHit({ ...a2, uiElement: 336, ...fs })).toBe(19.9);
   expect(calculateHit({ ...a2, uiElement: 336, ...fsdp, rawMul: 1.25 })).toBe(
@@ -338,8 +336,16 @@ test("Bow", () => {
   expect(calculateHit({ ...a5, ...fs })).toBe(22.9);
   expect(calculateHit({ ...a5, ...fsdp, rawMul: 1.25 })).toBe(47.8);
 
-  const a6 = { ...a1, uiAttack: 126 };
-  expect(calculateHit({ ...a6, ...ptd })).toBe(14.6);
+  const pqs = atk("Bow", "Pierce Quick Shot / Power Shot Lv1");
+  const ppv = atk("Bow", "Pierce Power Volley Lv1");
+
+  const a7 = { ...a1, uiAttack: 223 };
+  expect(calculateHit({ ...a7, ...pqs })).toBe(5.9);
+  expect(calculateHit({ ...a7, ...ppv })).toBe(7.8);
+  expect(calculateHit({ ...a7, ...ptd })).toBe(21.6);
+
+  const a8 = { ...a1, uiAttack: 196, uiElement: 270 };
+  expect(calculateHit({ ...a8, ...ptd })).toBe(21.4);
 });
 
 test("Charge Master", () => {

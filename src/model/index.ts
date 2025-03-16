@@ -105,6 +105,7 @@ type RawHitParams = Attack & {
   swordAttack?: number;
   sharpness: Sharpness;
   rawHzv: number;
+  cbShieldElement?: boolean;
   powerAxe?: boolean;
   saPhial?: "Power" | "Element";
   coatingRawMul?: number;
@@ -126,6 +127,9 @@ export const calculateRawHit = ({
   sharpness,
   rawMul,
   saType,
+  cbAxe,
+  cbPhial,
+  cbShieldElement,
   coatingRawMul,
   artilleryBaseMul,
   attack = 0, // TODO: refactor to remove ambiguity with uiAttack?
@@ -157,6 +161,8 @@ export const calculateRawHit = ({
     specialAmmo ? specialAmmoBoostRawMul : 1,
     normalShot ? normalShotsRawMul : 1,
     piercingShot ? piercingShotsRawMul : 1,
+    cbShieldElement && cbPhial ? 1.2 : 1,
+    cbShieldElement && cbAxe ? 1.1 : 1,
   );
 };
 
@@ -170,6 +176,7 @@ type EleHitParams = Attack & {
   sword?: boolean;
   chargeEleMul?: number;
   artilleryEle?: number;
+  cbShieldElement?: boolean;
 };
 export const calculateEleHit = ({
   uiAttack,
@@ -187,6 +194,8 @@ export const calculateEleHit = ({
   shelling,
   artilleryEle = 0,
   eleHzvCap,
+  cbShieldElement,
+  cbPhial,
 }: EleHitParams) => {
   eleHzv = (eleHzvCap ? Math.min(eleHzv, eleHzvCap) : eleHzv) / 100;
   if (rawEle) return mul(uiAttack, rawEle / 100, eleHzv);
@@ -201,6 +210,7 @@ export const calculateEleHit = ({
     ignoreSharpness ? 1 : sharpnessEle[sharpness],
     eleMul,
     charge ? chargeEleMul : 1,
+    cbShieldElement && cbPhial ? 1.3 : 1,
   );
 };
 

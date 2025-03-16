@@ -62,6 +62,11 @@ export const WeaponBuffs: Record<string, BuffGroup> = {
       { name: "Close Range Coating", coatingRawMul: 1.4 },
     ],
   },
+  ChargeBladeShieldElement: {
+    name: "Shield: Element Boost",
+    weapons: ["Charge Blade"],
+    levels: [{ name: "Shield: Element Boost", cbShieldElement: true }],
+  },
   SwitchAxePowerAxe: {
     name: "Power Axe",
     weapons: ["Switch Axe"],

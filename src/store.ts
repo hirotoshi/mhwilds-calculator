@@ -38,8 +38,8 @@ export type Store = InitialStore & {
 };
 
 const initialStore: InitialStore = {
-  weapon: "Sword and Shield",
-  attack: 200,
+  weapon: "Charge Blade",
+  attack: 210,
   affinity: 0,
   element: 0,
   sharpness: "White",
@@ -136,6 +136,7 @@ export const useGetters = () => {
     specialAmmoBoostRawMul:
       s.buffs.SpecialAmmoBoost?.specialAmmoBoostRawMul ?? 1,
     piercingShotsRawMul: s.buffs.PiercingShots?.piercingShotsRawMul ?? 1,
+    cbShieldElement: s.buffs.ChargeBladeShieldElement?.cbShieldElement,
   };
 };
 

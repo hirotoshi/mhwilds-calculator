@@ -82,10 +82,6 @@ export default function Home() {
   const efr = useMemo(() => calcEffectiveRaw(), [calcEffectiveRaw]);
   const efe = useMemo(() => calcEffectiveEle(), [calcEffectiveEle]);
 
-  const notice = useMemo(() => {
-    return "Motion values are still a work in progress.";
-  }, []);
-
   const customAttack: Attack = useMemo(
     () => ({
       name: "Custom Attack",
@@ -358,14 +354,7 @@ export default function Home() {
           </div>
         </Card>
         <Card>
-          <div className="flex items-center justify-between gap-2">
-            <h1>Damage</h1>
-            <Button size="sm" onClick={() => setCustom((c) => !c)}>
-              <SwordsIcon className="h-4 w-4" />
-              {custom ? "Attacks" : "Custom"}
-            </Button>
-          </div>
-          {notice && <Notice>{notice}</Notice>}
+          <h1>Damage</h1>
           <div className="flex place-items-center">
             <Checkbox
               label="Wound"

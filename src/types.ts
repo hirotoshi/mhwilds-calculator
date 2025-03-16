@@ -18,6 +18,7 @@ export type Buff = BuffValues & {
   frenzy?: BuffValues;
   weakness?: BuffValues;
   wound?: BuffValues;
+  cbShieldElement?: boolean;
   saPhial?: "Power" | "Element";
   powerAxe?: boolean;
   meleeChargeEleMul?: number;
@@ -54,8 +55,9 @@ export type Attack = {
   ignoreHzv?: boolean; // only applies to raw hitzone
   cantCrit?: boolean;
   ignoreSharpness?: boolean;
-  axe?: boolean; // Switch Axe Axe Mode
-  saType?: "Sword" | "Axe"; // Switch Axe Sword Mode
+  cbAxe?: boolean;
+  cbPhial?: boolean;
+  saType?: "Sword" | "Axe"; // Switch Axe mode
   charge?: boolean; // Charge Master
   ignoreCoating?: boolean; // ignore Bow Coating
   total?: boolean;

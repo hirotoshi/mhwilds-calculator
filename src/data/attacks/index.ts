@@ -1,5 +1,6 @@
 import { Attack, Weapon } from "@/types";
 import { BowAttacks } from "./bow";
+import { ChargeBladeAttacks } from "./chargeBlade";
 import { DualBladesAttacks } from "./dualBlades";
 import { GreatSwordAttacks } from "./greatSword";
 import { GunlanceAttacks } from "./gunlance";
@@ -15,7 +16,7 @@ import { SwordAndShieldAttacks } from "./swordAndShield";
 
 const Attacks: Record<Weapon, Attack[]> = {
   Bow: BowAttacks,
-  ["Charge Blade"]: [],
+  ["Charge Blade"]: ChargeBladeAttacks,
   ["Dual Blades"]: DualBladesAttacks,
   ["Great Sword"]: GreatSwordAttacks,
   ["Gunlance"]: GunlanceAttacks,

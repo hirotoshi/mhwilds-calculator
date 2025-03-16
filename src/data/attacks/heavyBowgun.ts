@@ -1,12 +1,12 @@
 import { Attack } from "@/types";
 
 export const HeavyBowgunAttacks = [
-  { name: "Normal Lv1", mv: 15, hits: 3 },
-  { name: "Normal Lv2", mv: 21, hits: 3 },
-  { name: "Normal Lv3", mv: 28.5, hits: 3 },
-  { name: "Pierce Lv1", mv: 11 },
-  { name: "Pierce Lv2", mv: 12 },
-  { name: "Pierce Lv3", mv: 12 },
+  { name: "Normal Lv1", mv: 15, hits: 3, normalShot: true },
+  { name: "Normal Lv2", mv: 21, hits: 3, normalShot: true },
+  { name: "Normal Lv3", mv: 28.5, hits: 3, normalShot: true },
+  { name: "Pierce Lv1", mv: 11, piercingShot: true },
+  { name: "Pierce Lv2", mv: 12, piercingShot: true },
+  { name: "Pierce Lv3", mv: 12, piercingShot: true },
   { name: "Spread Lv1", mv: 11, spreadPowerShot: true },
   { name: "Spread Lv2", mv: 12.65, spreadPowerShot: true },
   { name: "Spread Lv3", mv: 14.3, spreadPowerShot: true },

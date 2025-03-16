@@ -110,6 +110,8 @@ type RawHitParams = Attack & {
   coatingRawMul?: number;
   artilleryBaseMul?: number;
   shelling?: boolean;
+  normalShotsRawMul?: number;
+  piercingShotsRawMul?: number;
   spreadPowerShot?: boolean;
   spreadPowerShotsRawMul?: number;
   specialAmmoBoostRawMul?: number;
@@ -131,6 +133,10 @@ export const calculateRawHit = ({
   swordAttack = uiAttack,
   powerAxe,
   ignoreCoating,
+  normalShot,
+  normalShotsRawMul,
+  piercingShot,
+  piercingShotsRawMul,
   spreadPowerShot,
   spreadPowerShotsRawMul,
   specialAmmo,
@@ -149,6 +155,8 @@ export const calculateRawHit = ({
     weapon === "Bow" && !ignoreCoating && coatingRawMul ? coatingRawMul : 1,
     spreadPowerShot ? spreadPowerShotsRawMul : 1,
     specialAmmo ? specialAmmoBoostRawMul : 1,
+    normalShot ? normalShotsRawMul : 1,
+    piercingShot ? piercingShotsRawMul : 1,
   );
 };
 

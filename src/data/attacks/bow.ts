@@ -1,7 +1,14 @@
 import { Attack } from "@/types";
 
 export const BowAttacks = [
-  { name: "Charged Shot Lv1", mv: 9, eleMul: 0.2, charge: true, rawMul: 1.1 },
+  {
+    name: "Charged Shot Lv1",
+    mv: 9,
+    eleMul: 0.2,
+    charge: true,
+    rawMul: 1.1,
+    normalShot: true,
+  },
   {
     name: "Charged Shot Lv2",
     mv: 10,
@@ -9,6 +16,7 @@ export const BowAttacks = [
     charge: true,
     hits: 2,
     rawMul: 1.1,
+    normalShot: true,
   },
   {
     name: "Charged Shot Lv3",
@@ -17,6 +25,7 @@ export const BowAttacks = [
     charge: true,
     hits: 3,
     rawMul: 1.1,
+    normalShot: true,
   },
   {
     name: "Quick Shot / Power Shot Lv 1",
@@ -47,6 +56,7 @@ export const BowAttacks = [
     eleMul: 0.3,
     hits: 3,
     rawMul: 1.1,
+    normalShot: true,
   },
   {
     name: "Flying Swallow Shot Lv2",
@@ -54,6 +64,7 @@ export const BowAttacks = [
     eleMul: 0.5,
     hits: 4,
     rawMul: 1.1,
+    normalShot: true,
   },
   {
     name: "Flying Swallow Shot Lv3",
@@ -61,6 +72,7 @@ export const BowAttacks = [
     eleMul: 0.6,
     hits: 5,
     rawMul: 1.1,
+    normalShot: true,
   },
   {
     name: "Power Volley Lv1",
@@ -116,6 +128,7 @@ export const BowAttacks = [
     eleMul: 0.3,
     rawMul: 1.1,
     specialAmmo: true,
+    piercingShot: true,
   },
   {
     name: "Dragon Piercer (Fast)",
@@ -123,6 +136,7 @@ export const BowAttacks = [
     eleMul: 0.3,
     rawMul: 1.1,
     specialAmmo: true,
+    piercingShot: true,
   },
   {
     name: "Thousand Dragons",
@@ -139,6 +153,7 @@ export const BowAttacks = [
     eleMul: 0.1,
     rawMul: 1.1,
     ignoreCoating: true,
+    normalShot: true,
   },
   {
     name: "Pierce Charge Shot Lv2",
@@ -148,6 +163,7 @@ export const BowAttacks = [
     hits: 2,
     rawMul: 1.1,
     ignoreCoating: true,
+    normalShot: true,
   },
   {
     name: "Pierce Charge Shot Lv3",
@@ -157,6 +173,7 @@ export const BowAttacks = [
     hits: 3,
     rawMul: 1.1,
     ignoreCoating: true,
+    normalShot: true,
   },
   {
     name: "Pierce Quick Shot / Power Shot Lv1",
@@ -192,6 +209,7 @@ export const BowAttacks = [
     hits: 3,
     rawMul: 1.1,
     ignoreCoating: true,
+    normalShot: true,
   },
   {
     name: "Pierce Flying Swallow Shot Lv2",
@@ -200,6 +218,7 @@ export const BowAttacks = [
     hits: 4,
     rawMul: 1.1,
     ignoreCoating: true,
+    normalShot: true,
   },
   {
     name: "Pierce Flying Swallow Shot Lv3",
@@ -208,6 +227,7 @@ export const BowAttacks = [
     hits: 5,
     rawMul: 1.1,
     ignoreCoating: true,
+    normalShot: true,
   },
   {
     name: "Pierce Power Volley Lv1",
@@ -291,12 +311,14 @@ export const BowAttacks = [
     mv: 27,
     eleMul: 0.3,
     specialAmmo: true,
+    piercingShot: true,
   },
   {
     name: "Tracer Dragon Piercer (Fast)",
     mv: 19,
     eleMul: 0.3,
     specialAmmo: true,
+    piercingShot: true,
   },
   {
     name: "Tracer Thousand Dragons",

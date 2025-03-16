@@ -91,6 +91,10 @@ export const WeaponSkills: Record<string, BuffGroup> = {
       { name: "Element Attack 3", element: 60, elementMul: 1.2 },
     ],
   },
+  NormalShots: {
+    name: "Normal Shots",
+    levels: [{ name: "Normal Shots 1", normalShotsRawMul: 1.05 }],
+  },
   OffensiveGuard: {
     name: "Offensive Guard",
     levels: [
@@ -98,6 +102,10 @@ export const WeaponSkills: Record<string, BuffGroup> = {
       { name: "Offensive Guard 2", attackMul: 1.1 },
       { name: "Offensive Guard 3", attackMul: 1.15 },
     ],
+  },
+  PiercingShots: {
+    name: "Piercing Shots",
+    levels: [{ name: "Piercing Shots 1", piercingShotsRawMul: 1.05 }],
   },
   SpecialAmmoBoost: {
     name: "Special Ammo Boost",

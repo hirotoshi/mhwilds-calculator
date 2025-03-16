@@ -1,12 +1,12 @@
 import { Attack } from "@/types";
 
 export const LightBowgunAttacks = [
-  { name: "Normal Lv1", mv: 9.75, hits: 3 },
-  { name: "Normal Lv2", mv: 13.65, hits: 3 },
-  { name: "Normal Lv3", mv: 18.525, hits: 3 },
-  { name: "Pierce Lv1", mv: 8.8 },
-  { name: "Pierce Lv2", mv: 9.6 },
-  { name: "Pierce Lv3", mv: 9.6 },
+  { name: "Normal Lv1", mv: 9.75, hits: 3, normalShot: true },
+  { name: "Normal Lv2", mv: 13.65, hits: 3, normalShot: true },
+  { name: "Normal Lv3", mv: 18.525, hits: 3, normalShot: true },
+  { name: "Pierce Lv1", mv: 8.8, piercingShot: true },
+  { name: "Pierce Lv2", mv: 9.6, piercingShot: true },
+  { name: "Pierce Lv3", mv: 9.6, piercingShot: true },
   { name: "Spread Lv1", mv: 7.7, spreadPowerShot: true },
   { name: "Spread Lv2", mv: 8.855, spreadPowerShot: true },
   { name: "Spread Lv3", mv: 10.01, spreadPowerShot: true },

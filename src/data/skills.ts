@@ -83,9 +83,9 @@ export const WeaponSkills: Record<string, BuffGroup> = {
   CriticalElement: {
     name: "Critical Element",
     levels: [
-      { name: "Critical Element 1", criticalElement: 1.05 },
-      { name: "Critical Element 2", criticalElement: 1.1 },
-      { name: "Critical Element 3", criticalElement: 1.15 },
+      { name: "Critical Element 1", criticalElement: 1.07 },
+      { name: "Critical Element 2", criticalElement: 1.14 },
+      { name: "Critical Element 3", criticalElement: 1.21 },
     ],
   },
   CriticalEye: {

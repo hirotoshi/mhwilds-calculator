@@ -7,6 +7,7 @@ import {
   calculateEleHit,
   calculateElement,
   calculateHit,
+  dmg,
   round,
 } from "@/model";
 import { Sharpness, Weapon } from "@/types";
@@ -489,4 +490,23 @@ test("Switch Axe", () => {
 
   expect(calculateHit({ ...a1, ...ep })).toBe(34.3);
   // expect(calculateCrit({ ...a1, ...ep })).toBe(41.6); // getting 41.7
+});
+
+test("Critical Element", () => {
+  const a1 = {
+    ...base,
+    sharpness: "White" as Sharpness,
+    uiElement: 480,
+  };
+
+  const os = atk("Great Sword", "Overhead Slash");
+  expect(round(calculateEleHit({ ...a1, ...os }))).toBe(16.6);
+  expect(round(calculateEleHit({ ...a1, ...os, eleMul: 1.07 }))).toBe(17.7);
+  expect(round(calculateEleHit({ ...a1, ...os, eleMul: 1.14 }))).toBe(18.9);
+  expect(round(calculateEleHit({ ...a1, ...os, eleMul: 1.21 }))).toBe(20);
+
+  const a2 = { ...a1, uiElement: 636 };
+  expect(round(calculateEleHit({ ...a2, ...os, eleMul: 1.07 }))).toBe(23.5);
+  expect(round(calculateEleHit({ ...a2, ...os, eleMul: 1.14 }))).toBe(25);
+  expect(round(calculateEleHit({ ...a2, ...os, eleMul: 1.21 }))).toBe(26.5);
 });

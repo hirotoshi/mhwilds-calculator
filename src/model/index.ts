@@ -18,6 +18,11 @@ export const round = (value: number, places = 1) => {
   return _round(_round(value, places + 3), places); // hacky way to fix javascript rounding errors
 };
 
+const dmg = (n: number) => {
+  if (n > 0 && n < 1) return 1;
+  return round(n);
+};
+
 export const calculate = (
   base: number,
   multipliers: number[] = [],
@@ -214,7 +219,7 @@ export const calculateHit = (params: HitParams) => {
   const r = calculateRawHit(params);
   const e = calculateEleHit(params);
 
-  return round(round(r) + round(e));
+  return round(dmg(r) + dmg(e));
 };
 
 type CritParams = HitParams & {
@@ -225,7 +230,7 @@ export const calculateCrit = (params: CritParams) => {
   const { critMulti, eleCritMulti } = params;
   const r = calculateRawHit(params);
   const e = calculateEleHit(params);
-  return round(round(r * critMulti) + round(e * eleCritMulti));
+  return round(dmg(r * critMulti) + dmg(e * eleCritMulti));
 };
 
 export const calculateAverage = (

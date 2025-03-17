@@ -34,7 +34,6 @@ export default function Home() {
     attack,
     affinity,
     element,
-    frenzy,
     sharpness,
     buffs,
     rawHzv,
@@ -45,7 +44,6 @@ export default function Home() {
     setWeapon,
     setElement,
     setSharpness,
-    setFrenzy,
     setBuff,
     setRawHzv,
     setEleHzv,
@@ -85,7 +83,7 @@ export default function Home() {
   const efe = useMemo(() => calcEffectiveEle(), [calcEffectiveEle]);
 
   const notice = useMemo(() => {
-    if (isBowgun(weapon)) return "Still working on Bowgun support.";
+    if (isBowgun(weapon)) return "Bowgun is still a work in progress.";
   }, [weapon]);
 
   const customAttack: Attack = useMemo(
@@ -256,13 +254,6 @@ export default function Home() {
             {!hideBuffs && <h3>{"Add other unsupported buffs here."}</h3>}
           </div>
           <div className="flex flex-wrap gap-x-4 gap-y-0">
-            {(!hideBuffs || frenzy) && (
-              <Checkbox
-                label="Overcame Frenzy"
-                value={frenzy}
-                onChangeValue={setFrenzy}
-              />
-            )}
             {Object.entries(Buffs).map(([k, b]) => {
               if (hideBuffs && !buffs[k]) return undefined;
               return (

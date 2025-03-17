@@ -1,5 +1,5 @@
 import { sharpnessEle, sharpnessRaw } from "@/data";
-import { Attack, Buff, BuffValues, Sharpness, Weapon, isBowgun } from "@/types";
+import { Attack, Buff, BuffValues, ComputedStore, isBowgun } from "@/types";
 
 export const sum = (...args: (number | undefined)[]) => {
   return args.reduce<number>((sum, a) => (a ? sum + a : sum), 0);
@@ -9,9 +9,13 @@ export const mul = (...args: (number | undefined)[]) => {
   return args.reduce<number>((sum, a) => (a !== undefined ? sum * a : sum), 1);
 };
 
-export const round = (value: number, places = 1) => {
+export const _round = (value: number, places = 1) => {
   const p = 10 ** places;
   return Number((Math.round(value * p) / p).toFixed(places));
+};
+
+export const round = (value: number, places = 1) => {
+  return _round(_round(value, places + 3), places); // hacky way to fix javascript rounding errors
 };
 
 export const calculate = (
@@ -84,7 +88,6 @@ export const calculateAffinity = ({
 }) => {
   const n = sum(
     affinity,
-    frenzy ? 15 : 0,
     ...Object.values(buffs).map((b) =>
       sum(
         getAffinity(b),
@@ -98,26 +101,10 @@ export const calculateAffinity = ({
   return n > 0 ? Math.min(n, 100) : Math.max(n, -100);
 };
 
-type RawHitParams = Attack & {
-  weapon?: Weapon;
-  attack?: number;
-  uiAttack: number;
-  swordAttack?: number;
-  sharpness: Sharpness;
-  rawHzv: number;
-  cbShieldElement?: boolean;
-  powerAxe?: boolean;
-  saPhial?: "Power" | "Element";
-  coatingRawMul?: number;
-  artilleryBaseMul?: number;
-  shelling?: boolean;
-  normalShotsRawMul?: number;
-  piercingShotsRawMul?: number;
-  spreadPowerShot?: boolean;
-  spreadPowerShotsRawMul?: number;
-  specialAmmoBoostRawMul?: number;
-  stickyRawMul?: number;
-};
+type RawHitParams = Attack &
+  Partial<ComputedStore> & {
+    rawHzv: number;
+  };
 export const calculateRawHit = ({
   weapon,
   uiAttack,
@@ -125,7 +112,7 @@ export const calculateRawHit = ({
   ignoreHzv,
   rawHzv,
   ignoreSharpness,
-  sharpness,
+  sharpness = "Ranged",
   rawMul,
   saType,
   cbAxe,
@@ -147,12 +134,13 @@ export const calculateRawHit = ({
   specialAmmo,
   stickyAmmo,
   specialAmmoBoostRawMul,
-  stickyRawMul,
+  stickyBaseMul,
 }: RawHitParams) => {
   return mul(
     sum(
       saType === "Sword" ? swordAttack : uiAttack,
       shelling ? (artilleryBaseMul ?? 0) * attack : 0,
+      stickyAmmo ? (stickyBaseMul ?? 0) * attack : 0,
       powerAxe && saType === "Axe" ? 10 : 0,
     ),
     mv / 100,
@@ -165,35 +153,24 @@ export const calculateRawHit = ({
     normalShot ? normalShotsRawMul : 1,
     piercingShot ? piercingShotsRawMul : 1,
     cbShieldElement && cbPhial ? 1.2 : 1,
-    stickyAmmo ? stickyRawMul : 1,
     cbShieldElement && cbAxe ? 1.1 : 1,
   );
 };
 
-type EleHitParams = Attack & {
-  weapon?: Weapon;
-  uiAttack: number;
-  uiElement: number;
-  swordElement?: number;
-  sharpness: Sharpness;
-  eleHzv: number;
-  sword?: boolean;
-  chargeEleMul?: number;
-  artilleryEle?: number;
-  cbShieldElement?: boolean;
-  demonBoost?: boolean;
-  coalEleMul?: number;
-};
+type EleHitParams = Attack &
+  Partial<ComputedStore> & {
+    eleHzv: number;
+  };
 export const calculateEleHit = ({
   weapon,
-  uiAttack,
+  uiAttack = 0,
   uiElement,
   swordElement = uiElement,
-  sharpness,
+  sharpness = "Ranged",
   eleHzv,
   ignoreSharpness,
   fixedEle,
-  rawEle,
+  rawEle = 0,
   eleMul,
   saType,
   charge,
@@ -205,20 +182,21 @@ export const calculateEleHit = ({
   cbPhial,
   demonBoost,
   coalEleMul,
+  tetradEleMul,
+  offsetAttack = 0,
 }: EleHitParams) => {
   eleHzv = (eleHzvCap ? Math.min(eleHzv, eleHzvCap) : eleHzv) / 100;
+
   if (fixedEle) {
     const bonusEle = Math.min(shelling ? artilleryEle : 0, fixedEle);
     const e = sum(fixedEle, bonusEle);
-    return mul(e, eleHzv, eleMul);
+    return mul(e, eleHzv);
   }
 
+  const rawEleAttack = mul(uiAttack - offsetAttack, rawEle / 10);
+
   return mul(
-    saType === "Sword"
-      ? swordElement
-      : rawEle
-        ? mul(uiAttack, rawEle / 10)
-        : uiElement,
+    saType === "Sword" ? swordElement : rawEle ? rawEleAttack : uiElement,
     0.1,
     eleHzv,
     ignoreSharpness ? 1 : sharpnessEle[sharpness],
@@ -227,6 +205,7 @@ export const calculateEleHit = ({
     cbShieldElement && cbPhial ? 1.3 : 1,
     demonBoost ? 1.2 : 1,
     isBowgun(weapon) ? coalEleMul : 1,
+    isBowgun(weapon) ? tetradEleMul : 1,
   );
 };
 
@@ -234,6 +213,7 @@ type HitParams = RawHitParams & EleHitParams;
 export const calculateHit = (params: HitParams) => {
   const r = calculateRawHit(params);
   const e = calculateEleHit(params);
+
   return round(round(r) + round(e));
 };
 

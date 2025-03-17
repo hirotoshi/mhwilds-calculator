@@ -17,7 +17,6 @@ export type InitialStore = {
   affinity: number;
   element: number;
   sharpness: Sharpness;
-  frenzy: boolean;
   buffs: Record<string, Buff>;
   rawHzv: number;
   eleHzv: number;
@@ -31,7 +30,6 @@ export type Store = InitialStore & {
   setAffinity: (affinity: number) => void;
   setElement: (element: number) => void;
   setSharpness: (sharpness: Sharpness) => void;
-  setFrenzy: (frenzy: boolean) => void;
   setBuff: (id: string, buff?: Buff) => void;
   setRawHzv: (rawHzv: number) => void;
   setEleHzv: (eleHzv: number) => void;
@@ -44,7 +42,6 @@ const initialStore: InitialStore = {
   affinity: 0,
   element: 0,
   sharpness: "White",
-  frenzy: false,
   buffs: { Powercharm: Buffs.Powercharm.levels[0] },
   rawHzv: 80,
   eleHzv: 30,
@@ -82,7 +79,6 @@ export const useModel = create<Store>((set) => ({
   setAffinity: (affinity: number) => set({ affinity: affinity }),
   setElement: (element: number) => set({ element: element }),
   setSharpness: (sharpness: Sharpness) => set({ sharpness }),
-  setFrenzy: (frenzy: boolean) => set({ frenzy }),
   setRawHzv: (rawHzv: number) => set({ rawHzv }),
   setEleHzv: (eleHzv: number) => set({ eleHzv }),
   setBuff: (id: string, buff?: Buff) => {
@@ -98,13 +94,14 @@ export const useModel = create<Store>((set) => ({
 
 export const useGetters = () => {
   const s = useModel();
-  const uiAffinity = calculateAffinity(s);
+  const frenzy = s.buffs.Frenzy !== undefined;
+  const uiAffinity = calculateAffinity({ ...s, frenzy });
   const buffs = Object.values(s.buffs);
   const saPhial = buffs.find((b) => b?.saPhial)?.saPhial;
 
   return {
-    uiAttack: calculateAttack(s),
-    uiElement: calculateElement(s),
+    uiAttack: calculateAttack({ ...s, frenzy }),
+    uiElement: calculateElement({ ...s, frenzy }),
     swordAttack: calculateAttack(
       produce(s, (d) => {
         if (d.buffs.SwitchAxePhial?.saPhial === "Power") {
@@ -119,7 +116,12 @@ export const useGetters = () => {
         }
       }),
     ),
+    offsetAttack: Object.values(s.buffs).reduce((acc, buff) => {
+      if (buff.offsetAttack) return acc + buff.offsetAttack;
+      return acc;
+    }, 0),
     uiAffinity,
+    frenzy: s.buffs.Frenzy?.name === "Overcame Frenzy",
     critMulti:
       uiAffinity >= 0 ? (s.buffs.CriticalBoost?.criticalBoost ?? 1.25) : 0.75,
     eleCritMulti:
@@ -141,7 +143,9 @@ export const useGetters = () => {
     cbShieldElement: s.buffs.ChargeBladeShieldElement?.cbShieldElement,
     demonBoost: s.buffs.DualBladesDemonBoost?.demonBoost,
     coalEleMul: s.buffs.Coalescence?.coalEleMul ?? 1,
-    stickyRawMul: s.buffs.Sticky?.stickyRawMul ?? 1,
+    stickyBaseMul: s.buffs.Artillery?.stickyBaseMul ?? 1,
+    tetradEleMul: s.buffs.TetradShot?.tetradEleMul ?? 1,
+    openingShotEleMul: s.buffs.OpeningShot?.openingShotEleMul ?? 1,
   };
 };
 

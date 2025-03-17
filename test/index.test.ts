@@ -4,6 +4,7 @@ import Attacks from "@/data/attacks";
 import {
   calculateAttack,
   calculateCrit,
+  calculateEleHit,
   calculateElement,
   calculateHit,
   round,
@@ -17,7 +18,8 @@ const display = (n: number) => Math.floor(n + 0.1);
 const buff = (key: string, level: number = 1) => {
   const buff = CombinedBuffs[key]?.levels[level - 1];
   if (!buff) throw new Error(`Buff not found: ${key} ${level}`);
-  return buff;
+  const { frenzy, ...values } = buff;
+  return values;
 };
 
 const atk = (weapon: Weapon, name: string) => {
@@ -32,6 +34,11 @@ const base = {
   eleHzv: 30,
   critMulti: 1.25,
   eleCritMulti: 1,
+};
+
+const hard = {
+  rawHzv: 40,
+  eleHzv: 15,
 };
 
 // 230 Attack, Attack Boost 4, Offensive Guard 3, Powercharm
@@ -213,8 +220,10 @@ test("Light Bowgun", () => {
 test("Heavy Bowgun", () => {
   const a1 = {
     ...base,
+    attack: 180,
     uiAttack: 191,
     sharpness: "Ranged" as Sharpness,
+    weapon: "Heavy Bowgun" as Weapon,
   };
 
   const e1 = atk("Heavy Bowgun", "Element Lv1");
@@ -236,27 +245,52 @@ test("Heavy Bowgun", () => {
   // expect(calculateHit({ ...a2, ...st1 })).toBe(26.8);
 
   // const a3 = { ...a1, uiAttack: 186 };
-  // expect(calculateHit({ ...a3, ...st2 })).toBe(61);
-  // expect(calculateHit({ ...a3, ...st2, eleHzv: 0.05 })).toBe(60.5);
   // expect(calculateHit({ ...a3, ...st2, eleHzv: 0 })).toBe(59.5);
 
-  // // expect(calculateHit({ ...a3, ...buff("Artillery", 3), ...st2 })).toBe(77.8); // off by 1.3
+  // // expect(calculateHit({ ...a3, ...buff("Artillery", 3), ...st2 })).toBe(77.8);
   // // expect(
-  // //   calculateHit({ ...a3, ...buff("Artillery", 3), ...st2, eleHzv: 0.05 }),
+  // //   calculateHit({ ...a3, ...buff("Artillery", 3), ...st2, eleHzv: 0.075 }),
   // // ).toBe(77.3); // off by 1.3
 
-  // const a4 = { ...a1, uiAttack: 201 };
-  // expect(calculateHit({ ...a4, ...st2 })).toBe(65.8);
-  // expect(calculateHit({ ...a4, ...st2, eleHzv: 0.05 })).toBe(65.3);
-
-  // // expect(calculateHit({ ...a4, ...buff("Artillery", 3), ...st2 })).toBe(83.1); // off by 2.3
   // // expect(
-  // //   calculateHit({ ...a4, ...buff("Artillery", 3), ...st2, eleHzv: 0.05 }), // off by 2.3
+  // //   calculateHit({ ...a4, ...buff("Artillery", 3), ...st2, eleHzv: 0.05 }),
   // // ).toBe(82.6);
 
   // const a5 = { ...a1, uiAttack: 208 };
   // expect(calculateHit({ ...a5, ...st2 })).toBe(68.1);
   // expect(calculateHit({ ...a5, ...st2, eleHzv: 0.05 })).toBe(67.6);
+
+  const a2 = { ...a1, uiAttack: 221 };
+  expect(calculateHit({ ...a2, ...e2 })).toBe(34.3);
+
+  const a3 = { ...a1, uiAttack: 258 };
+  expect(calculateHit({ ...a3, ...e2 })).toBe(40);
+
+  const a4 = { ...a1, uiAttack: 278 };
+  expect(calculateHit({ ...a4, ...e1 })).toBe(34.5);
+  expect(calculateHit({ ...a4, ...e2 })).toBe(43.1);
+  expect(calculateHit({ ...a4, ...e2, ...buff("Coalescence", 3) })).toBe(49.3);
+  expect(round(calculateEleHit({ ...a4, ...e1 }))).toBe(16.7);
+
+  // Tetrad Shot 3
+  expect(round(calculateEleHit({ ...a4, eleMul: 1.05, ...e2 }))).toBe(21.9);
+});
+
+test("Heavy Bowgun Sticky Ammo", () => {
+  const a1 = {
+    ...base,
+    attack: 180,
+    uiAttack: 186,
+    sharpness: "Ranged" as Sharpness,
+  };
+
+  const st2 = atk("Heavy Bowgun", "Sticky Lv2");
+  expect(calculateHit({ ...a1, ...st2 })).toBe(61);
+
+  const a2 = { ...a1, uiAttack: 201 };
+  expect(calculateHit({ ...a2, ...st2 })).toBe(65.8);
+
+  expect(calculateHit({ ...a2, ...buff("Artillery", 3), ...st2 })).toBe(83.1);
 });
 
 test("Bow", () => {

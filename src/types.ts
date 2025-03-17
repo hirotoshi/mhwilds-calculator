@@ -1,4 +1,5 @@
 import { Sharpnesses, Weapons } from "@/data";
+import { InitialStore, useGetters } from "./store";
 
 export type Weapon = (typeof Weapons)[number];
 export type Sharpness = (typeof Sharpnesses)[number];
@@ -30,9 +31,12 @@ export type Buff = BuffValues & {
   piercingShotsRawMul?: number;
   spreadPowerShotsRawMul?: number;
   specialAmmoBoostRawMul?: number;
-  stickyRawMul?: number;
+  stickyBaseMul?: number;
   demonBoost?: boolean;
   coalEleMul?: number;
+  tetradEleMul?: number;
+  openingShotEleMul?: number;
+  offsetAttack?: number;
 };
 
 export type BuffGroup = {
@@ -73,6 +77,8 @@ export type Attack = {
   stickyAmmo?: boolean;
   airborne?: boolean; // TODO
 };
+
+export type ComputedStore = InitialStore & ReturnType<typeof useGetters>;
 
 export const isRanged = (weapon?: Weapon) => {
   return (

@@ -4,7 +4,7 @@ import { inter, notoSansMono } from "@/fonts";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "MH:Wilds Damage Calculator",
+  title: "MH: Wilds Damage Calculator",
   description: "A damage calculator for Monster Hunter: Wilds.",
 };
 

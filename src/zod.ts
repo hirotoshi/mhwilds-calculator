@@ -7,7 +7,6 @@ export const importSchema = z.object({
   affinity: z.number().int().optional(),
   element: z.number().int().optional(),
   sharpness: z.enum(Sharpnesses).optional(),
-  frenzy: z.boolean().optional(),
   rawHzv: z.number().int().optional(),
   eleHzv: z.number().int().optional(),
   isWound: z.boolean().optional(),

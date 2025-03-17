@@ -21,8 +21,7 @@ export const HeavyBowgunAttacks = [
   // {
   //   name: "Sticky Lv2",
   //   mv: 32,
-  //   fixedEle: 20,
-  //   eleHzvCap: 0.2,
+  //   fixedEle: 5,
   //   ignoreHzv: true,
   //   stickyAmmo: true,
   // },

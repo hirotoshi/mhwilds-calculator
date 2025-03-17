@@ -18,7 +18,6 @@ export const ImportDialog = () => {
     setAffinity,
     setElement,
     setSharpness,
-    setFrenzy,
     setBuff,
     setRawHzv,
     setEleHzv,
@@ -70,7 +69,6 @@ export const ImportDialog = () => {
       setElement(result.data.element ?? 0);
       setSharpness(result.data.sharpness ?? "Ranged");
       setWeapon(result.data.weapon);
-      setFrenzy(result.data.frenzy ?? false);
       setRawHzv(result.data.rawHzv ?? 0);
       setEleHzv(result.data.eleHzv ?? 0);
       setIsWound(result.data.isWound ?? false);
@@ -94,7 +92,6 @@ export const ImportDialog = () => {
     setElement,
     setSharpness,
     setWeapon,
-    setFrenzy,
     setRawHzv,
     setEleHzv,
     setIsWound,
@@ -131,8 +128,8 @@ export const ImportDialog = () => {
             rows={20}
             placeholder="Paste your build here..."
           />
-          {message && <Notice variant={variant}>{message}</Notice>}
-          <div className="flex justify-end">
+          <div className="flex justify-end gap-2">
+            {message && <Notice variant={variant}>{message}</Notice>}
             <Button onClick={process}>
               <DownloadIcon className="h-4 w-4" /> Import
             </Button>

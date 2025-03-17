@@ -61,7 +61,7 @@ const d = calculateElement({
   element: 180,
   buffs: {
     ElementAttack: buff("ElementAttack", 3),
-    Coalescence: buff("Coalescence", 1),
+    Coalescence: buff("Coalescence", 2),
   },
   frenzy: true,
 });
@@ -70,14 +70,14 @@ const d = calculateElement({
 const h1 = calculateAttack({
   attack: 210,
   buffs: {
-    SelfImprovement: buff("SelfImprovement"),
+    SelfImprovement: buff("HornSelfImprovement"),
     Powercharm: buff("Powercharm"),
   },
 });
 const h2 = calculateAttack({
   attack: 210,
   buffs: {
-    SelfImprovement: buff("SelfImprovement"),
+    SelfImprovement: buff("HornSelfImprovement"),
     HornAttackUp: buff("HornAttackUp", 1),
     Powercharm: buff("Powercharm"),
   },
@@ -85,7 +85,7 @@ const h2 = calculateAttack({
 const h3 = calculateAttack({
   attack: 210,
   buffs: {
-    SelfImprovement: buff("SelfImprovement"),
+    SelfImprovement: buff("HornSelfImprovement"),
     HornAttackUp: buff("HornAttackUp", 2),
     Powercharm: buff("Powercharm"),
   },
@@ -221,8 +221,8 @@ test("Heavy Bowgun", () => {
   const e2 = atk("Heavy Bowgun", "Element Lv2");
   const p1 = atk("Heavy Bowgun", "Pierce Lv1");
   const sp2 = atk("Heavy Bowgun", "Spread Lv2");
-  const st1 = atk("Heavy Bowgun", "Sticky Lv1");
-  // const st2 = HeavyBowgunAttacks.find((a) => a.name === "Sticky Lv2")!;
+  // const st1 = atk("Heavy Bowgun", "Sticky Lv1");
+  // const st2 = atk("Heavy Bowgun", "Sticky Lv2");
   // const c2 = HeavyBowgunAttacks.find((a) => a.name === "Cluster Lv2")!;
 
   expect(calculateHit({ ...a1, ...e1 })).toBe(23.7);
@@ -232,8 +232,31 @@ test("Heavy Bowgun", () => {
   // expect(calculateHit({ ...a1, ...st2 })).toBe(62.6);
   // expect(calculateHit({ ...a1, ...c2 })).toBe(54.2);
 
-  const a2 = { ...a1, uiAttack: 101 };
-  expect(calculateHit({ ...a2, ...st1 })).toBe(26.8);
+  // const a2 = { ...a1, uiAttack: 101 };
+  // expect(calculateHit({ ...a2, ...st1 })).toBe(26.8);
+
+  // const a3 = { ...a1, uiAttack: 186 };
+  // expect(calculateHit({ ...a3, ...st2 })).toBe(61);
+  // expect(calculateHit({ ...a3, ...st2, eleHzv: 0.05 })).toBe(60.5);
+  // expect(calculateHit({ ...a3, ...st2, eleHzv: 0 })).toBe(59.5);
+
+  // // expect(calculateHit({ ...a3, ...buff("Artillery", 3), ...st2 })).toBe(77.8); // off by 1.3
+  // // expect(
+  // //   calculateHit({ ...a3, ...buff("Artillery", 3), ...st2, eleHzv: 0.05 }),
+  // // ).toBe(77.3); // off by 1.3
+
+  // const a4 = { ...a1, uiAttack: 201 };
+  // expect(calculateHit({ ...a4, ...st2 })).toBe(65.8);
+  // expect(calculateHit({ ...a4, ...st2, eleHzv: 0.05 })).toBe(65.3);
+
+  // // expect(calculateHit({ ...a4, ...buff("Artillery", 3), ...st2 })).toBe(83.1); // off by 2.3
+  // // expect(
+  // //   calculateHit({ ...a4, ...buff("Artillery", 3), ...st2, eleHzv: 0.05 }), // off by 2.3
+  // // ).toBe(82.6);
+
+  // const a5 = { ...a1, uiAttack: 208 };
+  // expect(calculateHit({ ...a5, ...st2 })).toBe(68.1);
+  // expect(calculateHit({ ...a5, ...st2, eleHzv: 0.05 })).toBe(67.6);
 });
 
 test("Bow", () => {

@@ -1,5 +1,5 @@
 import { sharpnessEle, sharpnessRaw } from "@/data";
-import { Attack, Buff, BuffValues, Sharpness, Weapon } from "@/types";
+import { Attack, Buff, BuffValues, Sharpness, Weapon, isBowgun } from "@/types";
 
 export const sum = (...args: (number | undefined)[]) => {
   return args.reduce<number>((sum, a) => (a ? sum + a : sum), 0);
@@ -116,6 +116,7 @@ type RawHitParams = Attack & {
   spreadPowerShot?: boolean;
   spreadPowerShotsRawMul?: number;
   specialAmmoBoostRawMul?: number;
+  stickyRawMul?: number;
 };
 export const calculateRawHit = ({
   weapon,
@@ -144,7 +145,9 @@ export const calculateRawHit = ({
   spreadPowerShot,
   spreadPowerShotsRawMul,
   specialAmmo,
+  stickyAmmo,
   specialAmmoBoostRawMul,
+  stickyRawMul,
 }: RawHitParams) => {
   return mul(
     sum(
@@ -162,6 +165,7 @@ export const calculateRawHit = ({
     normalShot ? normalShotsRawMul : 1,
     piercingShot ? piercingShotsRawMul : 1,
     cbShieldElement && cbPhial ? 1.2 : 1,
+    stickyAmmo ? stickyRawMul : 1,
     cbShieldElement && cbAxe ? 1.1 : 1,
   );
 };
@@ -178,8 +182,10 @@ type EleHitParams = Attack & {
   artilleryEle?: number;
   cbShieldElement?: boolean;
   demonBoost?: boolean;
+  coalEleMul?: number;
 };
 export const calculateEleHit = ({
+  weapon,
   uiAttack,
   uiElement,
   swordElement = uiElement,
@@ -198,15 +204,21 @@ export const calculateEleHit = ({
   cbShieldElement,
   cbPhial,
   demonBoost,
+  coalEleMul,
 }: EleHitParams) => {
   eleHzv = (eleHzvCap ? Math.min(eleHzv, eleHzvCap) : eleHzv) / 100;
-  if (rawEle) return mul(uiAttack, rawEle / 100, eleHzv);
   if (fixedEle) {
-    const e = sum(fixedEle, shelling ? artilleryEle : 0);
+    const bonusEle = Math.min(shelling ? artilleryEle : 0, fixedEle);
+    const e = sum(fixedEle, bonusEle);
     return mul(e, eleHzv, eleMul);
   }
+
   return mul(
-    saType === "Sword" ? swordElement : uiElement,
+    saType === "Sword"
+      ? swordElement
+      : rawEle
+        ? mul(uiAttack, rawEle / 10)
+        : uiElement,
     0.1,
     eleHzv,
     ignoreSharpness ? 1 : sharpnessEle[sharpness],
@@ -214,6 +226,7 @@ export const calculateEleHit = ({
     charge ? chargeEleMul : 1,
     cbShieldElement && cbPhial ? 1.3 : 1,
     demonBoost ? 1.2 : 1,
+    isBowgun(weapon) ? coalEleMul : 1,
   );
 };
 

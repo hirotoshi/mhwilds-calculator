@@ -140,6 +140,8 @@ export const useGetters = () => {
     piercingShotsRawMul: s.buffs.PiercingShots?.piercingShotsRawMul ?? 1,
     cbShieldElement: s.buffs.ChargeBladeShieldElement?.cbShieldElement,
     demonBoost: s.buffs.DualBladesDemonBoost?.demonBoost,
+    coalEleMul: s.buffs.Coalescence?.coalEleMul ?? 1,
+    stickyRawMul: s.buffs.Sticky?.stickyRawMul ?? 1,
   };
 };
 

@@ -30,7 +30,9 @@ export type Buff = BuffValues & {
   piercingShotsRawMul?: number;
   spreadPowerShotsRawMul?: number;
   specialAmmoBoostRawMul?: number;
+  stickyRawMul?: number;
   demonBoost?: boolean;
+  coalEleMul?: number;
 };
 
 export type BuffGroup = {
@@ -68,15 +70,16 @@ export type Attack = {
   piercingShot?: boolean;
   spreadPowerShot?: boolean;
   specialAmmo?: boolean;
+  stickyAmmo?: boolean;
   airborne?: boolean; // TODO
 };
 
-export const isRanged = (weapon: Weapon) => {
+export const isRanged = (weapon?: Weapon) => {
   return (
     weapon === "Light Bowgun" || weapon === "Heavy Bowgun" || weapon === "Bow"
   );
 };
 
-export const isBowgun = (weapon: Weapon) => {
+export const isBowgun = (weapon?: Weapon) => {
   return weapon === "Light Bowgun" || weapon === "Heavy Bowgun";
 };

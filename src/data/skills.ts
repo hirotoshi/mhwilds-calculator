@@ -50,9 +50,24 @@ export const WeaponSkills: Record<string, BuffGroup> = {
   Artillery: {
     name: "Artillery",
     levels: [
-      { name: "Artillery 1", artilleryEle: 3, artilleryBaseMul: 0.05 },
-      { name: "Artillery 2", artilleryEle: 6, artilleryBaseMul: 0.1 },
-      { name: "Artillery 3", artilleryEle: 9, artilleryBaseMul: 0.15 },
+      {
+        name: "Artillery 1",
+        artilleryEle: 3,
+        artilleryBaseMul: 0.05,
+        stickyRawMul: 1.1,
+      },
+      {
+        name: "Artillery 2",
+        artilleryEle: 6,
+        artilleryBaseMul: 0.1,
+        stickyRawMul: 1.2,
+      },
+      {
+        name: "Artillery 3",
+        artilleryEle: 9,
+        artilleryBaseMul: 0.15,
+        stickyRawMul: 1.3,
+      },
     ],
   },
   CriticalBoost: {
@@ -241,9 +256,9 @@ export const ArmorSkills: Record<string, BuffGroup> = {
   Coalescence: {
     name: "Coalescence",
     levels: [
-      { name: "Coalescence 1", elementMul: 1.1 },
-      { name: "Coalescence 2", elementMul: 1.2 },
-      { name: "Coalescence 3", elementMul: 1.3 },
+      { name: "Coalescence 1", elementMul: 1.05, coalEleMul: 1.1 },
+      { name: "Coalescence 2", elementMul: 1.1, coalEleMul: 1.2 },
+      { name: "Coalescence 3", elementMul: 1.15, coalEleMul: 1.3 },
     ],
   },
   ConvertElement: {

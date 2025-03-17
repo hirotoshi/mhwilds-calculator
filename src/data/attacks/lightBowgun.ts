@@ -11,7 +11,7 @@ export const LightBowgunAttacks = [
   { name: "Spread Lv2", mv: 8.855, spreadPowerShot: true },
   { name: "Spread Lv3", mv: 10.01, spreadPowerShot: true },
   { name: "Slicing", mv: 26.4 },
-  { name: "Sticky Lv1", mv: 12.5, rawEle: 1.75, ignoreHzv: true },
+  // { name: "Sticky Lv1", mv: 12.5, rawEle: 1.75, ignoreHzv: true },
   // { name: "Sticky Lv2", mv: 16, rawEle: 2.275, ignoreHzv: true },
   // { name: "Sticky Lv3", mv: 20, rawEle: 2.975, ignoreHzv: true },
   // { name: "Cluster Lv1", mv: 10, rawEle: 5, ignoreHzv: true },

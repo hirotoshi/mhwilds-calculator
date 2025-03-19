@@ -1,0 +1,72 @@
+{
+    "system": {
+        "development_notice": "計算機は現在開発中です。保存されたビルドは更新の間に動作しなくなる可能性があります。",
+        "bowgun_notice": "ボウガンは現在開発中です。",
+        "title": "MH: Wilds ダメージ計算機"
+    },
+    "ui": {
+        "custom_attack": "カスタム攻撃",
+        "miscellaneous": "その他",
+        "raw_attack": "物理攻撃力",
+        "element": "属性値",
+        "affinity": "会心率",
+        "sharpness": "斬れ味",
+        "skills": "スキル",
+        "buffs": "バフ",
+        "weapon": "武器",
+        "weapon_notice": "ゲーム内オプションの「係数を表示しない」を有効にしてください。属性値は10で割らないでください。",
+        "stats": "ステータス",
+        "damage": "ダメージ",
+        "wound": "傷つき",
+        "hitzone": {
+            "raw": "肉質（物理）",
+            "element": "肉質（属性）"
+        },
+        "motion_value": "モーション値",
+        "modifier": {
+            "raw": "物理補正（%）",
+            "element": "属性補正（%）"
+        },
+        "effective": {
+            "attack": "実効物理攻撃力",
+            "element": "実効属性値"
+        },
+        "attack": {
+            "flat": "攻撃力（固定値）",
+            "percent": "攻撃力（%）"
+        },
+        "element": {
+            "flat": "属性値（固定値）",
+            "percent": "属性値（%）"
+        },
+        "affinity_percent": "会心率（%）",
+        "sections": {
+            "weapon": "武器",
+            "armor": "防具",
+            "set": "シリーズ",
+            "hunting_horn": "狩猟笛"
+        },
+        "buffs_notice": "その他のバフをここに追加してください。",
+        "skills_notice": "「狂竜症克服」をチェックすると関連スキルが有効になります。弱点特効は肉質45以上かつ傷つき時に発動します。属性変化は龍属性のみに影響します。"
+    },
+    "actions": {
+        "import": "インポート",
+        "export": "エクスポート",
+        "save": "保存",
+        "cancel": "キャンセル",
+        "apply": "適用",
+        "copy": "コピー"
+    },
+    "import": {
+        "warning_header": "以下の問題でビルドをインポートしました：",
+        "success": "ビルドをインポートしました。",
+        "placeholder": "ビルドデータをここに貼り付けてください...",
+        "error": {
+            "invalid_json": "不正なJSONです。",
+            "invalid_data": "不正なデータです。"
+        }
+    },
+    "export": {
+        "copied": "クリップボードにコピーしました。"
+    }
+}

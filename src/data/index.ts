@@ -1,7 +1,15 @@
-import { BuffGroup, Sharpness } from "@/types";
+import { BuffGroup, LocalizedString, Sharpness, Weapon } from "@/types";
 import { ArmorSkills, SetSkills, WeaponSkills } from "./skills";
+import {
+  WeaponNames,
+  SharpnessNames,
+  WeaponBuffNames,
+  BuffNames,
+  HornBuffNames
+} from "./translations";
+import { createLocalizedString } from "@/utils/i18n";
 
-export const Weapons = [
+export const Weapons: Weapon[] = [
   "Sword and Shield",
   "Dual Blades",
   "Great Sword",
@@ -16,9 +24,9 @@ export const Weapons = [
   "Light Bowgun",
   "Heavy Bowgun",
   "Bow",
-] as const;
+];
 
-export const Sharpnesses = [
+export const Sharpnesses: Sharpness[] = [
   "Ranged",
   "Red",
   "Orange",
@@ -26,7 +34,7 @@ export const Sharpnesses = [
   "Green",
   "Blue",
   "White",
-] as const;
+];
 
 export const sharpnessRaw: { [K in Sharpness]: number } = {
   Ranged: 1,
@@ -50,125 +58,125 @@ export const sharpnessEle: { [K in Sharpness]: number } = {
 
 export const WeaponBuffs: Record<string, BuffGroup> = {
   BowCoating: {
-    name: "Coating",
+    name: WeaponBuffNames["Coating"],
     weapons: ["Bow"],
     levels: [
-      { name: "Power Coating", coatingRawMul: 1.3 },
-      { name: "Close Range Coating", coatingRawMul: 1.4 },
+      { name: WeaponBuffNames["Power Coating"], coatingRawMul: 1.3 },
+      { name: WeaponBuffNames["Close Range Coating"], coatingRawMul: 1.4 },
     ],
   },
   ChargeBladeShieldElement: {
-    name: "Shield: Element Boost",
+    name: WeaponBuffNames["Shield: Element Boost"],
     weapons: ["Charge Blade"],
-    levels: [{ name: "Shield: Element Boost", cbShieldElement: true }],
+    levels: [{ name: WeaponBuffNames["Shield: Element Boost"], cbShieldElement: true }],
   },
   DualBladesDemonBoost: {
-    name: "Demon Boost",
+    name: WeaponBuffNames["Demon Boost"],
     weapons: ["Dual Blades"],
-    levels: [{ name: "Demon Boost", attackMul: 1.2, demonBoost: true }],
+    levels: [{ name: WeaponBuffNames["Demon Boost"], attackMul: 1.2, demonBoost: true }],
   },
   HornSelfImprovement: {
-    name: "Self-Improvement",
+    name: WeaponBuffNames["Self-Improvement"],
     weapons: ["Hunting Horn"],
-    levels: [{ name: "Self-Improvement", attackMul: 1.2 }],
+    levels: [{ name: WeaponBuffNames["Self-Improvement"], attackMul: 1.2 }],
   },
   KinsectExtracts: {
-    name: "Extracts",
+    name: WeaponBuffNames["Extracts"],
     weapons: ["Insect Glaive"],
     levels: [
-      { name: "Red + White", attackMul: 1.1 },
-      { name: "Red + White + Yellow", attackMul: 1.15 },
+      { name: WeaponBuffNames["Red + White"], attackMul: 1.1 },
+      { name: WeaponBuffNames["Red + White + Yellow"], attackMul: 1.15 },
     ],
   },
   SpiritGauge: {
-    name: "Spirit Gauge",
+    name: WeaponBuffNames["Spirit Gauge"],
     weapons: ["Long Sword"],
     levels: [
-      { name: "White", attackMul: 1.025 },
-      { name: "Yellow", attackMul: 1.05 },
-      { name: "Red", attackMul: 1.1 },
+      { name: WeaponBuffNames["White"], attackMul: 1.025 },
+      { name: WeaponBuffNames["Yellow"], attackMul: 1.05 },
+      { name: WeaponBuffNames["Red"], attackMul: 1.1 },
     ],
   },
   SwitchAxePhial: {
-    name: "Phial Type",
+    name: WeaponBuffNames["Phial Type"],
     weapons: ["Switch Axe"],
     levels: [
-      { name: "Power Phial", saPhial: "Power" },
-      { name: "Element Phial", saPhial: "Element" },
+      { name: WeaponBuffNames["Power Phial"], saPhial: "Power" },
+      { name: WeaponBuffNames["Element Phial"], saPhial: "Element" },
     ],
   },
   SwitchAxePowerAxe: {
-    name: "Power Axe",
+    name: WeaponBuffNames["Power Axe"],
     weapons: ["Switch Axe"],
-    levels: [{ name: "Power Axe", powerAxe: true }],
+    levels: [{ name: WeaponBuffNames["Power Axe"], powerAxe: true }],
   },
 };
 
 export const Buffs: Record<string, BuffGroup> = {
   Frenzy: {
-    name: "Overcame Frenzy",
-    levels: [{ name: "Overcame Frenzy", affinity: 15 }],
+    name: BuffNames["Overcame Frenzy"],
+    levels: [{ name: BuffNames["Overcame Frenzy"], affinity: 15 }],
   },
   Powercharm: {
-    name: "Powercharm",
-    levels: [{ name: "Powercharm", attack: 6 }],
+    name: BuffNames["Powercharm"],
+    levels: [{ name: BuffNames["Powercharm"], attack: 6 }],
   },
   DemonPowder: {
-    name: "Demon Powder",
-    levels: [{ name: "Demon Powder", attack: 10 }],
+    name: BuffNames["Demon Powder"],
+    levels: [{ name: BuffNames["Demon Powder"], attack: 10 }],
   },
 };
 
 export const FieldBuffs: Record<string, BuffGroup> = {
   Food: {
-    name: "Food",
+    name: BuffNames["Food"],
     levels: [
-      { name: "Attack +2", attack: 2 },
-      { name: "Attack +5", attack: 5 },
+      { name: BuffNames["Attack +2"], attack: 2 },
+      { name: BuffNames["Attack +5"], attack: 5 },
     ],
   },
   Demondrug: {
-    name: "Demondrug",
+    name: BuffNames["Demondrug"],
     levels: [
-      { name: "Demondrug", attack: 5 },
-      { name: "Mega Demondrug", attack: 7 },
+      { name: BuffNames["Demondrug"], attack: 5 },
+      { name: BuffNames["Mega Demondrug"], attack: 7 },
     ],
   },
   MightSeedPill: {
-    name: "Might Seed / Pill",
+    name: BuffNames["Might Seed / Pill"],
     levels: [
-      { name: "Might Seed", attack: 10 },
-      { name: "Might Pill", attack: 25 },
+      { name: BuffNames["Might Seed"], attack: 10 },
+      { name: BuffNames["Might Pill"], attack: 25 },
     ],
   },
   CorruptedMantle: {
-    name: "Corrupted Mantle",
+    name: BuffNames["Corrupted Mantle"],
     levels: [
-      { name: "Stage 1", affinity: 10 },
-      { name: "Stage 2", attackMul: 1.1, affinity: 30 },
+      { name: BuffNames["Stage 1"], affinity: 10 },
+      { name: BuffNames["Stage 2"], attackMul: 1.1, affinity: 30 },
     ],
   },
 };
 
 export const HuntingHornBuffs: Record<string, BuffGroup> = {
   HornAttackUp: {
-    name: "Attack Up",
+    name: HornBuffNames["Attack Up"],
     levels: [
-      { name: "Attack Up (S)", attackMul: 1.05 },
-      { name: "Attack Up (L)", attackMul: 1.1 },
+      { name: HornBuffNames["Attack Up (S)"], attackMul: 1.05 },
+      { name: HornBuffNames["Attack Up (L)"], attackMul: 1.1 },
     ],
   },
   HornElementUp: {
-    name: "Elem Attack Boost",
-    levels: [{ name: "Elem Attack Up", elementMul: 1.1 }],
+    name: HornBuffNames["Elem Attack Boost"],
+    levels: [{ name: HornBuffNames["Elem Attack Up"], elementMul: 1.1 }],
   },
   HornAffinityUp: {
-    name: "Affinity Up",
-    levels: [{ name: "Affinity Up", affinity: 15 }],
+    name: HornBuffNames["Affinity Up"],
+    levels: [{ name: HornBuffNames["Affinity Up"], affinity: 15 }],
   },
   HornEchoBubble: {
-    name: "Echo Bubble",
-    levels: [{ name: "Attack & Affinity Up", attackMul: 1.1, affinity: 25 }],
+    name: HornBuffNames["Echo Bubble"],
+    levels: [{ name: HornBuffNames["Attack & Affinity Up"], attackMul: 1.1, affinity: 25 }],
   },
 };
 

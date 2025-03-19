@@ -2,6 +2,7 @@
 
 import { MinusIcon, PlusIcon } from "lucide-react";
 import { InputContainer, type InputContainerProps } from "./InputContainer";
+import { useLocaleContext } from "@/contexts/LocaleContext";
 
 interface Props
   extends InputContainerProps,
@@ -24,6 +25,8 @@ export function NumberInput({
   disabled,
   ...props
 }: Props) {
+  const { locale } = useLocaleContext();
+
   return (
     <InputContainer label={label} description={description}>
       <div className="relative flex items-center">

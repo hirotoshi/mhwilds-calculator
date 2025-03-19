@@ -1,0 +1,72 @@
+{
+    "system": {
+        "development_notice": "Calculator is currently in active development. Saved builds might no longer work between updates.",
+        "bowgun_notice": "Bowgun is still a work in progress.",
+        "title": "MH: Wilds Damage Calculator"
+    },
+    "ui": {
+        "custom_attack": "Custom Attack",
+        "miscellaneous": "Miscellaneous",
+        "raw_attack": "Raw Attack",
+        "element": "Element",
+        "affinity": "Affinity",
+        "sharpness": "Sharpness",
+        "skills": "Skills",
+        "buffs": "Buffs",
+        "weapon": "Weapon",
+        "weapon_notice": "Enable \"Display Without Coefficient\" in game options. Don't divide Element by 10.",
+        "stats": "Stats",
+        "damage": "Damage",
+        "wound": "Wound",
+        "hitzone": {
+            "raw": "Hitzone (Raw)",
+            "element": "Hitzone (Element)"
+        },
+        "motion_value": "Motion Value",
+        "modifier": {
+            "raw": "Raw Mod (%)",
+            "element": "Element Mod (%)"
+        },
+        "effective": {
+            "attack": "Effective Attack",
+            "element": "Effective Element"
+        },
+        "attack": {
+            "flat": "Attack (Flat)",
+            "percent": "Attack (%)"
+        },
+        "element": {
+            "flat": "Element (Flat)",
+            "percent": "Element (%)"
+        },
+        "affinity_percent": "Affinity (%)",
+        "sections": {
+            "weapon": "Weapon",
+            "armor": "Armor",
+            "set": "Set",
+            "hunting_horn": "Hunting Horn"
+        },
+        "buffs_notice": "Add other unsupported buffs here.",
+        "skills_notice": "Tick 'Overcame Frenzy' to enable related skills. Weakness Exploit activates on HZV ≥ 45 and Wound. Convert Element only buffs Dragon."
+    },
+    "actions": {
+        "import": "Import",
+        "export": "Export",
+        "save": "Save",
+        "cancel": "Cancel",
+        "apply": "Apply",
+        "copy": "Copy"
+    },
+    "import": {
+        "warning_header": "Build imported with the following issues:",
+        "success": "Build imported.",
+        "placeholder": "Paste your build here...",
+        "error": {
+            "invalid_json": "Invalid JSON.",
+            "invalid_data": "Invalid data."
+        }
+    },
+    "export": {
+        "copied": "Copied to clipboard."
+    }
+}

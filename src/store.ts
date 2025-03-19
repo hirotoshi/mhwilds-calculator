@@ -9,7 +9,7 @@ import {
   calculateElement,
   calculateHit,
 } from "@/model";
-import { Attack, Buff, Sharpness, Weapon, isBowgun, isRanged } from "@/types";
+import { Attack, Buff, BuffLevel, Sharpness, Weapon, isBowgun, isRanged } from "@/types";
 
 export type InitialStore = {
   weapon: Weapon;
@@ -30,7 +30,7 @@ export type Store = InitialStore & {
   setAffinity: (affinity: number) => void;
   setElement: (element: number) => void;
   setSharpness: (sharpness: Sharpness) => void;
-  setBuff: (id: string, buff?: Buff) => void;
+  setBuff: (id: string, buff?: Buff | BuffLevel) => void;
   setRawHzv: (rawHzv: number) => void;
   setEleHzv: (eleHzv: number) => void;
   setIsWound: (isWound: boolean) => void;
@@ -81,10 +81,16 @@ export const useModel = create<Store>((set) => ({
   setSharpness: (sharpness: Sharpness) => set({ sharpness }),
   setRawHzv: (rawHzv: number) => set({ rawHzv }),
   setEleHzv: (eleHzv: number) => set({ eleHzv }),
-  setBuff: (id: string, buff?: Buff) => {
+  setBuff: (id: string, buff?: Buff | BuffLevel) => {
     set(
       produce((d) => {
-        if (buff) d.buffs[id] = buff;
+        if (buff) {
+          const buffToStore: Buff = {
+            ...buff,
+            name: typeof buff.name === 'object' ? buff.name.en : buff.name,
+          };
+          d.buffs[id] = buffToStore;
+        }
         else delete d.buffs[id];
       }),
     );

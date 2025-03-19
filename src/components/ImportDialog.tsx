@@ -1,22 +1,42 @@
-import { DownloadIcon, XIcon } from "lucide-react";
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { ZodError } from "zod";
+"use client";
+
+import { UploadIcon, XIcon } from "lucide-react";
+import { useMemo, useState } from "react";
 import { CombinedBuffs } from "@/data";
 import { useModel } from "@/store";
-import text from "@/text";
-import { importSchema } from "@/zod";
 import { Button } from "./Button";
 import { Card } from "./Card";
 import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "./Dialog";
-import { Notice } from "./Notice";
+import { useLocaleContext } from "@/contexts/LocaleContext";
 
 export const ImportDialog = () => {
+  const { locale } = useLocaleContext();
+  
+  // 簡易的な翻訳関数
+  const t = (key: string) => {
+    const translations: Record<string, Record<string, string>> = {
+      'en': {
+        'import.title': 'Import Build',
+        'import.description': 'Paste JSON to import a build',
+        'import.apply': 'Apply',
+        'import.error': 'Invalid JSON format'
+      },
+      'ja': {
+        'import.title': 'ビルドのインポート',
+        'import.description': 'JSONを貼り付けてビルドをインポート',
+        'import.apply': '適用',
+        'import.error': '無効なJSON形式'
+      }
+    };
+    
+    return translations[locale]?.[key] || translations['en']?.[key] || key;
+  };
+  
   const {
-    emptyBuffs,
-    setWeapon,
     setAttack,
     setAffinity,
     setElement,
+    setWeapon,
     setSharpness,
     setBuff,
     setRawHzv,
@@ -25,116 +45,77 @@ export const ImportDialog = () => {
   } = useModel();
 
   const [open, setOpen] = useState(false);
-  const [warnings, setWarnings] = useState<string[]>([]);
-  const [error, setError] = useState("");
-  const [data, setData] = useState("");
-  const [success, setSuccess] = useState(false);
+  const [text, setText] = useState("");
+  const [error, setError] = useState(false);
 
-  const variant = useMemo(() => {
-    if (success && warnings.length > 0) return "warning";
-    if (success && warnings.length === 0) return "success";
-    if (error) return "error";
-    return undefined;
-  }, [success, warnings, error]);
-
-  const message = useMemo(() => {
-    if (error) return error;
-    if (success && warnings.length > 0)
-      return ["Build imported with the following issues:", ...warnings].join(
-        "\n",
-      );
-    if (success && warnings.length === 0) return "Build imported.";
-    return undefined;
-  }, [success, warnings, error]);
-
-  const process = useCallback(() => {
-    setError("");
-    setSuccess(false);
-    setWarnings([]);
-
+  const data = useMemo(() => {
     try {
-      const result = importSchema.safeParse(JSON.parse(data));
-      if (!result.success) throw result.error;
-
-      emptyBuffs();
-
-      Object.entries(result.data.buffs).forEach(([key, value]) => {
-        const buff = CombinedBuffs[key]?.levels[value - 1];
-        if (buff) setBuff(key, buff);
-        else setWarnings((w) => [...w, `${key} ${value} not found.`]);
-      });
-
-      setAttack(result.data.attack);
-      setAffinity(result.data.affinity ?? 0);
-      setElement(result.data.element ?? 0);
-      setSharpness(result.data.sharpness ?? "Ranged");
-      setWeapon(result.data.weapon);
-      setRawHzv(result.data.rawHzv ?? 0);
-      setEleHzv(result.data.eleHzv ?? 0);
-      setIsWound(result.data.isWound ?? false);
-
-      setSuccess(true);
-    } catch (e: unknown) {
-      if (e instanceof SyntaxError) setError("Invalid JSON.");
-      else if (e instanceof ZodError) {
-        setError(
-          Object.entries(e.flatten().fieldErrors)
-            .map(([k, v]) => `${k}: ${v}`)
-            .join(", "),
-        );
-      } else setError("Invalid data.");
+      const json = JSON.parse(text);
+      setError(false);
+      return json;
+    } catch (e) {
+      setError(true);
+      return null;
     }
-  }, [
-    data,
-    setBuff,
-    setAttack,
-    setAffinity,
-    setElement,
-    setSharpness,
-    setWeapon,
-    setRawHzv,
-    setEleHzv,
-    setIsWound,
-    emptyBuffs,
-  ]);
+  }, [text]);
 
-  useEffect(() => {
-    if (!open) setSuccess(false);
-  }, [open]);
+  const apply = () => {
+    if (!data) return;
+    if (data.attack) setAttack(data.attack);
+    if (data.affinity) setAffinity(data.affinity);
+    if (data.element) setElement(data.element);
+    if (data.weapon) setWeapon(data.weapon);
+    if (data.sharpness) setSharpness(data.sharpness);
+    if (data.rawHzv) setRawHzv(data.rawHzv);
+    if (data.eleHzv) setEleHzv(data.eleHzv);
+    if (data.isWound !== undefined) setIsWound(data.isWound);
+    if (data.buffs) {
+      Object.entries(data.buffs).forEach(([k, v]) => {
+        const buff = CombinedBuffs[k];
+        if (!buff) return;
+        const level = buff.levels[Number(v) - 1];
+        if (!level) return;
+        setBuff(k, level);
+      });
+    }
+    setOpen(false);
+  };
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="secondary">
-          <DownloadIcon className="h-4 w-4" />
-          Import
-        </Button>
+        <Button variant="secondary">{t('import.title')}</Button>
       </DialogTrigger>
       <DialogContent>
-        <Card>
-          <DialogTitle asChild>
-            <div className="flex items-start justify-between gap-2">
-              <h1>Import</h1>
-              <Button variant="text" size="icon" onClick={() => setOpen(false)}>
-                <XIcon className="h-4 w-4" />
-              </Button>
-            </div>
-          </DialogTitle>
-          <Notice>{text.EXPORT_NOTICE}</Notice>
-          <textarea
-            className="bg-content-alt rounded p-2 font-mono text-xs"
-            value={data}
-            onChange={(e) => setData(e.target.value)}
-            rows={20}
-            placeholder="Paste your build here..."
-          />
-          <div className="flex justify-end gap-2">
-            {message && <Notice variant={variant}>{message}</Notice>}
-            <Button onClick={process}>
-              <DownloadIcon className="h-4 w-4" /> Import
+        <DialogTitle>{t('import.title')}</DialogTitle>
+        <div>
+          <p className="text-xs">{t('import.description')}</p>
+          <Card className="scrollbar max-h-96 overflow-y-auto">
+            <textarea
+              className="bg-content-alt w-full rounded p-2 font-mono text-xs"
+              value={text}
+              onChange={(e) => setText(e.target.value)}
+              rows={10}
+            />
+          </Card>
+          {error && <p className="text-destructive text-xs">{t('import.error')}</p>}
+          <div className="mt-2 flex justify-end gap-1">
+            <Button
+              variant="secondary"
+              onClick={apply}
+              disabled={!data}
+            >
+              {t('import.apply')}
+            </Button>
+            <Button
+              variant="secondary"
+              size="icon"
+              onClick={() => setOpen(false)}
+            >
+              <XIcon />
             </Button>
           </div>
-        </Card>
+        </div>
       </DialogContent>
     </Dialog>
   );

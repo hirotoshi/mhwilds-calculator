@@ -24,6 +24,12 @@
   --spacing-10xl: 104rem;
 }
 
+/* 明示的な背景色と文字色の設定 */
+body {
+  background-color: var(--color-background);
+  color: var(--color-primary);
+}
+
 h1 {
   @apply text-xl;
 }

@@ -1,4 +1,8 @@
+"use client";
+
 import { cn } from "@/utils";
+import { formatNumber } from "@/utils/i18n";
+import { useLocaleContext } from "@/contexts/LocaleContext";
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
   label: string;
@@ -13,6 +17,8 @@ export function NumberDisplay({
   className,
   ...props
 }: Props) {
+  const { locale } = useLocaleContext();
+
   return (
     <div
       className={cn(
@@ -23,7 +29,7 @@ export function NumberDisplay({
     >
       <p>{label}</p>
       <p>
-        {value}
+        {formatNumber(value, locale)}
         {suffix}
       </p>
     </div>

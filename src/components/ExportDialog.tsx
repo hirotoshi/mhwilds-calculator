@@ -1,14 +1,38 @@
+"use client";
+
 import { CopyIcon, XIcon } from "lucide-react";
 import { useMemo, useRef, useState } from "react";
 import { CombinedBuffs } from "@/data";
 import { useModel } from "@/store";
-import text from "@/text";
 import { Button } from "./Button";
 import { Card } from "./Card";
 import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "./Dialog";
 import { Notice } from "./Notice";
+import { useLocaleContext } from "@/contexts/LocaleContext";
 
 export const ExportDialog = () => {
+  const { locale } = useLocaleContext();
+  
+  // 簡易的な翻訳関数
+  const t = (key: string) => {
+    const translations: Record<string, Record<string, string>> = {
+      'en': {
+        'export.title': 'Export Build',
+        'export.copy': 'Copy',
+        'export.copied': 'Copied to clipboard',
+        'export.description': 'Copy this JSON to share your build'
+      },
+      'ja': {
+        'export.title': 'ビルドのエクスポート',
+        'export.copy': 'コピー',
+        'export.copied': 'クリップボードにコピーしました',
+        'export.description': 'このJSONをコピーしてビルドを共有'
+      }
+    };
+    
+    return translations[locale]?.[key] || translations['en']?.[key] || key;
+  };
+  
   const {
     weapon,
     attack,
@@ -79,35 +103,27 @@ export const ExportDialog = () => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button>
-          <CopyIcon className="h-4 w-4" />
-          Export
-        </Button>
+        <Button variant="secondary">{t('export.title')}</Button>
       </DialogTrigger>
       <DialogContent>
-        <Card>
-          <DialogTitle asChild>
-            <div className="flex items-start justify-between gap-2">
-              <h1>Export</h1>
-              <Button variant="text" size="icon" onClick={() => setOpen(false)}>
-                <XIcon className="h-4 w-4" />
+        <DialogTitle>{t('export.title')}</DialogTitle>
+        <div>
+          <div className="flex justify-between">
+            <p className="text-xs">{t('export.description')}</p>
+            <div className="flex gap-1">
+              <Button variant="secondary" size="sm" onClick={copy}>
+                <CopyIcon /> {t('export.copy')}
+              </Button>
+              <Button variant="secondary" size="sm" onClick={() => setOpen(false)}>
+                <XIcon />
               </Button>
             </div>
-          </DialogTitle>
-          <Notice>{text.EXPORT_NOTICE}</Notice>
-          <textarea
-            className="bg-content-alt rounded p-2 font-mono text-xs"
-            value={data}
-            rows={20}
-            readOnly
-          />
-          <div className="flex justify-end gap-2">
-            {copied && <Notice variant="success">Copied to clipboard.</Notice>}
-            <Button onClick={copy}>
-              <CopyIcon className="h-4 w-4" /> Copy
-            </Button>
           </div>
-        </Card>
+          {copied && <Notice>{t('export.copied')}</Notice>}
+          <Card className="scrollbar max-h-96 overflow-y-auto">
+            <pre className="overflow-hidden text-xs">{data}</pre>
+          </Card>
+        </div>
       </DialogContent>
     </Dialog>
   );

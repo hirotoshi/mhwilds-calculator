@@ -1,8 +1,23 @@
 import { Sharpnesses, Weapons } from "@/data";
 import { InitialStore, useGetters } from "./store";
 
-export type Weapon = (typeof Weapons)[number];
-export type Sharpness = (typeof Sharpnesses)[number];
+export type Weapon =
+  | "Sword and Shield"
+  | "Dual Blades"
+  | "Great Sword"
+  | "Long Sword"
+  | "Hammer"
+  | "Hunting Horn"
+  | "Lance"
+  | "Gunlance"
+  | "Switch Axe"
+  | "Charge Blade"
+  | "Insect Glaive"
+  | "Light Bowgun"
+  | "Heavy Bowgun"
+  | "Bow";
+
+export type Sharpness = "Ranged" | "Red" | "Orange" | "Yellow" | "Green" | "Blue" | "White";
 
 export type BuffValues = {
   attack?: number;
@@ -12,8 +27,13 @@ export type BuffValues = {
   elementMul?: number;
 };
 
+export type LocalizedString = {
+  en: string;
+  ja: string;
+};
+
 export type Buff = BuffValues & {
-  name?: string;
+  name?: string | LocalizedString;
   criticalBoost?: number;
   criticalElement?: number;
   frenzy?: BuffValues;
@@ -39,11 +59,42 @@ export type Buff = BuffValues & {
   offsetAttack?: number;
 };
 
+export type BuffLevel = {
+  name: LocalizedString;
+  attack?: number;
+  element?: number;
+  elementMul?: number;
+  attackMul?: number;
+  affinity?: number;
+  criticalBoost?: number;
+  criticalElement?: number;
+  normalShotsRawMul?: number;
+  piercingShotsRawMul?: number;
+  spreadPowerShotsRawMul?: number;
+  specialAmmoBoostRawMul?: number;
+  coatingRawMul?: number;
+  cbShieldElement?: boolean;
+  demonBoost?: boolean;
+  powerAxe?: boolean;
+  saPhial?: "Power" | "Element";
+  frenzy?: { affinity: number };
+  weakness?: { affinity: number };
+  wound?: { affinity: number };
+  offsetAttack?: number;
+  openingShotEleMul?: number;
+  tetradEleMul?: number;
+  coalEleMul?: number;
+  meleeChargeEleMul?: number;
+  rangedChargeEleMul?: number;
+  artilleryEle?: number;
+  artilleryBaseMul?: number;
+  stickyBaseMul?: number;
+};
+
 export type BuffGroup = {
-  name: string;
-  description?: string;
+  name: LocalizedString;
   weapons?: Weapon[];
-  levels: Buff[];
+  levels: BuffLevel[];
 };
 
 export type WeaponFlags = {

@@ -27,23 +27,48 @@ export function Select<T>({
   placeholder,
   ...props
 }: SelectProps<T>) {
-  // 選択されているオプションのインデックスと表示用のラベルを取得
+  // 選択されているオプションのインデックスを取得
   let selectedIndex = -1;
-  let displayLabel = "";
   
   if (value !== undefined) {
     // valueがある場合はインデックスを探す
     for (let i = 0; i < options.length; i++) {
+      // 値が完全に同じ場合
       if (options[i] === value) {
         selectedIndex = i;
-        displayLabel = labelFn(options[i]);
         break;
+      }
+      
+      // undefinedの特別処理
+      if (options[i] === undefined && value === undefined) {
+        selectedIndex = i;
+        break;
+      }
+      
+      // オブジェクトの場合、nameプロパティを比較
+      if (options[i] !== null && value !== null &&
+          typeof options[i] === 'object' && typeof value === 'object') {
+        
+        // nameプロパティが存在し、同じ値を持つ場合
+        const optName = (options[i] as any)?.name;
+        const valName = (value as any)?.name;
+        
+        if (optName && valName &&
+            (optName === valName ||
+             (typeof optName === 'object' && typeof valName === 'object' &&
+              optName.en === valName.en && optName.ja === valName.ja))) {
+          selectedIndex = i;
+          break;
+        }
       }
     }
   }
   
+  // 選択されたオプションを取得
+  const selectedOption = selectedIndex !== -1 ? options[selectedIndex] : undefined;
+  
   // 選択項目の有無
-  const hasSelectedItem = selectedIndex !== -1 && displayLabel !== "";
+  const hasSelectedItem = selectedIndex !== -1;
   
   return (
     <InputContainer label={label} description={description}>
@@ -57,7 +82,7 @@ export function Select<T>({
               onChangeValue(options[index]);
             }
           }}
-          value={selectedIndex === -1 ? "" : String(selectedIndex)}
+          value={selectedIndex >= 0 ? String(selectedIndex) : ""}
           {...props}
         >
           {/* 未選択時の空オプション */}

@@ -85,9 +85,10 @@ export const useModel = create<Store>((set) => ({
     set(
       produce((d) => {
         if (buff) {
+          // LocalizedString型のnameプロパティをそのまま保持する
           const buffToStore: Buff = {
             ...buff,
-            name: typeof buff.name === 'object' ? buff.name.en : buff.name,
+            // nameプロパティはそのまま保持
           };
           d.buffs[id] = buffToStore;
         }
